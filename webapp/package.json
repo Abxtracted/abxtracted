@@ -20,6 +20,7 @@
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.0",
+    "gulp-htmlmin": "^3.0.0",
     "gulp-sass": "^2.3.2",
     "gulp-serve": "^1.4.0",
     "gulp-sourcemaps": "^2.2.0",

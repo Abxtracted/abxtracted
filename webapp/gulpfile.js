@@ -6,6 +6,8 @@ var cleanCSS = require('gulp-clean-css');
 var sourcemaps = require('gulp-sourcemaps');
 var serve = require('gulp-serve');
 watch = require('gulp-watch');
+var templateCache = require('gulp-angular-templatecache');
+var htmlmin = require('gulp-htmlmin');
 
 // Concants and minify all required js libs
 gulp.task('js:lib', function() {
@@ -54,14 +56,30 @@ gulp.task('css:app', function(){
     .pipe(gulp.dest('www'))
 });
 
+// Builds templates.min.js
+gulp.task('templates', function () {
+  return gulp.src('src/**/*.html')
+    .pipe(htmlmin({
+        collapseWhitespace: true,
+        removeComments: true
+      }))
+    .pipe(templateCache('templates.min.js', {
+          standalone: true,
+          root: '/'
+        }))
+    .pipe(uglify())
+    .pipe(gulp.dest('www'));
+});
+
 gulp.task('watch', function() {
     gulp.watch('src/**/*.js', ['js']);
     gulp.watch('src/**/*.scss', ['css']);
+    gulp.watch('src/**/*.html', ['templates']);
 });
 
 gulp.task('serve', serve('www'));
 gulp.task('js', ['js:lib', 'js:app']);
 gulp.task('css', ['css:lib', 'css:app']);
-gulp.task('build', ['js', 'css']);
+gulp.task('build', ['js', 'css', 'templates']);
 
 gulp.task('default', ['build', 'serve', 'watch']);
