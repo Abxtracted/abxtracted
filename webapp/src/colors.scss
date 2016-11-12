@@ -1,0 +1,6 @@
+$primary: #009de0;
+// $primary: #8d8d8d;
+$primary-darkest: darken($primary, 36%);
+$primary-dark: darken($primary, 34%);
+$primary-opaque: desaturate($primary, 40%);
+$primary-opaque-dark: darken($primary-opaque, 25%);

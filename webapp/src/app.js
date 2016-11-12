@@ -5,6 +5,10 @@
     'ui.router',
     'ngMaterial',
     'templates'
-  ]);
+  ]).config(['$mdThemingProvider', function($mdThemingProvider) {
+    $mdThemingProvider.theme('default').dark();
+  }]);
+
+
 
 })(window);

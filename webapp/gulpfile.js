@@ -38,7 +38,8 @@ gulp.task('js:app', function() {
 //  Concants and minify all required css libs
 gulp.task('css:lib', function(){
   return gulp.src([
-      'node_modules/angular-material/angular-material.min.css'
+      'node_modules/angular-material/angular-material.min.css',
+      'node_modules/ggrid/dist/ggrid.min.css'
     ])
     .pipe(concat('lib.min.css'))
     .pipe(cleanCSS({compatibility: 'ie8', keepSpecialComments: 0}))
