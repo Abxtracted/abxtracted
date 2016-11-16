@@ -4,7 +4,7 @@ var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var sourcemaps = require('gulp-sourcemaps');
-var serve = require('gulp-serve');
+var webserver = require('gulp-webserver');
 watch = require('gulp-watch');
 var templateCache = require('gulp-angular-templatecache');
 var htmlmin = require('gulp-htmlmin');
@@ -78,7 +78,14 @@ gulp.task('watch', function() {
     gulp.watch('src/**/*.html', ['templates']);
 });
 
-gulp.task('serve', serve('www'));
+gulp.task('serve', function(){
+  gulp.src('www')
+    .pipe(webserver({
+      livereload: false,
+      port: 3000,
+      host: '0.0.0.0'
+    }));
+});
 gulp.task('js', ['js:lib', 'js:app']);
 gulp.task('css', ['css:lib', 'css:app']);
 gulp.task('build', ['js', 'css', 'templates']);
