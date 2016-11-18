@@ -12,18 +12,15 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "projects")
+@Table(name = "experiments_revisions")
 @Getter
 @Setter
-public class Project extends Model {
-
+public class ExperimentRevision extends Model {
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private Long id;
 
-	private String name;
-
 	@ManyToOne
-	private Tenant tenant;
+	private Experiment experiment;
 }

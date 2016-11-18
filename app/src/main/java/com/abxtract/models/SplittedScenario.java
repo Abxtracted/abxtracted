@@ -6,24 +6,19 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "projects")
-@Getter
-@Setter
-public class Project extends Model {
+@Table(name = "splitted_scenarios")
+public class SplittedScenario extends Model {
 
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private Long id;
 
-	private String name;
-
 	@ManyToOne
-	private Tenant tenant;
+	private Scenario scenario;
+
+	private Integer rate;
 }
