@@ -5,11 +5,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tenants")
-public class Tenant {
+@Getter
+@Setter
+public class Tenant extends Model {
+
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
