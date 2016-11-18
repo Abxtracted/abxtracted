@@ -1,19 +1,29 @@
 package com.abxtract.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "projects")
-public class Project {
+@Getter
+@Setter
+public class Project extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-    private String name;
+	@Id
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "uuid2", name = "tenant")
-    private String uuid;
+	private String name;
 
-
+	@ManyToOne
+	private Tenant tenant;
 }
