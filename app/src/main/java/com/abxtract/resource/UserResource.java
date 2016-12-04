@@ -14,32 +14,15 @@ import com.abxtract.models.Tenant;
 import com.abxtract.models.User;
 import com.abxtract.repositories.TenantRepository;
 import com.abxtract.repositories.UserRepository;
+import com.abxtract.services.UserService;
 
 @RestController
 public class UserResource {
 	@Autowired
-	private UserRepository users;
-	@Autowired
-	private TenantRepository tenants;
+	private UserService service;
 
 	@RequestMapping("/user")
-	public User user(Principal principal, OAuth2Authentication auth) throws IOException {
-		final Map<String, Object> dto = (Map<String, Object>) auth.getUserAuthentication().getDetails();
-		System.out.println( dto );
-		final User user = users.findByGoogleId( dto.get( "sub" ).toString() );
-		if (user != null) {
-			return user;
-		}
-		return users.save(
-				User.builder()
-						.email( dto.get( "email" ).toString() )
-						.emailVerified( (Boolean) dto.get( "email_verified" ) )
-						.name( dto.get( "name" ).toString() )
-						.picture( dto.get( "picture" ).toString() )
-						.googleId( dto.get( "sub" ).toString() )
-						.token( ((OAuth2AuthenticationDetails) auth.getDetails()).getTokenValue() )
-						.tenant( tenants.save( new Tenant() ) )
-						.build()
-		);
+	public User user(OAuth2Authentication auth) throws IOException {
+		return service.process( auth );
 	}
 }
