@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @EnableOAuth2Sso
@@ -14,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "com.abxtract")
 @EnableJpaRepositories(basePackages = "com.abxtract.repositories")
 @EntityScan(basePackages = "com.abxtract.models")
-public class Application {
+public class Application extends WebMvcConfigurerAdapter {
 	public static void main(String[] args) {
 		SpringApplication.run( Application.class, args );
 	}
