@@ -3,6 +3,9 @@ package com.abxtract.services;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,13 @@ public class UserService {
 	@Autowired
 	private TenantRepository tenants;
 
+	public User find(OAuth2Authentication auth) {
+		final String id = ((Map<String, Object>) auth.getUserAuthentication().getDetails())
+				.get( "sub" )
+				.toString();
+		return users.findByGoogleId( id );
+	}
+
 	public User process(final OAuth2Authentication auth) {
 		final User data = fromData( auth );
 		final User user = users.findByGoogleId( data.getGoogleId() );
@@ -27,6 +37,7 @@ public class UserService {
 			user.setName( data.getName() );
 			user.setEmailVerified( data.isEmailVerified() );
 			user.setPicture( data.getPicture() );
+			user.setToken( data.getToken() );
 			return users.save( user );
 		}
 		data.setTenant( tenants.save( new Tenant() ) );
