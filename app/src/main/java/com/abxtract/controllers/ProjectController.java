@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abxtract.exceptions.ValidationException;
 import com.abxtract.models.Project;
 import com.abxtract.models.Tenant;
+import com.abxtract.models.validations.Validation;
 import com.abxtract.repositories.ProjectRepository;
 import com.abxtract.repositories.TenantRepository;
 
@@ -32,10 +34,14 @@ public class ProjectController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Project create(@RequestBody Project project) {
+	public Project create(@RequestBody Project project) throws ValidationException {
 		Tenant tenant = getAuthenticatedTenant();
 		project.setTenant( tenant );
-		return projectRepository.save( project );
+		Validation validation = new Validation( project );
+		if (validation.isValid())
+			return projectRepository.save( project );
+		else
+			throw new ValidationException( validation.getErrors() );
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -44,9 +50,13 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Project update(@PathVariable String id, @RequestBody Project project) {
+	public Project update(@PathVariable String id, @RequestBody Project project) throws ValidationException {
 		project.setId( id );
-		return projectRepository.save( project );
+		Validation validation = new Validation( project );
+		if (validation.isValid())
+			return projectRepository.save( project );
+		else
+			throw new ValidationException( validation.getErrors() );
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
