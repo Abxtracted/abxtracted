@@ -16,14 +16,10 @@ public class UserService {
 	@Autowired
 	private TenantRepository tenants;
 
-	//
-	//	public User find(OAuth2Authentication auth) {
-	//		final String id = ((Map<String, Object>) auth.getUserAuthentication().getDetails())
-	//				.get( "sub" )
-	//				.toString();
-	//		return users.findByGoogleId( id );
-	//	}
-	//
+	public User byAuthToken(String auth) {
+		return users.findByAuthToken( auth );
+	}
+
 	public User save(final GoogleUserDTO data) {
 		User user = users.findByGoogleId( data.getId() );
 		if (user == null) {

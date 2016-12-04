@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abxtract.dtos.UserDTO;
 import com.abxtract.models.AuthToken;
 import com.abxtract.repositories.AuthTokenRepository;
 import com.abxtract.services.UserService;
-import com.abxtract.services.google.GoogleConfig;
 import com.abxtract.services.google.GoogleCredentialService;
 import com.abxtract.services.google.GoogleRedirectService;
 import com.abxtract.services.google.GoogleUserDTO;
@@ -42,7 +42,7 @@ public class UserResource {
 	@RequestMapping("/auth/login")
 	public void login(@RequestParam("redirect_to") String redirectTo, HttpServletResponse response) throws IOException {
 		response.addCookie( new Cookie( "redirect-to", redirectTo ) );
-		response.sendRedirect( redirect.buildRedirectUrl() );
+		response.sendRedirect( redirect.url() );
 	}
 
 	@RequestMapping("/auth/callback")
@@ -58,13 +58,17 @@ public class UserResource {
 				.findFirst()
 				.get()
 				.getValue();
-		response.addCookie( new Cookie( "auth-token", token.getId() ) );
+		final Cookie cookie = new Cookie( "auth-token", token.getId() );
+		cookie.setMaxAge( -1 );
+		cookie.setHttpOnly( false );
+		cookie.setSecure( true );
+		response.addCookie( cookie );
 		response.sendRedirect( uri );
 	}
-	//
-	//	@RequestMapping("/user")
-	//	public UserDTO user(OAuth2Authentication auth) throws IOException {
-	//		final User user = service.process( auth );
-	//		return new UserDTO( user.getId(), user.getEmail(), user.getEmail(), user.getPicture() );
-	//	}
+
+	@RequestMapping("/user")
+	public UserDTO user(HttpServletRequest request) throws IOException {
+		//			final User user = service.process( auth );
+		return new UserDTO();
+	}
 }

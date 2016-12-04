@@ -1,5 +1,7 @@
 package com.abxtract.services.google;
 
+import java.util.List;
+
 import lombok.Getter;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -14,4 +16,6 @@ public class GoogleConfig {
 	private String secret;
 	@Value("${google.oauth2.callback}")
 	private String callback;
+	@Value( "${google.oauth2.scopes}" )
+	private String scopes;
 }
