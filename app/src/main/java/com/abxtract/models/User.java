@@ -8,15 +8,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends Model {
 
 	@Id
@@ -28,9 +35,20 @@ public class User extends Model {
 	@Column(unique = true)
 	private String email;
 
-	@NotNull
-	private String password;
+	private String name;
+
+	private String picture;
 
 	@ManyToOne
 	private Tenant tenant;
+
+	@NotNull
+	private String token;
+
+	@NotNull
+	@Column(unique = true)
+	private String googleId;
+
+	@NotNull
+	private boolean emailVerified;
 }
