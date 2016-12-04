@@ -1,12 +1,17 @@
 package com.abxtract.services.experiment;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.abxtract.dtos.ExperimentResultDTO;
 import com.abxtract.models.Experiment;
+import com.abxtract.models.Scenario;
 import com.abxtract.repositories.CustomerScenarioRepository;
 import com.abxtract.repositories.ExperimentRepository;
+import com.abxtract.repositories.ScenarioRepository;
 import com.abxtract.services.experiment.statistics.Confidence;
 import com.abxtract.services.experiment.statistics.MarginOfErrorCalculation;
 import com.abxtract.services.experiment.statistics.SampleSizeCalculation;
@@ -20,6 +25,9 @@ public class ExperimentDataCalculation {
 	@Autowired
 	private ExperimentRepository experimentRepository;
 
+	@Autowired
+	private ScenarioRepository scenarioRepository;
+
 	public ExperimentResultDTO sumarize(String experimentId) {
 		Experiment experiment = experimentRepository.findOne( experimentId );
 		Long sampleSize = customerScenarioRepository.countByExperimentId( experimentId );
@@ -30,12 +38,20 @@ public class ExperimentDataCalculation {
 		Double marginOfError = new MarginOfErrorCalculation( confidence,
 				expectedProportion, sampleSize.doubleValue() ).calculate();
 
-		ExperimentResultDTO experimentResult = new ExperimentResultDTO( experiment.getName(),
-				sampleSize, minSampleSize, true, marginOfError, null );
+		return new ExperimentResultDTO( experiment.getName(),
+				sampleSize, minSampleSize, marginOfError, retrieveVersions( experimentId ) );
 
-		return experimentResult;
 	}
 
-	public void loadVersions(String experimentId, ExperimentResultDTO experimentResultDTO) {
+	public List<ExperimentResultDTO.VersionResult> retrieveVersions(String experimentId) {
+		List<Scenario> scenarios = scenarioRepository.findByExperimentId( experimentId );
+
+		return scenarios.stream().map( this::buildVersionResult ).collect( Collectors.toList() );
+	}
+
+	private ExperimentResultDTO.VersionResult buildVersionResult(Scenario scenario) {
+		Long sampleSize = customerScenarioRepository.countByScenarioId( scenario.getId() );
+		Long converted = customerScenarioRepository.countCompltedByScenarioId( scenario.getId() );
+		return new ExperimentResultDTO.VersionResult( scenario.getId(), scenario.getName(), sampleSize, converted );
 	}
 }

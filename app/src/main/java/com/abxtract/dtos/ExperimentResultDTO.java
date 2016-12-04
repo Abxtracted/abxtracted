@@ -11,14 +11,15 @@ public class ExperimentResultDTO {
 	private final String name;
 	private final Long sampleSize;
 	private final Double minSampleSize;
-	private final Boolean balanced;
 	private final Double marginOfError;
 	private final List<VersionResult> versions;
 
 	@Getter
 	@AllArgsConstructor
 	public static class VersionResult {
-		private final String version;
-		private final Double conversion;
+		private final String id;
+		private final String name;
+		private final Long sampleSize;
+		private final Long converted;
 	}
 }
