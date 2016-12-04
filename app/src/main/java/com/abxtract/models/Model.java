@@ -18,6 +18,8 @@ public abstract class Model {
 
 	private Date updatedAt;
 
+	private Date deletedAt;
+
 	@PrePersist
 	private void beforePersist() {
 		createdAt = new Date();
