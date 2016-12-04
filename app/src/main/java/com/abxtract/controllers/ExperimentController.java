@@ -16,6 +16,7 @@ import com.abxtract.models.Project;
 import com.abxtract.models.validations.Validation;
 import com.abxtract.repositories.ExperimentRepository;
 import com.abxtract.repositories.ProjectRepository;
+import com.abxtract.services.ExperimentCreation;
 
 @RestController
 @RequestMapping(value = "/projects/{projectId}/experiments", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,6 +28,9 @@ public class ExperimentController {
 	@Autowired
 	private ProjectRepository projectRepository;
 
+	@Autowired
+	private ExperimentCreation experimentCreation;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Experiment> list(@PathVariable String projectId) {
 		return experimentRepository.findByProjectId( projectId );
@@ -37,10 +41,11 @@ public class ExperimentController {
 			throws ValidationException {
 		Project project = projectRepository.findOne( projectId );
 		experiment.setProject( project );
+
 		Validation validation = new Validation( experiment );
-		if (validation.isValid())
-			return experimentRepository.save( experiment );
-		else
+		if (validation.isValid()) {
+			return experimentCreation.create( experiment );
+		} else
 			throw new ValidationException( validation.getErrors() );
 	}
 
