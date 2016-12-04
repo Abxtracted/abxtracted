@@ -28,6 +28,7 @@ public class UserService {
 		User user = users.findByGoogleId( data.getId() );
 		if (user == null) {
 			user = new User();
+			user.setGoogleId( data.getId() );
 			user.setTenant( tenants.save( new Tenant() ) );
 		}
 		user.setEmail( data.getEmail() );

@@ -3,9 +3,11 @@ package com.abxtract.services.google;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 @AllArgsConstructor
 public class GoogleUserDTO {
 	private final String id;

@@ -2,13 +2,18 @@ package com.abxtract.resource;
 
 import java.io.IOException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.abxtract.models.AuthToken;
 import com.abxtract.models.User;
+import com.abxtract.repositories.AuthTokenRepository;
 import com.abxtract.services.UserService;
 import com.abxtract.services.google.GoogleCredentialService;
 import com.abxtract.services.google.GoogleRedirectService;
@@ -19,6 +24,9 @@ import com.abxtract.services.google.GoogleUserService;
 public class UserResource {
 	@Autowired
 	private UserService service;
+
+	@Autowired
+	private AuthTokenRepository authTokens;
 
 	@Autowired
 	private GoogleRedirectService redirect;
@@ -35,9 +43,13 @@ public class UserResource {
 	}
 
 	@RequestMapping("/auth/callback")
-	public void callback(@Param("code") String code) throws IOException {
+	public void callback(@Param("code") String code, HttpServletResponse response) throws IOException {
+		System.out.println("CALLBACK DO DEMONIO");
 		final GoogleUserDTO dto = googleService.retrieveUserData( credentials.retrieveCredential( code ) );
-		final User user = service.save( dto );
+		System.out.println(dto);
+		final AuthToken token = authTokens.save( AuthToken.builder().user( service.save( dto ) ).build() );
+		response.addCookie( new Cookie( "auth-token", token.getId() ) );
+		response.sendRedirect( "http://localhost:8080/moises" );
 	}
 	//
 	//	@RequestMapping("/user")
