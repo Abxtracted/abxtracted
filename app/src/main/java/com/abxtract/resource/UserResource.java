@@ -21,7 +21,7 @@ public class UserResource {
 	@Autowired
 	private UserService service;
 
-	@RequestMapping("/user")
+	@RequestMapping("/api/user")
 	public User user(OAuth2Authentication auth) throws IOException {
 		return service.process( auth );
 	}
