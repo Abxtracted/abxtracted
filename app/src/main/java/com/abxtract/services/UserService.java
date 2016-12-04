@@ -27,6 +27,7 @@ public class UserService {
 			user.setName( data.getName() );
 			user.setEmailVerified( data.isEmailVerified() );
 			user.setPicture( data.getPicture() );
+			user.setToken( data.getToken() );
 			return users.save( user );
 		}
 		data.setTenant( tenants.save( new Tenant() ) );
