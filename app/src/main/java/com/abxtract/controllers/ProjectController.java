@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.abxtract.models.Tenant;
 import com.abxtract.models.validations.Validation;
 import com.abxtract.repositories.ProjectRepository;
 import com.abxtract.repositories.TenantRepository;
+import com.abxtract.services.UserService;
 
 @RestController
 @RequestMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,15 +29,18 @@ public class ProjectController {
 	@Autowired
 	private TenantRepository tenantRepository;
 
+	@Autowired
+	private UserService userService;
+
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Project> list() {
-		Tenant tenant = getAuthenticatedTenant();
+	public List<Project> list(OAuth2Authentication auth) {
+		Tenant tenant = userService.find( auth ).getTenant();
 		return projectRepository.findByTenantId( tenant.getId() );
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Project create(@RequestBody Project project) throws ValidationException {
-		Tenant tenant = getAuthenticatedTenant();
+	public Project create(OAuth2Authentication auth, @RequestBody Project project) throws ValidationException {
+		Tenant tenant = userService.find( auth ).getTenant();
 		project.setTenant( tenant );
 		Validation validation = new Validation( project );
 		if (validation.isValid())
@@ -62,11 +67,5 @@ public class ProjectController {
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable String id) {
 		projectRepository.delete( id );
-	}
-
-	private Tenant getAuthenticatedTenant() {
-		// TODO: obter tenant corrente
-		Tenant tenant = new Tenant();
-		return tenantRepository.save( tenant );
 	}
 }

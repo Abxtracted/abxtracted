@@ -22,6 +22,13 @@ public class UserService {
 	@Autowired
 	private TenantRepository tenants;
 
+	public User find(OAuth2Authentication auth) {
+		final String id = ((Map<String, Object>) auth.getUserAuthentication().getDetails())
+				.get( "sub" )
+				.toString();
+		return users.findByGoogleId( id );
+	}
+
 	public User process(final OAuth2Authentication auth) {
 		final User data = fromData( auth );
 		final User user = users.findByGoogleId( data.getGoogleId() );
