@@ -10,5 +10,9 @@ public interface CustomerScenarioRepository extends CrudRepository<CustomerScena
 	@Query("select count(cs.id) from CustomerScenario cs where cs.splittedScenario.scenario.experimentRevision.experiment.id = ?1")
 	Long countByExperimentId(String experimentId);
 
+	@Query("select count(cs.id) from CustomerScenario cs where cs.splittedScenario.scenario.id = ?1")
+	Long countByScenarioId(String experimentId);
 
+	@Query("select count(cs.id) from CustomerScenario cs where cs.splittedScenario.scenario.id = ?1 and exists (select 1 from CustomerCheckpoint cc where cc.customer.id = cs.customer.id and cc.checkpoint.experimentRevision.experiment.id = cs.splittedScenario.scenario.experimentRevision.experiment.id)")
+	Long countCompltedByScenarioId(String experimentId);
 }
