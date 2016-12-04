@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,14 +32,14 @@ public class ProjectController {
 	private UserService userService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Project> list(OAuth2Authentication auth) {
-		Tenant tenant = userService.find( auth ).getTenant();
+	public List<Project> list() {
+		Tenant tenant = tenantRepository.save( new Tenant() );
 		return projectRepository.findByTenantId( tenant.getId() );
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Project create(OAuth2Authentication auth, @RequestBody Project project) throws ValidationException {
-		Tenant tenant = userService.find( auth ).getTenant();
+	public Project create(@RequestBody Project project) throws ValidationException {
+		Tenant tenant = tenantRepository.save( new Tenant() );
 		project.setTenant( tenant );
 		Validation validation = new Validation( project );
 		if (validation.isValid())
