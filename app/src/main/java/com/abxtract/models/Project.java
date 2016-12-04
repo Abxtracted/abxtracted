@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "projects")
@@ -22,6 +23,7 @@ public class Project extends Model {
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String id;
 
+	@NotBlank
 	private String name;
 
 	@ManyToOne

@@ -6,7 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -15,6 +18,9 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "checkpoints")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Checkpoint extends Model {
 	@Id
 	@GeneratedValue(generator = "uuid2")
@@ -22,7 +28,7 @@ public class Checkpoint extends Model {
 	private String id;
 
 	@ManyToOne
-	private Experiment experiment;
+	private ExperimentRevision experimentRevision;
 
 	private String name;
 
