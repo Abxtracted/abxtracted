@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abxtract.dtos.ExperimentResultDTO;
 import com.abxtract.exceptions.ValidationException;
 import com.abxtract.models.Experiment;
 import com.abxtract.models.Project;
 import com.abxtract.models.validations.Validation;
 import com.abxtract.repositories.ExperimentRepository;
 import com.abxtract.repositories.ProjectRepository;
-import com.abxtract.services.ExperimentCreation;
+import com.abxtract.services.experiment.ExperimentCreation;
+import com.abxtract.services.experiment.ExperimentDataCalculation;
 
 @RestController
 @RequestMapping(value = "/projects/{projectId}/experiments", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,6 +32,9 @@ public class ExperimentController {
 
 	@Autowired
 	private ExperimentCreation experimentCreation;
+
+	@Autowired
+	private ExperimentDataCalculation experimentDataCalculation;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Experiment> list(@PathVariable String projectId) {
@@ -50,8 +55,8 @@ public class ExperimentController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
-	public Experiment findById(@PathVariable String id) {
-		return experimentRepository.findOne( id );
+	public ExperimentResultDTO findById(@PathVariable String id) {
+		return experimentDataCalculation.sumarize( id );
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)

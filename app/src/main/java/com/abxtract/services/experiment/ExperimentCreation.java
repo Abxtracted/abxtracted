@@ -1,4 +1,4 @@
-package com.abxtract.services;
+package com.abxtract.services.experiment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
