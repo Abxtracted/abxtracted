@@ -30,12 +30,12 @@ public class UserService {
 			user = new User();
 			user.setGoogleId( data.getId() );
 			user.setTenant( tenants.save( new Tenant() ) );
+			user.setRefreshToken( data.getRefreshToken() );
 		}
 		user.setEmail( data.getEmail() );
 		user.setName( data.getName() );
 		user.setPicture( data.getImageUrl() );
 		user.setToken( data.getAccessToken() );
-		user.setRefreshToken( data.getRefreshToken() );
 		return users.save( user );
 	}
 }

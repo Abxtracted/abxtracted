@@ -44,9 +44,7 @@ public class UserResource {
 
 	@RequestMapping("/auth/callback")
 	public void callback(@Param("code") String code, HttpServletResponse response) throws IOException {
-		System.out.println("CALLBACK DO DEMONIO");
 		final GoogleUserDTO dto = googleService.retrieveUserData( credentials.retrieveCredential( code ) );
-		System.out.println(dto);
 		final AuthToken token = authTokens.save( AuthToken.builder().user( service.save( dto ) ).build() );
 		response.addCookie( new Cookie( "auth-token", token.getId() ) );
 		response.sendRedirect( "http://localhost:8080/moises" );
