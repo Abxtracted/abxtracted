@@ -44,11 +44,13 @@ public class GoogleAuthFilter implements Filter {
 	) throws IOException, ServletException {
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse resp = (HttpServletResponse) response;
-		final String token = req.getHeader( "X-Auth-Token" );
-		if (Strings.isNullOrEmpty( token ) && !isWhitelisted( req.getRequestURI() )) {
-			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED );
-		} else {
-			checkToken( req, resp, token );
+		if (!isWhitelisted( req.getRequestURI() )) {
+			final String token = req.getHeader( "X-Auth-Token" );
+			if (Strings.isNullOrEmpty( token )) {
+				resp.sendError( HttpServletResponse.SC_UNAUTHORIZED );
+			} else {
+				checkToken( req, resp, token );
+			}
 		}
 		chain.doFilter( request, response );
 	}
