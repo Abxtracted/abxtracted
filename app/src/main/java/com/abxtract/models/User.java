@@ -14,7 +14,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 public class User extends Model {
@@ -22,7 +22,7 @@ public class User extends Model {
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	private Long id;
+	private String id;
 
 	@NotNull
 	@Column(unique = true)
