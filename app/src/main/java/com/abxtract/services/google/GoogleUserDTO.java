@@ -8,7 +8,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class GoogleUserDTO {
-	private final String sub;
+	private final String id;
 	private final String email;
 	private final String name;
 	private final String imageUrl;

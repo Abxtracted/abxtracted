@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.abxtract.models.User;
 import com.abxtract.services.UserService;
 import com.abxtract.services.google.GoogleCredentialService;
 import com.abxtract.services.google.GoogleRedirectService;
@@ -36,7 +37,7 @@ public class UserResource {
 	@RequestMapping("/auth/callback")
 	public void callback(@Param("code") String code) throws IOException {
 		final GoogleUserDTO dto = googleService.retrieveUserData( credentials.retrieveCredential( code ) );
-		service.save()
+		final User user = service.save( dto );
 	}
 	//
 	//	@RequestMapping("/user")

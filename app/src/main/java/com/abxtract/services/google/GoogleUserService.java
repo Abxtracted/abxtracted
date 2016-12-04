@@ -24,7 +24,7 @@ public class GoogleUserService {
 		Userinfoplus userInfo = oauth2.userinfo().get().execute();
 
 		return GoogleUserDTO.builder()
-				.sub( userInfo.getId() )
+				.id( userInfo.getId() )
 				.name( userInfo.getName() )
 				.email( userInfo.getEmail() )
 				.imageUrl( userInfo.getPicture() )

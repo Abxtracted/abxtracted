@@ -46,6 +46,9 @@ public class User extends Model {
 	private String token;
 
 	@NotNull
+	private String refreshToken;
+
+	@NotNull
 	@Column(unique = true)
 	private String googleId;
 
