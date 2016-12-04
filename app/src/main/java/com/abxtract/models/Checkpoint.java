@@ -22,7 +22,7 @@ public class Checkpoint extends Model {
 	private String id;
 
 	@ManyToOne
-	private Experiment experiment;
+	private ExperimentRevision experimentRevision;
 
 	private String name;
 
