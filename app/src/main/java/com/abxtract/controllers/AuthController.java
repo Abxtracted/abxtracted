@@ -25,6 +25,7 @@ import com.abxtract.services.google.GoogleUserDTO;
 import com.abxtract.services.google.GoogleUserService;
 
 @RestController
+@RequestMapping(value = "/auth")
 public class AuthController {
 	@Autowired
 	private UserService service;
@@ -41,13 +42,13 @@ public class AuthController {
 	@Autowired
 	private GoogleUserService googleService;
 
-	@RequestMapping("/auth/login")
+	@RequestMapping("/login")
 	public void login(@RequestParam("redirect_to") String redirectTo, HttpServletResponse response) throws IOException {
 		response.addCookie( new Cookie( "redirect-to", redirectTo ) );
 		response.sendRedirect( redirect.url() );
 	}
 
-	@RequestMapping("/auth/callback")
+	@RequestMapping("/callback")
 	public void callback(@Param("code") String code, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		final GoogleUserDTO dto = googleService.retrieveUserData( credentials.retrieveCredential( code ) );
@@ -58,7 +59,7 @@ public class AuthController {
 		response.sendRedirect( uri );
 	}
 
-	@RequestMapping("/auth/current")
+	@RequestMapping("/current")
 	public UserDTO user(@RequestAttribute("user") User user) throws IOException {
 		return new UserDTO( user.getId(), user.getEmail(), user.getEmail(), user.getPicture() );
 	}
