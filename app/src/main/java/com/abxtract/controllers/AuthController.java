@@ -1,4 +1,4 @@
-package com.abxtract.resource;
+package com.abxtract.controllers;
 
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -25,7 +25,7 @@ import com.abxtract.services.google.GoogleUserDTO;
 import com.abxtract.services.google.GoogleUserService;
 
 @RestController
-public class UserResource {
+public class AuthController {
 	@Autowired
 	private UserService service;
 
@@ -58,7 +58,7 @@ public class UserResource {
 		response.sendRedirect( uri );
 	}
 
-	@RequestMapping("/user")
+	@RequestMapping("/auth/current")
 	public UserDTO user(@RequestAttribute("user") User user) throws IOException {
 		return new UserDTO( user.getId(), user.getEmail(), user.getEmail(), user.getPicture() );
 	}
