@@ -3,6 +3,8 @@ package com.abxtract.services.google;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,6 +12,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,14 +48,33 @@ public class GoogleAuthFilter implements Filter {
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse resp = (HttpServletResponse) response;
 		if (!isWhitelisted( req.getRequestURI() )) {
-			final String token = req.getHeader( "X-Auth-Token" );
+			final String token = getToken( req );
 			if (Strings.isNullOrEmpty( token )) {
-				resp.sendError( HttpServletResponse.SC_UNAUTHORIZED );
+				resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Missing 'X-Auth-Token' header." );
 			} else {
 				checkToken( req, resp, token );
 			}
 		}
+		if (resp.isCommitted()) {
+			return;
+		}
 		chain.doFilter( request, response );
+	}
+
+	private String getToken(HttpServletRequest req) {
+		return Optional.ofNullable( req.getHeader( "X-Auth-Token" ) )
+				.orElse( getTokenFromCookie( req ) );
+	}
+
+	private String getTokenFromCookie(HttpServletRequest req) {
+		return Stream.of( Optional.ofNullable( req.getCookies() ).orElse( new Cookie[] {} ) )
+				.filter( cookie -> {
+					System.out.println( cookie.getName() + "=" + cookie.getValue() );
+					return cookie.getName().equals( "auth-token" );
+				} )
+				.map( cookie -> cookie.getValue() )
+				.findFirst()
+				.orElse( "" );
 	}
 
 	@Override
@@ -63,7 +85,7 @@ public class GoogleAuthFilter implements Filter {
 	private void checkToken(HttpServletRequest req, HttpServletResponse resp, String token) throws IOException {
 		final User user = users.byAuthToken( token );
 		if (user == null) {
-			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED );
+			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Invalid 'X-Auth-Token' header." );
 		}
 		req.setAttribute( "user", user );
 	}

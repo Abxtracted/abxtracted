@@ -54,13 +54,19 @@ public class UserResource {
 		final AuthToken token = authTokens.save( AuthToken.builder().user( service.save( dto ) ).build() );
 		final String uri = getRedirectTo( request );
 		response.setHeader( "X-Auth-Token", token.getId() );
-//		response.addCookie( new Cookie( "X-Auth-Token", token.getId() ) );
+		response.addCookie( cookieFor( token ) );
 		response.sendRedirect( uri );
 	}
 
 	@RequestMapping("/user")
 	public UserDTO user(@RequestAttribute("user") User user) throws IOException {
 		return new UserDTO( user.getId(), user.getEmail(), user.getEmail(), user.getPicture() );
+	}
+
+	private Cookie cookieFor(AuthToken token) {
+		final Cookie cookie = new Cookie( "auth-token", token.getId() );
+		cookie.setPath( "/" );
+		return cookie;
 	}
 
 	private String getRedirectTo(HttpServletRequest request) {
