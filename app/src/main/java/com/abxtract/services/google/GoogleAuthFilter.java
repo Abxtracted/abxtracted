@@ -50,7 +50,7 @@ public class GoogleAuthFilter implements Filter {
 		if (!isWhitelisted( req.getRequestURI() )) {
 			final String token = getToken( req );
 			if (Strings.isNullOrEmpty( token )) {
-				resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Missing 'X-Auth-Token' header." );
+				resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Missing authentication token or header." );
 			} else {
 				checkToken( req, resp, token );
 			}
@@ -85,7 +85,7 @@ public class GoogleAuthFilter implements Filter {
 	private void checkToken(HttpServletRequest req, HttpServletResponse resp, String token) throws IOException {
 		final User user = users.byAuthToken( token );
 		if (user == null) {
-			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Invalid 'X-Auth-Token' header." );
+			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Invalid authentication token." );
 		}
 		req.setAttribute( "user", user );
 	}
