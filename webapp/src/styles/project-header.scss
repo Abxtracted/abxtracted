@@ -1,0 +1,12 @@
+@import '_variables';
+@import '_mixins';
+
+.project-header-container {
+  border-bottom: 1px solid $color-blue-semi-dark;
+}
+
+.project-header {
+  padding: 20px;
+  max-width: 750px;
+  @include box-sizing(border-box);
+}

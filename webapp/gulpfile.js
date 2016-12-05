@@ -5,7 +5,6 @@ var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var sourcemaps = require('gulp-sourcemaps');
 var webserver = require('gulp-webserver');
-watch = require('gulp-watch');
 var templateCache = require('gulp-angular-templatecache');
 var htmlmin = require('gulp-htmlmin');
 
@@ -13,6 +12,8 @@ var htmlmin = require('gulp-htmlmin');
 gulp.task('js:lib', function() {
   return gulp.src([
       'node_modules/angular/angular.min.js',
+      'node_modules/angular-resource/angular-resource.min.js',
+      'node_modules/angular-cookies/angular-cookies.min.js',
       'node_modules/angular-material/angular-material.min.js',
       'node_modules/angular-animate/angular-animate.min.js',
       'node_modules/angular-aria/angular-aria.min.js',
@@ -48,7 +49,7 @@ gulp.task('css:lib', function(){
 
 // Builds sass to css
 gulp.task('css:app', function(){
-  return gulp.src('src/**/*.scss')
+  return gulp.src('src/styles/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(concat('app.min.css'))
@@ -66,16 +67,25 @@ gulp.task('templates', function () {
       }))
     .pipe(templateCache('templates.min.js', {
           standalone: true,
-          root: '/'
+          root: '/',
+          transformUrl: function(url){
+            return url.replace('/scripts', '');
+          }
         }))
     .pipe(uglify())
     .pipe(gulp.dest('www'));
 });
 
+gulp.task('images', function() {
+  return gulp.src('src/images/*.*')
+    .pipe(gulp.dest('www/images/'));
+});
+
 gulp.task('watch', function() {
     gulp.watch('src/**/*.js', ['js']);
-    gulp.watch('src/**/*.scss', ['css']);
+    gulp.watch('src/styles/**/*.scss', ['css']);
     gulp.watch('src/**/*.html', ['templates']);
+    gulp.watch('src/images/**/*.*', ['images']);
 });
 
 gulp.task('serve', function(){
@@ -88,6 +98,6 @@ gulp.task('serve', function(){
 });
 gulp.task('js', ['js:lib', 'js:app']);
 gulp.task('css', ['css:lib', 'css:app']);
-gulp.task('build', ['js', 'css', 'templates']);
+gulp.task('build', ['js', 'css', 'templates', 'images']);
 
 gulp.task('default', ['build', 'serve', 'watch']);
