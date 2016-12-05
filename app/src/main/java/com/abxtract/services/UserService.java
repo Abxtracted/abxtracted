@@ -1,16 +1,13 @@
 package com.abxtract.services;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import com.abxtract.models.Tenant;
 import com.abxtract.models.User;
 import com.abxtract.repositories.TenantRepository;
 import com.abxtract.repositories.UserRepository;
+import com.abxtract.services.google.GoogleUserDTO;
 
 @Service
 public class UserService {
@@ -19,29 +16,22 @@ public class UserService {
 	@Autowired
 	private TenantRepository tenants;
 
-	public User process(final OAuth2Authentication auth) {
-		final User data = fromData( auth );
-		final User user = users.findByGoogleId( data.getGoogleId() );
-		if (user != null) {
-			user.setEmail( data.getEmail() );
-			user.setName( data.getName() );
-			user.setEmailVerified( data.isEmailVerified() );
-			user.setPicture( data.getPicture() );
-			return users.save( user );
-		}
-		data.setTenant( tenants.save( new Tenant() ) );
-		return users.save( data );
+	public User byAuthToken(String auth) {
+		return users.findByAuthToken( auth );
 	}
 
-	private User fromData(final OAuth2Authentication auth) {
-		final Map<String, Object> dto = (Map<String, Object>) auth.getUserAuthentication().getDetails();
-		return User.builder()
-				.email( dto.get( "email" ).toString() )
-				.emailVerified( (Boolean) dto.get( "email_verified" ) )
-				.name( dto.get( "name" ).toString() )
-				.picture( dto.get( "picture" ).toString() )
-				.googleId( dto.get( "sub" ).toString() )
-				.token( ((OAuth2AuthenticationDetails) auth.getDetails()).getTokenValue() )
-				.build();
+	public User save(final GoogleUserDTO data) {
+		User user = users.findByGoogleId( data.getId() );
+		if (user == null) {
+			user = new User();
+			user.setGoogleId( data.getId() );
+			user.setTenant( tenants.save( new Tenant() ) );
+			user.setRefreshToken( data.getRefreshToken() );
+		}
+		user.setEmail( data.getEmail() );
+		user.setName( data.getName() );
+		user.setPicture( data.getImageUrl() );
+		user.setToken( data.getAccessToken() );
+		return users.save( user );
 	}
 }

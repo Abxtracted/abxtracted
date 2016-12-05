@@ -1,58 +1,33 @@
 package com.abxtract.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "users")
+@Table(name = "auth_tokens")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class User extends Model {
-
+public class AuthToken extends Model {
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String id;
 
-	@NotNull
-	@Column(unique = true)
-	private String email;
-
-	private String name;
-
-	private String picture;
-
-	@ManyToOne
-	private Tenant tenant;
-
-	@NotNull
-	private String token;
-
-	@NotNull
-	private String refreshToken;
-
-	@NotNull
-	@Column(unique = true)
-	private String googleId;
-
-	@NotNull
-	private boolean emailVerified;
+	@ManyToOne(fetch = FetchType.EAGER)
+	private User user;
 }
