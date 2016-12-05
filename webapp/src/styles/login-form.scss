@@ -1,0 +1,21 @@
+@import '_variables';
+@import '_mixins';
+
+.login-form {
+  margin: 0 auto;
+  padding: 50px 20px 0;
+  width: 90%;
+  max-width: 400px;
+  @include box-sizing(border-box);
+  h1 {
+    text-align: center;
+    font-size: $font-size-lg;
+  }
+  .logo {
+    max-width: 125px;
+  }
+  .button {
+    margin: 0 auto;
+    max-width: 250px;
+  }
+}

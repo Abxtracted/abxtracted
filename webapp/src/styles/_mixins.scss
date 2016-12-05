@@ -1,0 +1,27 @@
+@import '_variables';
+
+@mixin border-radius($radius) {
+  -webkit-border-radius:  $radius;
+  -moz-border-radius:     $radius;
+  -ms-border-radius:      $radius;
+  border-radius:          $radius;
+}
+
+@mixin box-sizing($size) {
+  -webkit-box-sizing: $size;
+  -moz-box-sizing:    $size;
+  box-sizing:         $size;
+}
+
+@mixin clearfix() {
+  zoom: 1;
+  &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin background-image($filename) {
+  background-image: url($path-images + $filename);
+}
