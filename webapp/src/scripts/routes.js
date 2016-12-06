@@ -11,6 +11,7 @@
 
     $stateProvider.state('login', {
       url: '/login',
+      isPublic: true,
       templateUrl: getViewTemplate('login')
     }).state('dashboard', {
       url: '/dashboard',
