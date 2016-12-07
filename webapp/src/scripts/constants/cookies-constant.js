@@ -2,7 +2,7 @@
 
   app.constant('COOKIES', {
     AUTH: {
-      TOKEN: 'JSESSIONID'
+      TOKEN: 'auth-token'
     }
   });
 
