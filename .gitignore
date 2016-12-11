@@ -198,4 +198,4 @@ jspm_packages
 hs_err_pid*
 
 ### Built Files ###
-www/
+www/**/*.*
