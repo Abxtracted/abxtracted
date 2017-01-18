@@ -1,0 +1,37 @@
+@require '_variables'
+@require '_mixins'
+
+.button
+  margin 0
+  padding 0
+  min-width 40px
+  max-width 100%
+  min-height 40px
+  background-color $color-grey
+  color $color-grey-dark
+  font-size $font-size-sm
+  text-align center
+  line-height 40px
+  white-space nowrap
+  text-overflow ellipsis
+  overflow hidden
+  border-width 1px
+  border-style solid
+  border-color $color-grey
+  border-radius(3px)
+  box-sizing(border-box)
+  &.button-primary,
+  &.button-positive
+    padding 0 20px
+    background-color $color-primary
+    color $color-white
+    border-color $color-primary
+    &.active,
+    &.activated
+      background-color $color-secondary
+      border-color $color-secondary
+  &.button-circled
+    padding 0
+    width 40px
+    height 40px
+    border-radius(50%)

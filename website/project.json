@@ -1,0 +1,47 @@
+{
+  "paths" : {
+    "scripts": {
+      "source" : {
+        "root": "src/scripts/",
+        "files" : "src/scripts/**/*.js",
+        "main": "src/scripts/main.js",
+        "boot": "src/scripts/boot.js"
+      },
+      "spec": {
+        "root": "spec/",
+        "files": "spec/**/*-spec.js",
+        "main": "spec/main.js",
+        "config": "karma.conf.js"
+      },
+      "vendor" : {
+        "requirejs": "node_modules/requirejs/require.js",
+        "jquery": "node_modules/jquery/dist/jquery.min.js"
+      },
+      "dist" : {
+        "bundle" : "dist/scripts/bundle.min.js",
+        "transpiled": {
+          "root" : "dist/scripts/transpiled/",
+          "files" : "dist/scripts/transpiled/**/*.js"
+        },
+        "vendor": {
+          "root": "dist/vendor/scripts/",
+          "requirejs": "dist/vendor/scripts/require.min.js",
+          "jquery": "dist/vendor/scripts/jquery.min.js"
+        }
+      }
+    },
+    "styles": {
+      "source" : {
+        "files" : "src/styles/**/*.styl"
+      },
+      "vendor" : {},
+      "dist" : {
+        "bundle" : "dist/styles/bundle.min.css",
+        "vendor": {}
+      }
+    },
+    "transpiler": {
+      "config": ".babelrc"
+    }
+  }
+}

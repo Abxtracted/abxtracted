@@ -1,0 +1,48 @@
+@require '_variables'
+
+body
+  background $color-grey-light
+  font-family $font-family-primary
+  font-size 16px
+
+body, h1, h2, h3, h4, h5, h6
+  margin 0
+  color $color-grey-dark
+  font-weight normal
+
+h1
+  font-size $font-size-xxl
+h2
+  font-size $font-size-xl
+h3
+  font-size $font-size-md
+h4
+  font-size $font-size-sm
+h5
+  font-size $font-size-xs
+h6
+  font-size $font-size-xxs
+
+a
+  cursor pointer
+
+input
+  &[type=color]
+  &[type=date]
+  &[type=datetime-local]
+  &[type=datetime]
+  &[type=email]
+  &[type=month]
+  &[type=number]
+  &[type=password]
+  &[type=search]
+  &[type=tel]
+  &[type=text]
+  &[type=time]
+  &[type=url]
+  &[type=week]
+    padding 20px
+    width 100%
+    height auto
+    font-size $font-size-sm
+    border-bottom 1px solid $color-grey
