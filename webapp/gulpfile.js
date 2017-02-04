@@ -31,7 +31,7 @@ gulp.task('js:app', function() {
     ])
     .pipe(sourcemaps.init())
     .pipe(concat('app.min.js'))
-    .pipe(uglify())
+    .pipe(uglify({mangle: false}))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('www'));
 });
