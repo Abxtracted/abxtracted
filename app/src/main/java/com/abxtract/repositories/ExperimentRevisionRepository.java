@@ -7,6 +7,7 @@ import com.abxtract.models.ExperimentRevision;
 
 public interface ExperimentRevisionRepository extends CrudRepository<ExperimentRevision, String> {
 
-	@Query("select er from ExperimentRevision er where er.experiment.project.id = ?1 and er.experiment.key =?2 ")
-	ExperimentRevision findByKey(String projectId, String key);
+	@Query("select er from ExperimentRevision er where er.experiment.project.id = ?1 and er.experiment.key =?2 order by er.createdAt desc")
+	ExperimentRevision findLastRevisionAndKey(String projectId, String key);
 }
+

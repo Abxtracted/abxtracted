@@ -6,7 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -15,6 +18,9 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "customers_checkpoints")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerCheckpoint extends Model {
 
 	@Id
