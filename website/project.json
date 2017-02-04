@@ -1,9 +1,9 @@
 {
-  "paths" : {
+  "paths": {
     "scripts": {
-      "source" : {
+      "source": {
         "root": "src/scripts/",
-        "files" : "src/scripts/**/*.js",
+        "files": "src/scripts/**/*.js",
         "main": "src/scripts/main.js",
         "boot": "src/scripts/boot.js"
       },
@@ -13,16 +13,12 @@
         "main": "spec/main.js",
         "config": "karma.conf.js"
       },
-      "vendor" : {
+      "vendor": {
         "requirejs": "node_modules/requirejs/require.js",
         "jquery": "node_modules/jquery/dist/jquery.min.js"
       },
-      "dist" : {
-        "bundle" : "dist/scripts/bundle.min.js",
-        "transpiled": {
-          "root" : "dist/scripts/transpiled/",
-          "files" : "dist/scripts/transpiled/**/*.js"
-        },
+      "dist": {
+        "bundle": "dist/scripts/bundle.min.js",
         "vendor": {
           "root": "dist/vendor/scripts/",
           "requirejs": "dist/vendor/scripts/require.min.js",
@@ -31,17 +27,40 @@
       }
     },
     "styles": {
-      "source" : {
-        "files" : "src/styles/**/*.styl"
+      "source": {
+        "files": "src/styles/**/*.styl"
       },
-      "vendor" : {},
-      "dist" : {
-        "bundle" : "dist/styles/bundle.min.css",
-        "vendor": {}
+      "vendor": {
+        "files": [
+          "node_modules/ggrid/dist/ggrid.min.css",
+          "node_modules/ionicons/dist/css/ionicons.min.css"
+        ]
+      },
+      "dist": {
+        "bundle": "dist/styles/bundle.min.css",
+        "vendor": {
+          "bundle": "dist/vendor/styles/vendor.min.css"
+        }
       }
     },
-    "transpiler": {
-      "config": ".babelrc"
+    "images": {
+      "source": {
+        "root": "src/images/",
+        "files": "src/images/**/*.*"
+      },
+      "dist": {
+        "root": "dist/images/"
+      }
+    },
+    "fonts": {
+      "icons": {
+        "root": "node_modules/ionicons/dist/fonts/"
+      },
+      "dist": {
+        "vendor": {
+          "root": "dist/vendor/fonts/"
+        }
+      }
     }
   }
 }

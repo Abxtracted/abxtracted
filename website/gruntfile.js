@@ -14,7 +14,7 @@ module.exports = function(grunt) {
       vendor: {
         files: {
           [project.paths.scripts.dist.vendor.requirejs]: project.paths.scripts.vendor.requirejs,
-          [project.paths.scripts.dist.vendor.jquery]: project.paths.scripts.vendor.jquery,
+          [project.paths.scripts.dist.vendor.jquery]: project.paths.scripts.vendor.jquery
         }
       }
     },
@@ -34,10 +34,37 @@ module.exports = function(grunt) {
     },
 
     'stylus': {
-      compile: {
+      source: {
         files: {
           [project.paths.styles.dist.bundle]: project.paths.styles.source.files
         }
+      },
+      vendor: {
+        files: {
+          [project.paths.styles.dist.vendor.bundle]: project.paths.styles.vendor.files
+        }
+      }
+    },
+
+    'copy': {
+      fonticons: {
+        files: [{
+          expand: true,
+          cwd: project.paths.fonts.icons.root,
+          src: ['**/*.*'],
+          dest: project.paths.fonts.dist.vendor.root
+        }]
+      }
+    },
+
+    'imagemin': {
+      source: {
+        files: [{
+          expand: true,
+          cwd: project.paths.images.source.root,
+          src: ['**/*.*'],
+          dest: project.paths.images.dist.root
+        }]
       }
     },
 
@@ -48,10 +75,6 @@ module.exports = function(grunt) {
     },
 
     'watch': {
-      styles: {
-        files: project.paths.styles.source.files,
-        tasks: ['stylus']
-      },
       scripts: {
         files: [
           project.paths.scripts.source.main,
@@ -59,6 +82,14 @@ module.exports = function(grunt) {
           project.paths.scripts.source.boot
         ],
         tasks: ['concat']
+      },
+      images: {
+        files: project.paths.images.source.files,
+        tasks: ['newer:imagemin']
+      },
+      styles: {
+        files: project.paths.styles.source.files,
+        tasks: ['stylus']
       }
     },
 
@@ -78,7 +109,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'uglify',
     'concat',
-    'stylus'
+    'stylus',
+    'copy',
+    'imagemin'
   ]);
 
   grunt.registerTask('start', [

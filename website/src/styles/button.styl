@@ -1,6 +1,11 @@
 @require '_variables'
 @require '_mixins'
 
+a
+  &.button
+    text-decoration none
+    display inline-block
+
 .button
   margin 0
   padding 0
@@ -18,18 +23,29 @@
   border-width 1px
   border-style solid
   border-color $color-grey
+  cursor pointer
   border-radius(3px)
   box-sizing(border-box)
   &.button-primary,
-  &.button-positive
+  &.button-secondary
     padding 0 20px
+  &.button-primary
     background-color $color-primary
     color $color-white
+    text-shadow 0 -1px 0 $color-blue-dark
     border-color $color-primary
-    &.active,
-    &.activated
-      background-color $color-secondary
-      border-color $color-secondary
+    &:hover,
+    &:active
+      background-color $color-blue-semi-light
+      border-color $color-primary
+  &.button-secondary
+    background-color transparent
+    color $color-white
+    border-color $color-white
+    &:hover,
+    &:active
+      background-color alpha($color-white, 0.2)
+      border-color $color-white
   &.button-circled
     padding 0
     width 40px

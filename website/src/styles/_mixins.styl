@@ -3,6 +3,12 @@
 background-image($filename)
   background-image url($path-images + $filename + '?@@timestamp')
 
+bg-gradient-vertical($top-color, $bottom-color)
+  background $top-color /* Old browsers */
+  background -moz-linear-gradient(top,  $top-color 0%, $bottom-color 100%) /* FF3.6-15 */
+  background -webkit-linear-gradient(top,  $top-color 0%,$bottom-color 100%) /* Chrome10-25,Safari5.1-6 */
+  background linear-gradient(to bottom,  $top-color 0%,$bottom-color 100%) /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
 border-radius($radius)
   -webkit-border-radius $radius
   -moz-border-radius    $radius
@@ -26,11 +32,16 @@ clearfix()
     clear both
 
 transform($property)
-  -webkit-transform $property;
-  -moz-transform    $property;
-  -ms-transform     $property;
-  -o-transform      $property;
-  transform         $property;
+  -webkit-transform $property
+  -moz-transform    $property
+  -ms-transform     $property
+  -o-transform      $property
+  transform         $property
+
+transform-origin($x, $y)
+  -webkit-transform-origin $x $y
+  -ms-transform-origin $x $y
+  transform-origin $x $y
 
 transition($property, $time)
   -webkit-transition  $property $time $animation-ease-default
