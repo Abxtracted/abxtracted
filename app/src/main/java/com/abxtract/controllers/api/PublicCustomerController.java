@@ -37,16 +37,8 @@ public class PublicCustomerController {
 		Project project = projectRepository.findOne( projectId );
 		Tenant tenant = project.getTenant();
 		Customer customer = asLocalCustomer( customerIdentity, tenant );
-		ExperimentRevision experimentRevision = experimentRevisionRepository.findByKey( tenant.getId(), experimentKey );
+		ExperimentRevision experimentRevision = experimentRevisionRepository.findByKey( projectId, experimentKey );
 		// TODO: raffle custmoer scenario
-	}
-
-	private Customer asLocalCustomer(@PathVariable String customerIdentity, Tenant tenant) {
-		Customer customer = customerRepository.findByIdentity( tenant.getId(), customerIdentity );
-		if (customer != null)
-			return customer;
-		else
-			return customerRepository.save( Customer.builder().tenant( tenant ).identity( customerIdentity ).build() );
 	}
 
 	@RequestMapping("experiment/{experimentKey}/check/{checkpointKey}")
@@ -55,7 +47,15 @@ public class PublicCustomerController {
 		Project project = projectRepository.findOne( projectId );
 		Tenant tenant = project.getTenant();
 		Customer customer = asLocalCustomer( customerIdentity, tenant );
-		Checkpoint checkpoint = checkpointRepository.findByKey( tenant.getId(), experimentKey, checkpointKey );
+		Checkpoint checkpoint = checkpointRepository.findByKey( projectId, experimentKey, checkpointKey );
 		// TODO: gravar evento
+	}
+
+	private Customer asLocalCustomer(String customerIdentity, Tenant tenant) {
+		Customer customer = customerRepository.findByIdentity( tenant.getId(), customerIdentity );
+		if (customer != null)
+			return customer;
+		else
+			return customerRepository.save( Customer.builder().tenant( tenant ).identity( customerIdentity ).build() );
 	}
 }
