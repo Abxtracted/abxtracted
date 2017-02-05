@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  function newProjectFormController(BROADCAST, $location, projectsResource, broadcastService){
+  function newProjectFormController($location, projectsResource){
     var _public = this;
 
     _public.save = function(){
@@ -22,10 +22,8 @@
   app.component('newProjectForm', {
     templateUrl: '/components/new-project-form/new-project-form-template.html',
     controller: [
-      'BROADCAST',
       '$location',
       'projectsResource',
-      'broadcastService',
       newProjectFormController
     ]
   });
