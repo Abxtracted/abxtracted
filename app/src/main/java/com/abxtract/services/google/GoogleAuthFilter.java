@@ -31,7 +31,8 @@ public class GoogleAuthFilter implements Filter {
 	private static final List<String> WHITELIST = Arrays.asList(
 			"/auth/login",
 			"/auth/callback",
-			"/monitoring"
+			"/monitoring",
+			"/public/"
 	);
 
 	@Override
