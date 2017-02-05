@@ -9,7 +9,7 @@
         var token = $cookies.get(COOKIES.AUTH.TOKEN);
         config.headers = config.headers || {};
         if (token)
-          config.headers[COOKIES.AUTH.TOKEN] = token;
+          config.headers['x-' + COOKIES.AUTH.TOKEN] = token;
         return config;
       }
     };

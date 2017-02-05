@@ -20,10 +20,10 @@
       url: '/projects/new',
       templateUrl: getViewTemplate('new-project')
     }).state('projects', {
-      url: '/projects/:id',
+      url: '/projects/:projectId',
       templateUrl: getViewTemplate('project')
     }).state('experiments-new', {
-      url: '/experiments/new',
+      url: '/projects/:projectId/experiments/new',
       templateUrl: getViewTemplate('new-experiment')
     });
   }
