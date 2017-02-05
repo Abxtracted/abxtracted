@@ -16,4 +16,7 @@ public interface ExperimentRepository extends CrudRepository<Experiment, String>
 	@Modifying(clearAutomatically = true)
 	@Query("update Experiment e set e.deletedAt = localtimestamp where e.id = ?1")
 	void delete(String id);
+
+	@Query("select e from Experiment e where project_id = ?1 and key = ?2")
+	Experiment findByProjectAndKey(String projectId, String key);
 }

@@ -31,7 +31,8 @@ public class GoogleAuthFilter implements Filter {
 	private static final List<String> WHITELIST = Arrays.asList(
 			"/auth/login",
 			"/auth/callback",
-			"/monitoring"
+			"/monitoring",
+			"/public/"
 	);
 
 	@Override
@@ -47,7 +48,7 @@ public class GoogleAuthFilter implements Filter {
 	) throws IOException, ServletException {
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse resp = (HttpServletResponse) response;
-		if (!isWhitelisted( req.getRequestURI() )) {
+		if (!isWhitelisted( req.getRequestURI() ) && !isOptionsRequest( req.getMethod() )) {
 			final String token = getToken( req );
 			if (Strings.isNullOrEmpty( token )) {
 				resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Missing authentication token or header." );
@@ -59,6 +60,10 @@ public class GoogleAuthFilter implements Filter {
 			return;
 		}
 		chain.doFilter( request, response );
+	}
+
+	private boolean isOptionsRequest(String method) {
+		return method.equalsIgnoreCase( "options" );
 	}
 
 	private String getToken(HttpServletRequest req) {

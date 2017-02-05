@@ -2,21 +2,15 @@
   "name": "webapp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
     "angular": "^1.5.8",
-    "angular-animate": "^1.5.8",
-    "angular-aria": "^1.5.8",
     "angular-cookies": "^1.5.9",
-    "angular-material": "^1.1.1",
     "angular-resource": "^1.5.9",
     "angular-ui-router": "^0.3.2",
-    "ggrid": "^1.0.0"
+    "ggrid": "^1.0.0",
+    "ionicons": "2.0.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -24,9 +18,9 @@
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.0",
     "gulp-htmlmin": "^3.0.0",
-    "gulp-sass": "^2.3.2",
     "gulp-serve": "^1.4.0",
     "gulp-sourcemaps": "^2.2.0",
+    "gulp-stylus": "^2.6.0",
     "gulp-uglify": "^2.0.0",
     "gulp-webserver": "^0.9.1"
   }

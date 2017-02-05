@@ -51,7 +51,7 @@ public class ExperimentDataCalculation {
 
 	private ExperimentResultDTO.VersionResult buildVersionResult(Scenario scenario) {
 		Long sampleSize = customerScenarioRepository.countByScenarioId( scenario.getId() );
-		Long converted = customerScenarioRepository.countCompltedByScenarioId( scenario.getId() );
+		Long converted = customerScenarioRepository.countCompletedByScenarioId( scenario.getId() );
 		return new ExperimentResultDTO.VersionResult( scenario.getId(), scenario.getName(), sampleSize, converted );
 	}
 }

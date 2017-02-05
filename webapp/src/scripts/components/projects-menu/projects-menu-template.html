@@ -1,16 +1,16 @@
 <div class="project-menu">
+  <div class="project-menu-add-button-container">
+    <a ui-sref="projects-new" class="button button-primary">
+      <icon data-icon="ion-star"></icon>
+      New Project
+    </a>
+  </div>
   <ul class="list project-menu-list">
     <li class="project-menu-list-item"
       ng-repeat="project in $ctrl.projects"
       ng-click="$ctrl.onMenuItemClick(project.id)">
-      <icon data-icon="dashboard"></icon>
+      <icon data-icon="ion-bookmark"></icon>
       <div class="project-menu-list-item-label" ng-bind="project.name"></div>
     </li>
   </ul>
-  <div class="project-menu-add-button-container">
-    <a ui-sref="projects-new" class="button button-primary">
-      <icon data-icon="grade"></icon>
-      New Project
-    </a>
-  </div>
 </div>
