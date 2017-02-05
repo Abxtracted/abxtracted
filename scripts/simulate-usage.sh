@@ -21,10 +21,11 @@ echo -ne "\t Experiment: $EXPERIMENT_KEY\n\n"
 
 for ((i=1;i<=$USERS;i++));
 do
-  curl -s -XGET http://localhost:8080/public/project/$PROJECT_ID/customer/user$i@email.com/experiment/$EXPERIMENT_KEY > /dev/null
-  COMPLETE=`grep -m1 -ao '[0-1]' /dev/urandom | head -n1`
+  USER_IDENTITY=`cat /dev/random | LC_CTYPE=C tr -dc "[:alpha:]" | head -c 100`
+  curl -s -XGET http://localhost:8080/public/project/$PROJECT_ID/customer/$USER_IDENTITY/experiment/$EXPERIMENT_KEY > /dev/null
+  COMPLETE=`grep -m1 -ao '[0-4]' /dev/urandom | head -n1`
   if [ "$COMPLETE" == "1" ]; then
-    curl -s -XGET http://localhost:8080/public/project/$PROJECT_ID/customer/user$i@email.com/experiment/$EXPERIMENT_KEY/check/complete > /dev/null
+    curl -s -XGET http://localhost:8080/public/project/$PROJECT_ID/customer/$USER_IDENTITY/experiment/$EXPERIMENT_KEY/check/complete > /dev/null
   fi
 
 
