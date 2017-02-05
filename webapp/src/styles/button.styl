@@ -7,7 +7,6 @@
   padding 0
   min-width 40px
   max-width 100%
-  min-height 40px
   background-color $color-grey
   color $color-grey-dark
   font-size $font-size-sm
@@ -33,6 +32,18 @@
     &:hover,
     &:focus
       background-color $color-blue-semi-light
+  &.button-danger
+    padding 0 10px
+    background-color transparent
+    color alpha($color-red-semi-light, 0.5)
+    font-size $font-size-xs
+    border-color alpha($color-red-semi-light, 0.5)
+    &:hover
+      background-color $color-red-semi-light
+      color $color-white
+      border-color $color-red-semi-light
+  &.button-small
+    line-height 20px
   &.button-circled
     padding 0
     width 40px

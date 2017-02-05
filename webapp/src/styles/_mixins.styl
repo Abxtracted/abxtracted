@@ -1,5 +1,8 @@
 @require '_variables'
 
+background-image($filename)
+  background-image url($path-images + $filename)
+
 border-radius($radius)
   -webkit-border-radius  $radius
   -moz-border-radius     $radius
@@ -18,5 +21,15 @@ clearfix()
     display table
     clear both
 
-background-image($filename)
-  background-image url($path-images + $filename)
+transform($property)
+  -webkit-transform unquote($property)
+  -moz-transform unquote($property)
+  -ms-transform unquote($property)
+  -o-transform unquote($property)
+  transform unquote($property)
+
+transition(property, time)
+  -webkit-transition property time $animation-ease-default
+  -moz-transition property time $animation-ease-default
+  -o-transition property time $animation-ease-default
+  transition property time $animation-ease-default

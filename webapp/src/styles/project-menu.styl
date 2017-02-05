@@ -9,13 +9,19 @@
   width 220px
   min-height 100%
   background-color $color-blue-semi-dark
+  box-sizing(border-box)
+
+.project-menu-list
+  margin-top 30px
 
 .project-menu-list-item
+  position relative
   padding 10px 20px
   cursor pointer
-  @include clearfix()
+  transition(background-color, 500ms)
+  clearfix()
   &:hover
-    background-color $color-blue
+    background-color alpha($color-blue, 0.25)
   .icon
     float left
     top 3px
@@ -26,5 +32,5 @@
   line-height 24px
 
 .project-menu-add-button-container
-  margin 30px auto 0
+  margin 0 auto
   width 180px

@@ -1,10 +1,31 @@
 @require '_variables'
 @require '_mixins'
+@require 'native'
 
-.project-header-container
-  border-bottom: 1px solid $color-blue-semi-dark
+.project-summary-container
+  padding 20px
+  border-bottom 1px solid $color-blue-semi-dark
 
-.project-header
-  paddin: 20px
-  max-width 750px
-  box-sizing(border-box)
+.project-summary-title
+  display inline-block
+  font-size $font-size-xxl
+
+.project-summary-title-container
+  .button
+    display inline-block
+    margin-left 20px
+
+.project-summary-label
+  @extend label
+  &:first-child
+    margin-top 40px
+  &:not(:first-child)
+    margin-top 20px
+
+.project-summary-value
+  margin-top 5px
+
+.project-summary-action-container
+  margin-top 30px
+  .button
+    max-width 200px
