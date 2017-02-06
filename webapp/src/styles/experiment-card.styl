@@ -1,0 +1,60 @@
+@require '_variables'
+@require '_mixins'
+
+.experiment-card-container
+  position relative
+
+.experiment-card
+  padding 20px
+  background-color alpha($color-white, 0.1)
+  border-bottom 1px solid alpha($color-white, 0.25)
+  cursor pointer
+  box-sizing(border-box)
+  &:hover
+    background-color alpha($color-white, 0.2)
+
+.experiment-card-title-container
+  position relative
+  padding-left 30px
+  font-size $font-size-xl
+  box-sizing(border-box)
+  .icon
+    position absolute
+    top 50%
+    left 0
+    transform('translate(0,-50%)')
+
+.experiment-card-subtitle
+  display inline-block
+
+.experiment-card-subtitle-container
+  margin-top 5px
+  font-size $font-size-xs
+  opacity 0.5
+  .icon
+    &:before
+      transform('rotate(-235deg)')
+
+.experiment-card-subtitle
+  margin-left 10px
+
+.experiment-card-delete-container
+  position absolute
+  top -24px
+  right -8px
+  color alpha($color-white, 0.5)
+  font-size $font-size-xs
+  cursor pointer
+  &:hover
+    color $color-white
+    .experiment-card-delete
+      background-color $color-red
+
+
+.experiment-card-delete
+  padding 24px 12px 24px 6px
+  background-color alpha($color-red-semi-light, 0.5)
+  transform('rotate(-45deg)')
+  .icon
+    &:before
+      transform('rotate(45deg)')

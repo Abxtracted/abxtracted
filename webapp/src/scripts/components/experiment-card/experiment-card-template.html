@@ -1,0 +1,22 @@
+<div class="experiment-card-container">
+  <div class="experiment-card-delete-container">
+    <div class="experiment-card-delete"
+      ng-click="$ctrl.removeExperiment($ctrl.experiment)">
+      <icon data-icon="ion-android-close"></icon>
+    </div>
+  </div>
+  <div class="experiment-card">
+    <div class="experiment-card-title-container">
+      <icon data-icon="ion-erlenmeyer-flask"></icon>
+      <div class="experiment-card-title"
+        ng-bind="$ctrl.experiment.name">
+      </div>
+    </div>
+    <div class="experiment-card-subtitle-container">
+      <icon data-icon="ion-key"></icon>
+      <div class="experiment-card-subtitle"
+        ng-bind="$ctrl.experiment.key">
+      </div>
+    </div>
+  </div>
+</div>
