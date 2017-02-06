@@ -8,6 +8,4 @@
     'templates'
   ]);
 
-
-
-})(window);
+}());
