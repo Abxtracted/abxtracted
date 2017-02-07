@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  function experimentListController(BROADCAST, $scope, $stateParams, experimentsResource){
+  function experimentListController(BROADCAST, $scope, $stateParams, experimentsResource, broadcastService){
     var _public = this;
 
     _public.experiments;
@@ -14,6 +14,7 @@
 
     function onGetExperimentsSuccess(experiments){
       _public.experiments = experiments;
+      broadcastService.broadcast(BROADCAST.EXPERIMENT.LIST_LOADED, experiments);
     }
 
     function onGetExperimentsError(error){
@@ -48,6 +49,7 @@
       '$scope',
       '$stateParams',
       'experimentsResource',
+      'broadcastService',
       experimentListController
     ]
   });

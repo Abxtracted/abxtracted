@@ -2,7 +2,8 @@
 
   app.constant('BROADCAST', {
     EXPERIMENT: {
-      DESTROYED: 'experimentDestroyed'
+      DESTROYED: 'experimentDestroyed',
+      LIST_LOADED: 'experimentListLoaded'
     }
   });
 
