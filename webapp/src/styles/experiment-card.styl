@@ -1,33 +1,34 @@
 @require '_variables'
 @require '_mixins'
+@require 'native'
+
+$card-border = 1px solid alpha($color-white, 0.25)
 
 .experiment-card-container
   position relative
 
 .experiment-card
-  padding 20px
+  padding 20px 0 0
   background-color alpha($color-white, 0.1)
-  border-bottom 1px solid alpha($color-white, 0.25)
-  cursor pointer
+  border-bottom $card-border
   box-sizing(border-box)
-  &:hover
-    background-color alpha($color-white, 0.2)
 
 .experiment-card-title-container
   position relative
-  padding-left 30px
+  padding 0 20px 0 50px
   font-size $font-size-xl
   box-sizing(border-box)
   .icon
     position absolute
     top 50%
-    left 0
+    left 20px
     transform('translate(0,-50%)')
 
 .experiment-card-subtitle
   display inline-block
 
 .experiment-card-subtitle-container
+  padding 0 20px
   margin-top 5px
   font-size $font-size-xs
   opacity 0.5
@@ -58,3 +59,23 @@
   .icon
     &:before
       transform('rotate(45deg)')
+
+.experiment-card-details
+  margin-top 30px
+  padding 30px 20px 29px
+  border-top 1px solid alpha($color-blue-dark, 0.75)
+
+.experiment-card-detail-label
+  @extend label
+  margin-top 10px
+
+.experiment-card-details-button
+  margin-top 21px
+  padding 10px 0
+  font-size $font-size-xs
+  text-transform uppercase
+  text-align center
+  border-top $card-border
+  cursor pointer
+  &:hover
+    background-color alpha($color-white, 0.2)

@@ -16,6 +16,13 @@
           params: {
             experimentId: '@experimentId'
           }
+        },
+        getDetails: {
+          url: BASE_URL + '/:experimentId',
+          method: 'GET',
+          params: {
+            experimentId: '@experimentId'
+          }
         }
       });
 
