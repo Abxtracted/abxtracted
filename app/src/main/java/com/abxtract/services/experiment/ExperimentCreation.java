@@ -20,7 +20,7 @@ public class ExperimentCreation {
 
 	@Autowired
 	private ExperimentRepository experimentRepository;
-	
+
 	@Autowired
 	private ScenarioRepository scenarioRepository;
 
@@ -39,7 +39,7 @@ public class ExperimentCreation {
 		}
 
 		experiment = experimentRepository.save( experiment );
-		createScenario( experiment, "Hypothesis", "hypothesis", 50 );
+		createScenario( experiment, "Variation", "variation", 50 );
 		createScenario( experiment, "Control", "control", 50 );
 		createCheckpoint( experiment );
 		return experiment;
