@@ -12,11 +12,11 @@ public class ExperimentResultDTO {
 	private final Long sampleSize;
 	private final Double minSampleSize;
 	private final Double marginOfError;
-	private final List<VersionResult> versions;
+	private final List<ScenarioResult> scenarios;
 
 	@Getter
 	@AllArgsConstructor
-	public static class VersionResult {
+	public static class ScenarioResult {
 		private final String id;
 		private final String name;
 		private final Long sampleSize;

@@ -43,15 +43,15 @@ public class ExperimentDataCalculation {
 
 	}
 
-	public List<ExperimentResultDTO.VersionResult> retrieveVersions(String experimentId) {
+	public List<ExperimentResultDTO.ScenarioResult> retrieveVersions(String experimentId) {
 		List<Scenario> scenarios = scenarioRepository.findByExperimentId( experimentId );
 
 		return scenarios.stream().map( this::buildVersionResult ).collect( Collectors.toList() );
 	}
 
-	private ExperimentResultDTO.VersionResult buildVersionResult(Scenario scenario) {
+	private ExperimentResultDTO.ScenarioResult buildVersionResult(Scenario scenario) {
 		Long sampleSize = customerScenarioRepository.countByScenarioId( scenario.getId() );
 		Long converted = customerScenarioRepository.countCompletedByScenarioId( scenario.getId() );
-		return new ExperimentResultDTO.VersionResult( scenario.getId(), scenario.getName(), sampleSize, converted );
+		return new ExperimentResultDTO.ScenarioResult( scenario.getId(), scenario.getName(), sampleSize, converted );
 	}
 }
