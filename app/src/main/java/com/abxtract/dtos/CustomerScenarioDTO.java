@@ -16,8 +16,7 @@ public class CustomerScenarioDTO {
 
 	public CustomerScenarioDTO(CustomerScenario customerScenario) {
 		customerIdentity = customerScenario.getCustomer().getIdentity();
-		experiment = customerScenario.getSplittedScenario()
-				.getScenario().getExperimentRevision().getExperiment().getKey();
-		scenario = customerScenario.getSplittedScenario().getScenario().getKey();
+		experiment = customerScenario.getScenario().getExperiment().getKey();
+		scenario = customerScenario.getScenario().getKey();
 	}
 }

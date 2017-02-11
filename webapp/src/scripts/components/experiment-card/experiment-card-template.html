@@ -18,5 +18,30 @@
         ng-bind="$ctrl.experiment.key">
       </div>
     </div>
+    <div class="experiment-card-details" ng-if="$ctrl.experiment.details">
+      <div class="experiment-card-detail-label">
+        Minimum Sample Size
+      </div>
+      <div class="experiment-card-detail-value"
+        ng-bind="$ctrl.experiment.details.minSampleSize">
+      </div>
+      <div class="experiment-card-detail-label">
+        Current Sample Size
+      </div>
+      <div class="experiment-card-detail-value"
+        ng-bind="$ctrl.experiment.details.sampleSize">
+      </div>
+      <div class="experiment-card-detail-label">
+        Margin of Error
+      </div>
+      <div class="experiment-card-detail-value"
+        ng-bind="$ctrl.experiment.details.marginOfError">
+      </div>
+    </div>
+    <div class="experiment-card-details-button"
+      ng-bind="$ctrl.detailsButtonLabel"
+      ng-if="!$ctrl.experiment.details"
+      ng-click="$ctrl.getDetails($ctrl.experiment)">
+    </div>
   </div>
 </div>
