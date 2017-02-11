@@ -32,7 +32,7 @@ public class Scenario extends Model {
 	private String id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private ExperimentRevision experimentRevision;
+	private Experiment experiment;
 
 	@NotBlank
 	private String name;

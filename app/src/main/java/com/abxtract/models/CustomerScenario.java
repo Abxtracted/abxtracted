@@ -32,5 +32,5 @@ public class CustomerScenario extends Model {
 	private Customer customer;
 
 	@ManyToOne
-	private SplittedScenario splittedScenario;
+	private Scenario scenario;
 }

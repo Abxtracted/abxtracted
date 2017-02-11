@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "checkpoints",
 		uniqueConstraints = { @UniqueConstraint(name = "idx_unique_checkpoints_key_experiment",
-				columnNames = { "key", "experiment_revision_id" }) })
+				columnNames = { "key", "experiment_id" }) })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -31,7 +31,7 @@ public class Checkpoint extends Model {
 	private String id;
 
 	@ManyToOne
-	private ExperimentRevision experimentRevision;
+	private Experiment experiment;
 
 	private String name;
 
