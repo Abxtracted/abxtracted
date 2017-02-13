@@ -1,24 +1,40 @@
 (function(){
   'use strict';
 
-  function projectsMenuController($location){
+  function projectsMenuController($scope, $location, projectsResource){
     var _public = this;
+
+    _public.projects;
 
     _public.onMenuItemClick = function(projectId){
       $location.path('/projects/' + projectId);
     }
 
-    _public.projects = [
-      {
-        name: 'Teleflik',
-        id: 123
-      }
-    ];
+    function getAllProjects(){
+      projectsResource.query({}, onGetAllProjectsSuccess, onGetAllProjectsError);
+    }
+
+    function onGetAllProjectsSuccess(projects) {
+      _public.projects = projects || [];
+    }
+
+    function onGetAllProjectsError(error) {
+      console.warn(error);
+    }
+
+    _public.$onInit = function(){
+      getAllProjects();
+    }
   }
 
   app.component('projectsMenu', {
     templateUrl: '/components/projects-menu/projects-menu-template.html',
-    controller: ['$location', projectsMenuController]
+    controller: [
+      '$scope',
+      '$location',
+      'projectsResource',
+      projectsMenuController
+    ]
   });
 
 }());

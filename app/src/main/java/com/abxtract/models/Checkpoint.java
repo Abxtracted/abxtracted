@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,9 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "checkpoints")
+@Table(name = "checkpoints",
+		uniqueConstraints = { @UniqueConstraint(name = "idx_unique_checkpoints_key_experiment",
+				columnNames = { "key", "experiment_id" }) })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -28,7 +31,7 @@ public class Checkpoint extends Model {
 	private String id;
 
 	@ManyToOne
-	private ExperimentRevision experimentRevision;
+	private Experiment experiment;
 
 	private String name;
 

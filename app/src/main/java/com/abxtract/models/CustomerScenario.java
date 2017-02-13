@@ -6,7 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -15,6 +18,9 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "customers_scenarios")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerScenario extends Model {
 
 	@Id
@@ -26,5 +32,5 @@ public class CustomerScenario extends Model {
 	private Customer customer;
 
 	@ManyToOne
-	private SplittedScenario splittedScenario;
+	private Scenario scenario;
 }

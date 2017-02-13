@@ -14,7 +14,6 @@ import com.abxtract.dtos.ExperimentResultDTO;
 import com.abxtract.exceptions.ValidationException;
 import com.abxtract.models.Experiment;
 import com.abxtract.models.Project;
-import com.abxtract.models.validations.Validation;
 import com.abxtract.repositories.ExperimentRepository;
 import com.abxtract.repositories.ProjectRepository;
 import com.abxtract.services.experiment.ExperimentCreation;
@@ -47,11 +46,7 @@ public class ExperimentController {
 		Project project = projectRepository.findOne( projectId );
 		experiment.setProject( project );
 
-		Validation validation = new Validation( experiment );
-		if (validation.isValid()) {
-			return experimentCreation.create( experiment );
-		} else
-			throw new ValidationException( validation.getErrors() );
+		return experimentCreation.create( experiment );
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
