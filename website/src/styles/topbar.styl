@@ -1,15 +1,19 @@
 @require '_variables'
 @require '_mixins'
 
-.topbar
+.topbar-container
   position fixed
   top 0
   left 0
   right 0
+  background-color $color-blue-semi-light
+  z-index $layer-low
+
+.topbar
   margin 0 auto
   padding 15px 0
+  width 95%
   max-width 960px
-  z-index $layer-low
   clearfix()
   .logo
     float left

@@ -1,0 +1,33 @@
+@require '_variables'
+@require '_mixins'
+
+$alert-default-color = $color-primary
+$alert-success-color = $color-green
+$alert-error-color = $color-red
+$alert-warn-color = $color-yellow
+
+alert-bg-color($color)
+  background-color alpha($color, 0.1)
+
+.alert
+  padding 10px 10px 10px 20px
+  color $alert-default-color
+  border-left-width 4px
+  border-left-style solid
+  border-left-color $alert-default-color
+  border-radius(0 3px 3px 0)
+  alert-bg-color($alert-default-color)
+  &.alert-success
+    color $alert-success-color
+    border-left-color $alert-success-color
+    alert-bg-color($alert-success-color)
+  &.alert-error
+    color $alert-error-color
+    border-left-color $alert-error-color
+    alert-bg-color($alert-error-color)
+  &.alert-warn
+    color $alert-warn-color
+    border-left-color $alert-warn-color
+    alert-bg-color($alert-warn-color)
+  &.alert-hidden
+    display none

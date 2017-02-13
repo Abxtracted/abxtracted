@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "ggrid": "^1.0.0",
-    "ionicons": "^3.0.0",
+    "ionicons": "^2.0.1",
     "jquery": "^3.1.1",
     "requirejs": "^2.3.2"
   }

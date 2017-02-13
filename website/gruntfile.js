@@ -140,8 +140,8 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'uglify',
     'concat',
-    'stylus',
-    'copy',
+    'stylus:source',
+    'copy:index',
     'imagemin'
   ]);
 

@@ -43,7 +43,7 @@
       "vendor": {
         "files": [
           "node_modules/ggrid/dist/ggrid.min.css",
-          "node_modules/ionicons/dist/css/ionicons.min.css"
+          "node_modules/ionicons/css/ionicons.min.css"
         ]
       },
       "dist": {
@@ -64,7 +64,7 @@
     },
     "fonts": {
       "icons": {
-        "root": "node_modules/ionicons/dist/fonts/"
+        "root": "node_modules/ionicons/fonts/"
       },
       "dist": {
         "vendor": {

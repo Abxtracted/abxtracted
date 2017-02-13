@@ -1,11 +1,13 @@
-define('app', ['routes'], function(routes){
+define('app', [
+    'routes'
+  ], function(routes){
 
-  var _public = {};
+    var _public = {};
 
-  _public.init = function(){
+    _public.init = function(){
+      routes.initViewModule();
+    }
 
-  }
-
-  return _public;
+    return _public;
 
 });

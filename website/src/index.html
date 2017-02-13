@@ -21,32 +21,33 @@
     <link rel="stylesheet" href="dist/styles/bundle.min.css?@@fingerprint" />
   </head>
   <body>
-    <div class="topbar">
-      <div class="logo"></div>
-      <div class="menu-primary-container">
-        <ul class="menu-primary">
-          <li class="menu-primary-item">
-            <i class="ion-fireball"></i>
-            <a href="#benefits">
-              Benefits
-            </a>
-          </li>
-          <li class="menu-primary-item">
-            <a href="#pricing">
-              Pricing
-            </a>
-          </li>
-          <li class="menu-primary-item">
-            <a href="#contactus">
-              Contact us
-            </a>
-          </li>
-          <li class="menu-primary-item">
-            <a href="javascript:void(0)">
-              Login
-            </a>
-          </li>
-        </ul>
+    <div class="topbar-container">
+      <div class="topbar">
+        <div class="logo"></div>
+        <div class="menu-primary-container">
+          <ul class="menu-primary" data-js="menu-primary">
+            <li class="menu-primary-item">
+              <a href="javascript:void(0)" data-menu-item-section="benefits">
+                Benefits
+              </a>
+            </li>
+            <li class="menu-primary-item">
+              <a href="javascript:void(0)" data-menu-item-section="pricing">
+                Pricing
+              </a>
+            </li>
+            <li class="menu-primary-item">
+              <a href="javascript:void(0)" data-menu-item-section="contact">
+                Contact us
+              </a>
+            </li>
+            <li class="menu-primary-item">
+              <a href="http://0.0.0.0:3000">
+                Login
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -54,16 +55,17 @@
       <h1>
         Get experiments complexity abxtracted and make your AB tests trustable.
       </h1>
-      <button class="button button-primary">
+      <button class="button button-primary" href="http://0.0.0.0:3000">
         Try it for free
       </button>
-      <button class="button button-secondary">
+      <button class="button button-secondary"
+        data-js="home-intro-secondary-button">
         See the benefits
       </button>
     </section>
 
 
-    <section class="section-home-benefits">
+    <section class="section-home-benefits" data-js="section-benefits">
       <div class="gg-box">
         <div class="gg-row">
           <div class="gg-col-12">
@@ -135,7 +137,7 @@
             </h1>
           </div>
           <div class="cta-bar-button-container">
-            <a href="javascript:void(0)" class="button button-primary">
+            <a href="http://0.0.0.0:3000" class="button button-primary">
               Start now
             </a>
           </div>
@@ -143,7 +145,7 @@
       </div>
     </section>
 
-    <section class="section-home-pricing">
+    <section class="section-home-pricing" data-js="section-pricing">
       <div class="gg-box">
         <div class="gg-row">
           <div class="gg-col-12">
@@ -176,7 +178,8 @@
       </div>
     </section>
 
-    <section class="section-secondary section-angled section-home-contact">
+    <section class="section-secondary section-angled section-home-contact"
+      data-js="section-contact">
       <div class="gg-box">
         <div class="gg-row">
           <div class="gg-col-12">
@@ -188,31 +191,35 @@
             <div class="gg-col-12">
               <div class="contact-form-container">
                 <div class="contact-form">
-                  <form>
-                    <div class="form-item">
-                      <label>
-                        Name
-                      </label>
-                      <input type="text" required/>
-                    </div>
-                    <div class="form-item">
-                      <label>
-                        Email
-                      </label>
-                      <input type="email" required/>
-                    </div>
-                    <div class="form-item">
-                      <label>
-                        Any question? Write here:
-                      </label>
-                      <textarea required></textarea>
-                    </div>
-                    <div class="form-item">
-                      <button type="submit" class="button button-primary">
-                        Submit
-                      </button>
-                    </div>
-                  </form>
+                  <div class="alert alert-hidden" data-js="contact-form-alert">
+                  </div>
+                  <div class="form-container">
+                    <form data-js="contact-form">
+                      <div class="form-item">
+                        <label>
+                          Name
+                        </label>
+                        <input type="text" data-js="contact-name" required/>
+                      </div>
+                      <div class="form-item">
+                        <label>
+                          Email
+                        </label>
+                        <input type="email" data-js="contact-email" required/>
+                      </div>
+                      <div class="form-item">
+                        <label>
+                          Any question? Write here:
+                        </label>
+                        <textarea data-js="contact-message" required></textarea>
+                      </div>
+                      <div class="form-item">
+                        <button type="submit" class="button button-primary">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -230,7 +237,7 @@
             </h1>
           </div>
           <div class="cta-bar-button-container">
-            <a href="javascript:void(0)" class="button button-primary">
+            <a href="http://0.0.0.0:3000" class="button button-primary">
               Start now
             </a>
           </div>
