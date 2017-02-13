@@ -33,9 +33,11 @@ public class GoogleAuthFilter implements Filter {
 			"/auth/callback",
 			"/monitoring",
 			"/public/",
-			"**/*.js",
-			"**/*.css",
-			"**/*.html"
+			"*.js",
+			"*.css",
+			"*.html",
+			"/images/*",
+			"/fonts/*"
 	);
 
 	@Override
