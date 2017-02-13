@@ -47,6 +47,14 @@ module.exports = function(grunt) {
     },
 
     'copy': {
+      index: {
+        files: [{
+          expand: true,
+          cwd: project.paths.index.source.root,
+          src: ['index.html'],
+          dest: project.paths.index.dist.root
+        }]
+      },
       fonticons: {
         files: [{
           expand: true,
@@ -75,6 +83,12 @@ module.exports = function(grunt) {
     },
 
     'watch': {
+      index: {
+        files: [
+          project.paths.index.source.file
+        ],
+        tasks: ['copy:index']
+      },
       scripts: {
         files: [
           project.paths.scripts.source.main,
@@ -90,6 +104,23 @@ module.exports = function(grunt) {
       styles: {
         files: project.paths.styles.source.files,
         tasks: ['stylus']
+      }
+    },
+
+    'replace': {
+      fingerprint: {
+        options: {
+          patterns: [{
+            match: 'fingerprint',
+            replacement: new Date().getTime()
+          }]
+        },
+        files: [{
+          expand: true,
+          flatten: true,
+          src: project.paths.index.dist.file,
+          dest: project.paths.index.dist.root
+        }]
       }
     },
 
@@ -118,6 +149,11 @@ module.exports = function(grunt) {
     'build',
     'http-server',
     'watch'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'build',
+    'replace'
   ]);
 
 }

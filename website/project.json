@@ -1,5 +1,15 @@
 {
   "paths": {
+    "index": {
+      "source": {
+        "root": "src",
+        "file": "src/index.html"
+      },
+      "dist": {
+        "root": "./",
+        "file": "./index.html"
+      }
+    },
     "scripts": {
       "source": {
         "root": "src/scripts/",
