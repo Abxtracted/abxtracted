@@ -7,13 +7,22 @@ Para rodar o projeto em ambiente de desenvolvimento é necessário:
  - Java 1.8
  - Maven
  - Postgres
- 
+
 #### Executando a aplicação
-```sh
-$ mvn clean install
-$ java -jar target/api-1.0-SNAPSHOT.jar
+
+##### Cria um jar com tudo:
+
+```console
+$ gulp --cwd ./webapp prod
+$ mvn clean install -f ./app/pom.xml
+$ java -jar ./app/target/api-1.0-SNAPSHOT.jar
+$ open http://localhost:8080
 ```
-ou
+
+##### Roda em "modo dev":
+
 ```sh
-$ mvn spring-boot:run
+$ gulp --cwd ./webapp
+$ mvn spring-boot:run -f ./app/pom.xml
+$ open http://localhost:3000
 ```
