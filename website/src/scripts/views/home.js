@@ -3,7 +3,8 @@ define('views/home', [
   ], function(contactService){
 
     var _public = {};
-    var primaryMenuItemsElement,
+    var topbarElement,
+      primaryMenuItemsElement,
       contactFormElement,
       contactAlertElement,
       homeIntroSecondaryButton;
@@ -14,6 +15,7 @@ define('views/home', [
     };
 
     function bindElements(){
+      topbarElement = $('[data-js=topbar]');
       primaryMenuItemsElement = $('a, [data-js=primary-menu]');
       homeIntroSecondaryButton = $('[data-js="home-intro-secondary-button"]')
       contactAlertElement = $('[data-js=contact-form-alert]');
@@ -37,7 +39,7 @@ define('views/home', [
     function goToSection(section){
       var sectionOffset = $('[data-js=section-' + section + ']').offset();
       $('html, body').animate({
-        scrollTop: sectionOffset.top
+        scrollTop: sectionOffset.top - topbarElement.outerHeight()
       }, 1000, 'swing');
     }
 

@@ -23,9 +23,13 @@ a
   border-width 1px
   border-style solid
   border-color $color-grey
+  outline 0
   cursor pointer
   border-radius(3px)
   box-sizing(border-box)
+  &:hover,
+  &:active
+    outline 0
   &.button-primary,
   &.button-secondary
     padding 0 20px
@@ -38,6 +42,7 @@ a
     &:active
       background-color $color-blue-semi-light
       border-color $color-primary
+      outline 0
   &.button-secondary
     background-color transparent
     color $color-white
