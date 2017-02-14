@@ -15,6 +15,8 @@ import com.abxtract.repositories.ScenarioRepository;
 import com.abxtract.services.experiment.statistics.Confidence;
 import com.abxtract.services.experiment.statistics.MarginOfErrorCalculation;
 import com.abxtract.services.experiment.statistics.SampleSizeCalculation;
+import com.abxtract.services.experiment.statistics.SimpleChiSquare;
+import com.abxtract.services.experiment.statistics.SimplePValue;
 
 @Service
 public class ExperimentDataCalculation {
@@ -38,20 +40,35 @@ public class ExperimentDataCalculation {
 		Double marginOfError = new MarginOfErrorCalculation( confidence,
 				expectedProportion, sampleSize.doubleValue() ).calculate();
 
-		return new ExperimentResultDTO( experiment.getName(),
-				sampleSize, minSampleSize, marginOfError, retrieveVersions( experimentId ) );
+		List<ExperimentResultDTO.ScenarioResult> scenarios = retrieveVersions( experimentId );
+		SimpleChiSquare chiSquareCalculator = new SimpleChiSquare();
+		Double chiSquare = chiSquareCalculator.calculate( scenarios.get( 0 ).getSampleSize(),
+				scenarios.get( 0 ).getConverted(),
+				scenarios.get( 1 ).getSampleSize(),
+				scenarios.get( 1 ).getConverted() );
 
+		Double pValue = new SimplePValue().fromChiSquare( chiSquare );
+
+		return ExperimentResultDTO.builder()
+				.name( experiment.getName() )
+				.sampleSize( sampleSize )
+				.minSampleSize( minSampleSize )
+				.marginOfError( marginOfError )
+				.chiSquare( chiSquare )
+				.pValue( pValue )
+				.scenarios( scenarios )
+				.build();
 	}
 
-	public List<ExperimentResultDTO.VersionResult> retrieveVersions(String experimentId) {
+	public List<ExperimentResultDTO.ScenarioResult> retrieveVersions(String experimentId) {
 		List<Scenario> scenarios = scenarioRepository.findByExperimentId( experimentId );
 
 		return scenarios.stream().map( this::buildVersionResult ).collect( Collectors.toList() );
 	}
 
-	private ExperimentResultDTO.VersionResult buildVersionResult(Scenario scenario) {
+	private ExperimentResultDTO.ScenarioResult buildVersionResult(Scenario scenario) {
 		Long sampleSize = customerScenarioRepository.countByScenarioId( scenario.getId() );
 		Long converted = customerScenarioRepository.countCompletedByScenarioId( scenario.getId() );
-		return new ExperimentResultDTO.VersionResult( scenario.getId(), scenario.getName(), sampleSize, converted );
+		return new ExperimentResultDTO.ScenarioResult( scenario.getId(), scenario.getName(), sampleSize, converted );
 	}
 }
