@@ -106,8 +106,14 @@ gulp.task('serve', function(){
       host: '0.0.0.0'
     }));
 });
+
+gulp.task('spring', function() {
+  return gulp.src('www/**')
+    .pipe(gulp.dest('../app/src/main/resources/public/'));
+});
+
 gulp.task('js', ['js:lib', 'js:app']);
 gulp.task('css', ['css:lib', 'css:app']);
 gulp.task('build', ['js', 'css', 'templates', 'images', 'fonts', 'index']);
-
 gulp.task('default', ['build', 'serve', 'watch']);
+gulp.task('prod', ['build', 'spring'])
