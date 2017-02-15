@@ -6,11 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.abxtract.dtos.ExperimentResultDTO;
+import com.abxtract.dtos.ExperimentViewDTO;
+import com.abxtract.dtos.ScenarioDTO;
 import com.abxtract.models.Experiment;
+import com.abxtract.models.ExperimentResult;
 import com.abxtract.models.Scenario;
 import com.abxtract.repositories.CustomerScenarioRepository;
 import com.abxtract.repositories.ExperimentRepository;
+import com.abxtract.repositories.ExperimentResultRepository;
 import com.abxtract.repositories.ScenarioRepository;
 import com.abxtract.services.experiment.statistics.Confidence;
 import com.abxtract.services.experiment.statistics.MarginOfErrorCalculation;
@@ -30,9 +33,15 @@ public class ExperimentDataCalculation {
 	@Autowired
 	private ScenarioRepository scenarioRepository;
 
-	public ExperimentResultDTO sumarize(String experimentId) {
+	@Autowired
+	private ExperimentResultRepository experimentResultRepository;
+
+	public ExperimentViewDTO sumarize(String experimentId) {
 		Experiment experiment = experimentRepository.findOne( experimentId );
 		Long sampleSize = customerScenarioRepository.countByExperimentId( experimentId );
+		ExperimentResult result = experimentResultRepository.findByExperimentId( experimentId );
+		ScenarioDTO winnerScenario = result != null ? new ScenarioDTO( result.getScenario() ) : null;
+
 		Double confidence = Confidence.CONFIDENCE_95;
 		Double expectedProportion = 0.5;
 		Double minSampleSize = new SampleSizeCalculation( confidence,
@@ -40,16 +49,16 @@ public class ExperimentDataCalculation {
 		Double marginOfError = new MarginOfErrorCalculation( confidence,
 				expectedProportion, sampleSize.doubleValue() ).calculate();
 
-		List<ExperimentResultDTO.ScenarioResult> scenarios = retrieveVersions( experimentId );
-		SimpleChiSquare chiSquareCalculator = new SimpleChiSquare();
-		Double chiSquare = chiSquareCalculator.calculate( scenarios.get( 0 ).getSampleSize(),
+		List<ExperimentViewDTO.ScenarioResult> scenarios = retrieveVersions( experimentId );
+
+		Double chiSquare = new SimpleChiSquare().calculate( scenarios.get( 0 ).getSampleSize(),
 				scenarios.get( 0 ).getConverted(),
 				scenarios.get( 1 ).getSampleSize(),
 				scenarios.get( 1 ).getConverted() );
 
 		Double pValue = new SimplePValue().fromChiSquare( chiSquare );
 
-		return ExperimentResultDTO.builder()
+		return ExperimentViewDTO.builder()
 				.name( experiment.getName() )
 				.sampleSize( sampleSize )
 				.minSampleSize( minSampleSize )
@@ -57,18 +66,19 @@ public class ExperimentDataCalculation {
 				.chiSquare( chiSquare )
 				.pValue( pValue )
 				.scenarios( scenarios )
+				.winner( winnerScenario )
 				.build();
 	}
 
-	public List<ExperimentResultDTO.ScenarioResult> retrieveVersions(String experimentId) {
+	public List<ExperimentViewDTO.ScenarioResult> retrieveVersions(String experimentId) {
 		List<Scenario> scenarios = scenarioRepository.findByExperimentId( experimentId );
 
 		return scenarios.stream().map( this::buildVersionResult ).collect( Collectors.toList() );
 	}
 
-	private ExperimentResultDTO.ScenarioResult buildVersionResult(Scenario scenario) {
+	private ExperimentViewDTO.ScenarioResult buildVersionResult(Scenario scenario) {
 		Long sampleSize = customerScenarioRepository.countByScenarioId( scenario.getId() );
 		Long converted = customerScenarioRepository.countCompletedByScenarioId( scenario.getId() );
-		return new ExperimentResultDTO.ScenarioResult( scenario.getId(), scenario.getName(), sampleSize, converted );
+		return new ExperimentViewDTO.ScenarioResult( scenario.getId(), scenario.getName(), sampleSize, converted );
 	}
 }

@@ -13,6 +13,7 @@ import com.abxtract.models.Customer;
 import com.abxtract.models.CustomerCheckpoint;
 import com.abxtract.models.CustomerScenario;
 import com.abxtract.models.Experiment;
+import com.abxtract.models.ExperimentResult;
 import com.abxtract.models.Project;
 import com.abxtract.models.Scenario;
 import com.abxtract.models.Tenant;
@@ -21,6 +22,7 @@ import com.abxtract.repositories.CustomerCheckpointRepository;
 import com.abxtract.repositories.CustomerRepository;
 import com.abxtract.repositories.CustomerScenarioRepository;
 import com.abxtract.repositories.ExperimentRepository;
+import com.abxtract.repositories.ExperimentResultRepository;
 import com.abxtract.repositories.ProjectRepository;
 import com.abxtract.repositories.ScenarioRepository;
 
@@ -49,6 +51,9 @@ public class PublicCustomerController {
 	@Autowired
 	private CustomerCheckpointRepository customerCheckpointRepository;
 
+	@Autowired
+	private ExperimentResultRepository experimentResultRepository;
+
 	@RequestMapping("experiment/{experimentKey}")
 	public CustomerScenarioDTO raffle(@PathVariable String projectId, @PathVariable String customerIdentity,
 			@PathVariable String experimentKey) {
@@ -56,6 +61,11 @@ public class PublicCustomerController {
 		Tenant tenant = project.getTenant();
 		Customer customer = asLocalCustomer( customerIdentity, tenant );
 		Experiment experiment = experimentRepository.findByProjectAndKey( projectId, experimentKey );
+		ExperimentResult result = experimentResultRepository.findByExperimentId( experiment.getId() );
+
+		if (result != null)
+			return new CustomerScenarioDTO( customerIdentity, experimentKey, result.getScenario().getKey() );
+
 		CustomerScenario customerScenario = customerScenarioRepository.findByCustomerAndExperimentRevision( projectId,
 				experiment.getId(), customerIdentity );
 		if (customerScenario != null)
@@ -83,7 +93,8 @@ public class PublicCustomerController {
 		Tenant tenant = project.getTenant();
 		Customer customer = asLocalCustomer( customerIdentity, tenant );
 		Experiment experiment = experimentRepository.findByProjectAndKey( projectId, experimentKey );
-		if (experiment != null) {
+		ExperimentResult result = experimentResultRepository.findByExperimentId( experiment.getId() );
+		if (experiment != null && result == null) {
 			Checkpoint checkpoint = checkpointRepository
 					.findExperimentRevisionAndKey( projectId, experiment.getId(), checkpointKey );
 			if (checkpoint != null) {
