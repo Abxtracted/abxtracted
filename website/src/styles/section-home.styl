@@ -1,0 +1,38 @@
+@require '_variables'
+@require '_mixins'
+
+.section-home-intro
+  padding 220px 0
+  text-align center
+  h1
+    margin 0 auto
+    max-width 690px
+  bg-gradient-vertical($color-purple, $color-blue-semi-dark)
+  .button
+    margin 30px 25px 0
+    min-width 200px
+
+.section-home-benefits
+  .list-vectors
+    margin-top 90px
+
+.section-home-pricing
+  .price-bang-container
+    margin-top 80px
+  .caption
+    margin-top 40px
+    text-align center
+
+.section-home-contact
+  display block
+  .contact-form-container
+    margin 80px auto 0
+    max-width 340px
+  textarea
+    min-height 200px
+
++breakpoint('xs')
+  .section-home-intro
+    padding 165px 0 220px
+    h1
+      padding 0 25px

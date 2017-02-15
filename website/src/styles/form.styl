@@ -1,0 +1,15 @@
+@require '_variables'
+@require '_mixins'
+
+.form-container
+  background-position center top
+  background-repeat no-repeat
+  background-image('loader.svg')
+
+form
+  background-color $color-white
+  &.form-sending
+    opacity 0.1
+
+.form-item
+  margin-top 30px

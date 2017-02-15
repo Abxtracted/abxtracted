@@ -1,0 +1,98 @@
+@import '_variables'
+
+background-image($filename)
+  background-image url($path-images + $filename + '?@@timestamp')
+
+bg-gradient-vertical($top-color, $bottom-color)
+  background $top-color /* Old browsers */
+  background -moz-linear-gradient(top,  $top-color 0%, $bottom-color 100%) /* FF3.6-15 */
+  background -webkit-linear-gradient(top,  $top-color 0%,$bottom-color 100%) /* Chrome10-25,Safari5.1-6 */
+  background linear-gradient(to bottom,  $top-color 0%,$bottom-color 100%) /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+border-radius($radius)
+  -webkit-border-radius $radius
+  -moz-border-radius    $radius
+  border-radius         $radius
+
+box-shadow($shadow)
+  -webkit-box-shadow  $shadow
+  -moz-box-shadow     $shadow
+  box-shadow          $shadow
+
+box-sizing($property)
+  -webkit-box-sizing  $property
+  -moz-box-sizing     $property
+  box-sizing          $property
+
+clearfix()
+  zoom 1
+  &:after
+    content " "
+    display table
+    clear both
+
+transform($property)
+  -webkit-transform $property
+  -moz-transform    $property
+  -ms-transform     $property
+  -o-transform      $property
+  transform         $property
+
+transform-origin($x, $y)
+  -webkit-transform-origin $x $y
+  -ms-transform-origin $x $y
+  transform-origin $x $y
+
+transition($property, $time)
+  -webkit-transition  $property $time $animation-ease-default
+  -moz-transition     $property $time $animation-ease-default
+  -o-transition       $property $time $animation-ease-default
+  transition          $property $time $animation-ease-default
+
+translate-2d($x, $y)
+  -webkit-transform  translate($x, $y)
+  -moz-transform     translate($x, $y)
+  -ms-transform      translate($x, $y)
+  -o-transform       translate($x, $y)
+  transform          translate($x, $y)
+
+translate-3d($properties)
+  -webkit-transform translate3d(unquote($properties))
+  -moz-transform    translate3d(unquote($properties))
+  -ms-transform     translate3d(unquote($properties))
+  -o-transform      translate3d(unquote($properties))
+  transform         translate3d(unquote($properties))
+
+unselectable()
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-user-select:     -moz-none;
+  -khtml-user-select:   none;
+  -webkit-user-select:  none;
+  -o-user-select:       none;
+  user-select:          none;
+
+webkit-appearance($property)
+  -webkit-appearance $property
+
+breakpoint($size)
+  if($size == 'xs')
+    @media screen and (max-width $screen-xs-max)
+      {block}
+  else if ($size == 'xs-sm')
+    @media screen and (max-width $screen-sm-max)
+      {block}
+  else if ($size == 'sm')
+    @media screen and (min-width $screen-xs-max) and (max-width $screen-sm-max)
+      {block}
+  else if ($size == 'sm-md')
+    @media screen and (min-width $screen-sm-min) and (max-width $screen-md-max)
+      {block}
+  else if ($size == 'md')
+    @media screen and (min-width $screen-sm-max) and (max-width $screen-md-max)
+      {block}
+  else if ($size == 'md-lg')
+    @media screen and (min-width $screen-md-max) and (max-width $screen-lg-min)
+      {block}
+  else if ($size == 'lg')
+    @media screen and (min-width $screen-lg-min)
+      {block}

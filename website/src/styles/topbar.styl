@@ -1,0 +1,31 @@
+@require '_variables'
+@require '_mixins'
+
+.topbar-container
+  position fixed
+  top 0
+  left 0
+  right 0
+  background-color $color-purple
+  z-index $layer-low
+
+.topbar
+  margin 0 auto
+  padding 15px 0
+  width 95%
+  max-width 960px
+  clearfix()
+  .logo
+    float left
+  .menu-primary-container
+    float right
+
++breakpoint('xs')
+  .topbar
+    .logo
+      float none
+      margin 0 auto
+    .menu-primary-container
+      float none
+      margin 15px auto 0
+      width 300px

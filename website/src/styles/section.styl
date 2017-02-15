@@ -1,0 +1,42 @@
+@require '_variables'
+@require '_mixins'
+
+section
+  position relative
+  padding 50px 0
+  overflow hidden
+  &.section-primary
+    background-color $color-blue-dark
+  &.section-secondary
+    background-color $color-white
+    color $color-blue-dark
+  input,
+  textarea
+    border 1px solid $color-blue-dark
+  &.section-angled
+    padding 100px 0 50px
+    &:before
+      position absolute
+      content ' '
+      top -100px
+      left 0
+      right -10px
+      background-color $color-blue-semi-dark
+      height 100px
+      transform-origin(0, 100%)
+      transform(rotate(2deg))
+  .section-title
+    position relative
+    margin 0 auto
+    padding 0 0 20px
+    text-align center
+    line-height 1
+    &:after
+      position absolute
+      top 100%
+      left 50%
+      content ' '
+      margin-left -40px
+      width 80px
+      height 1px
+      border-bottom 4px solid $color-primary
