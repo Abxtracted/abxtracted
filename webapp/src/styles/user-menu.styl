@@ -1,0 +1,17 @@
+@require '_variables'
+@require '_mixins'
+
+.user-menu
+  margin 0
+  padding 0
+  list-style-type none
+  .user-menu-item-link
+    position relative
+    padding-left 20px
+    color $color-white
+    text-decoration none
+    .icon
+      position absolute
+      top 50%
+      left 0
+      transform('translate(0,-50%)')
