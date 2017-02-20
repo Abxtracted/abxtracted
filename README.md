@@ -23,6 +23,6 @@ $ open http://localhost:8080
 
 ```sh
 $ gulp --cwd ./webapp
-$ mvn spring-boot:run -f ./app/pom.xml
+$ (cd app; mvn spring-boot:run)
 $ open http://localhost:3000
 ```
