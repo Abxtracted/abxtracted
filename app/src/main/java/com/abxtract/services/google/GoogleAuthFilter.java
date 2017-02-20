@@ -37,7 +37,8 @@ public class GoogleAuthFilter implements Filter {
 			"*.css",
 			"*.html",
 			"/images/*",
-			"/fonts/*"
+			"/fonts/*",
+			"/"
 	);
 
 	@Override
