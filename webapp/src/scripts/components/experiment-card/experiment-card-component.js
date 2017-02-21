@@ -4,6 +4,11 @@
   function experimentCardController(BROADCAST, experimentsResource, broadcastService){
     var _public = this;
 
+    var SELECT_AS_WINNER_CONFIRM_MESSAGE =  'Are you sure you want select this ' +
+                                            'version as winner? Clicking OK, ' +
+                                            'only this version will be shown. ' +
+                                            'This action cannot be undone.'
+
     _public.detailsButtonLabel = 'See details';
 
     _public.removeExperiment = function(experiment){
@@ -14,6 +19,19 @@
         }, function(){
           onDestroyExperimentSuccess(experiment)
         }, onDestroyExperimentError);
+    }
+
+    _public.getConversionRate = function(sampleSize, converted){
+      if(sampleSize)
+        return ((converted / sampleSize) * 100).toFixed(2);
+      return 0;
+    }
+
+    _public.selectAsWinner = function(scenario){
+      if(confirm(SELECT_AS_WINNER_CONFIRM_MESSAGE))
+        console.log(scenario.name + ' was selected as winner!');
+      else
+        console.log('no scenario selected as winner...');
     }
 
     function onDestroyExperimentSuccess(experiment){

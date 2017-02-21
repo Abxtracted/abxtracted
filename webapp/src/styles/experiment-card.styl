@@ -67,7 +67,8 @@ $card-border = 1px solid alpha($color-white, 0.25)
 
 .experiment-card-detail-label
   @extend label
-  margin-top 10px
+  &:not(:first-child)
+    margin-top 10px
 
 .experiment-card-details-button
   margin-top 21px
@@ -79,3 +80,39 @@ $card-border = 1px solid alpha($color-white, 0.25)
   cursor pointer
   &:hover
     background-color alpha($color-white, 0.2)
+
+.experiment-card-results-container
+  margin 20px -20px -30px
+  padding 20px 0 0
+  border-top 1px solid alpha($color-blue-dark, 0.75)
+  box-sizing(border-box)
+  clearfix()
+
+.experiment-card-result
+  float left
+  width 50%
+  text-align center
+  box-sizing(border-box)
+
+.experiment-card-result-label
+  @extend label
+
+.experiment-card-result-value
+  display inline-block
+  margin-top 5px
+  position relative
+  font-size $font-size-xl
+  &:after
+    position absolute
+    content '%'
+    top 50%
+    right -15px
+    font-size 0.5em
+    transform('translate(0,-50%)')
+
+.experiment-card-result-action
+  margin 20px 1px 0
+  font-size $font-size-xxs
+  text-transform uppercase
+  .button
+    padding 0
