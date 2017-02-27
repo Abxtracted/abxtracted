@@ -29,7 +29,8 @@ public class ExperimentRepositoryImpl implements ExperimentsQueries {
 				EXPERIMENT.createdAt,
 				EXPERIMENT.updatedAt,
 				EXPERIMENT.deletedAt,
-				EXPERIMENT_RESULT.scenario );
+				EXPERIMENT_RESULT.scenario,
+				EXPERIMENT.project );
 		return new JPAQuery<ExperimentListingProjection>( entityManager )
 				.select( projection )
 				.from( EXPERIMENT_RESULT )

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import lombok.Getter;
 
+import com.abxtract.models.Project;
 import com.abxtract.models.Scenario;
 import com.querydsl.core.annotations.QueryProjection;
 
@@ -16,10 +17,11 @@ public class ExperimentListingProjection {
 	private final Date updatedAt;
 	private final Date deletedAt;
 	private final Scenario result;
+	private final Project project;
 
 	@QueryProjection
 	public ExperimentListingProjection(String id, String name, String key, Date createdAt, Date updatedAt,
-			Date deletedAt, Scenario result) {
+			Date deletedAt, Scenario result, Project project) {
 		this.id = id;
 		this.name = name;
 		this.key = key;
@@ -27,5 +29,6 @@ public class ExperimentListingProjection {
 		this.updatedAt = updatedAt;
 		this.deletedAt = deletedAt;
 		this.result = result;
+		this.project = project;
 	}
 }

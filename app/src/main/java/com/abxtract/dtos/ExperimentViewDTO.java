@@ -6,10 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import com.abxtract.models.Project;
+
 @Getter
 @Builder
 @AllArgsConstructor
 public class ExperimentViewDTO {
+	private final Project project;
 	private final String name;
 	private final Long sampleSize;
 	private final Double minSampleSize;

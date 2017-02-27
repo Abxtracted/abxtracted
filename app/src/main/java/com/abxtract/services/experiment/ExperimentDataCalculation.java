@@ -67,6 +67,7 @@ public class ExperimentDataCalculation {
 				.pValue( pValue )
 				.scenarios( scenarios )
 				.result( winnerScenario )
+				.project( experiment.getProject() )
 				.build();
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abxtract.dtos.CustomerScenarioDTO;
+import com.abxtract.exceptions.NotFoundException;
 import com.abxtract.models.Checkpoint;
 import com.abxtract.models.Customer;
 import com.abxtract.models.CustomerCheckpoint;
@@ -57,15 +58,12 @@ public class PublicCustomerController {
 	@RequestMapping("experiment/{experimentKey}")
 	public CustomerScenarioDTO raffle(@PathVariable String projectId, @PathVariable String customerIdentity,
 			@PathVariable String experimentKey) {
-		Project project = projectRepository.findOne( projectId );
-		Tenant tenant = project.getTenant();
-		Customer customer = asLocalCustomer( customerIdentity, tenant );
-		Experiment experiment = experimentRepository.findByProjectAndKey( projectId, experimentKey );
+		Experiment experiment = retrieveExperiment( projectId, experimentKey );
 		ExperimentResult result = experimentResultRepository.findByExperimentId( experiment.getId() );
-
 		if (result != null)
 			return new CustomerScenarioDTO( customerIdentity, experimentKey, result.getScenario().getKey() );
-
+		Tenant tenant = experiment.getProject().getTenant();
+		Customer customer = asLocalCustomer( customerIdentity, tenant );
 		CustomerScenario customerScenario = customerScenarioRepository.findByCustomerAndExperimentRevision( projectId,
 				experiment.getId(), customerIdentity );
 		if (customerScenario != null)
@@ -89,11 +87,10 @@ public class PublicCustomerController {
 	@RequestMapping("experiment/{experimentKey}/check/{checkpointKey}")
 	public void check(@PathVariable String projectId, @PathVariable String customerIdentity,
 			@PathVariable String experimentKey, @PathVariable String checkpointKey) {
-		Project project = projectRepository.findOne( projectId );
-		Tenant tenant = project.getTenant();
-		Customer customer = asLocalCustomer( customerIdentity, tenant );
-		Experiment experiment = experimentRepository.findByProjectAndKey( projectId, experimentKey );
+		Experiment experiment = retrieveExperiment( projectId, experimentKey );
 		ExperimentResult result = experimentResultRepository.findByExperimentId( experiment.getId() );
+		Tenant tenant = experiment.getProject().getTenant();
+		Customer customer = asLocalCustomer( customerIdentity, tenant );
 		if (experiment != null && result == null) {
 			Checkpoint checkpoint = checkpointRepository
 					.findExperimentRevisionAndKey( projectId, experiment.getId(), checkpointKey );
@@ -104,6 +101,16 @@ public class PublicCustomerController {
 				customerCheckpointRepository.save( customerCheckpoint );
 			}
 		}
+	}
+
+	private Experiment retrieveExperiment(@PathVariable String projectId, @PathVariable String experimentKey) {
+		Project project = projectRepository.findOne( projectId );
+		if (project == null)
+			throw new NotFoundException( "Project not found: " + projectId );
+		Experiment experiment = experimentRepository.findByProjectAndKey( projectId, experimentKey );
+		if (experiment == null)
+			throw new NotFoundException( "Experiment not found: " + experimentKey );
+		return experiment;
 	}
 
 	private Customer asLocalCustomer(String customerIdentity, Tenant tenant) {
