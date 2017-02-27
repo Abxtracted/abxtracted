@@ -74,7 +74,7 @@ public class ExperimentDataCalculation {
 	private ExperimentStatus calcStatus(Double pValue, Double marginOfError, Double rate) {
 		Double alternativeRate = 1D - rate;
 		boolean isValidRate = !(rate < (marginOfError + alternativeRate) || alternativeRate < (marginOfError + rate));
-		if (pValue <= 0.05 && marginOfError < 0.25)
+		if (pValue <= 0.05 && marginOfError < 0.025)
 			if (isValidRate)
 				return ExperimentStatus.VALID;
 			else
