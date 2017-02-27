@@ -15,12 +15,12 @@ public class ExperimentViewDTO {
 	private final Project project;
 	private final String name;
 	private final Long sampleSize;
-	private final Double minSampleSize;
 	private final Double marginOfError;
 	private final List<ScenarioResult> scenarios;
 	private final Double chiSquare;
 	private final Double pValue;
 	private final ScenarioDTO result;
+	private final String status;
 
 	@Getter
 	@AllArgsConstructor
@@ -29,5 +29,6 @@ public class ExperimentViewDTO {
 		private final String name;
 		private final Long sampleSize;
 		private final Long converted;
+		private final Double rate;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.abxtract.dtos.ExperimentStatus;
 import com.abxtract.dtos.ExperimentViewDTO;
 import com.abxtract.dtos.ScenarioDTO;
 import com.abxtract.models.Experiment;
@@ -17,7 +18,6 @@ import com.abxtract.repositories.ExperimentResultRepository;
 import com.abxtract.repositories.ScenarioRepository;
 import com.abxtract.services.experiment.statistics.Confidence;
 import com.abxtract.services.experiment.statistics.MarginOfErrorCalculation;
-import com.abxtract.services.experiment.statistics.SampleSizeCalculation;
 import com.abxtract.services.experiment.statistics.SimpleChiSquare;
 import com.abxtract.services.experiment.statistics.SimplePValue;
 
@@ -44,8 +44,6 @@ public class ExperimentDataCalculation {
 
 		Double confidence = Confidence.CONFIDENCE_95;
 		Double expectedProportion = 0.5;
-		Double minSampleSize = new SampleSizeCalculation( confidence,
-				expectedProportion, 0.02 ).calculate();
 		Double marginOfError = new MarginOfErrorCalculation( confidence,
 				expectedProportion, sampleSize.doubleValue() ).calculate();
 
@@ -58,17 +56,30 @@ public class ExperimentDataCalculation {
 
 		Double pValue = new SimplePValue().fromChiSquare( chiSquare );
 
+		ExperimentStatus status = calcStatus( pValue, marginOfError, scenarios.get( 0 ).getRate() );
+
 		return ExperimentViewDTO.builder()
 				.name( experiment.getName() )
 				.sampleSize( sampleSize )
-				.minSampleSize( minSampleSize )
 				.marginOfError( marginOfError )
 				.chiSquare( chiSquare )
 				.pValue( pValue )
 				.scenarios( scenarios )
 				.result( winnerScenario )
 				.project( experiment.getProject() )
+				.status( status.name().toLowerCase() )
 				.build();
+	}
+
+	private ExperimentStatus calcStatus(Double pValue, Double marginOfError, Double rate) {
+		Double alternativeRate = 1D - rate;
+		boolean isValidRate = !(rate < (marginOfError + alternativeRate) || alternativeRate < (marginOfError + rate));
+		if (pValue <= 0.05 && marginOfError < 0.25)
+			if (isValidRate)
+				return ExperimentStatus.VALID;
+			else
+				return ExperimentStatus.INVALID;
+		return ExperimentStatus.TESTING;
 	}
 
 	public List<ExperimentViewDTO.ScenarioResult> retrieveVersions(String experimentId) {
@@ -80,6 +91,8 @@ public class ExperimentDataCalculation {
 	private ExperimentViewDTO.ScenarioResult buildVersionResult(Scenario scenario) {
 		Long sampleSize = customerScenarioRepository.countByScenarioId( scenario.getId() );
 		Long converted = customerScenarioRepository.countCompletedByScenarioId( scenario.getId() );
-		return new ExperimentViewDTO.ScenarioResult( scenario.getId(), scenario.getName(), sampleSize, converted );
+		Double rate = converted.doubleValue() / sampleSize.doubleValue();
+		return new ExperimentViewDTO.ScenarioResult( scenario.getId(), scenario.getName(),
+				sampleSize, converted, rate );
 	}
 }
