@@ -36,8 +36,12 @@ public class ExperimentDataCalculation {
 	@Autowired
 	private ExperimentResultRepository experimentResultRepository;
 
-	public ExperimentViewDTO sumarize(String experimentId) {
+	public ExperimentViewDTO sumarize(String tenantId, String experimentId) {
 		Experiment experiment = experimentRepository.findOne( experimentId );
+		// TODO mal e porcamente validado
+		if (!experiment.getProject().getTenant().getId().equals( tenantId )) {
+			throw new RuntimeException( "nope" );
+		}
 		Long sampleSize = customerScenarioRepository.countByExperimentId( experimentId );
 		ExperimentResult result = experimentResultRepository.findByExperimentId( experimentId );
 		ScenarioDTO winnerScenario = result != null ? new ScenarioDTO( result.getScenario() ) : null;

@@ -38,8 +38,7 @@ public class ProjectController {
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Project create(@RequestAttribute("user") User user, @RequestBody Project project)
 			throws ValidationException {
-		Tenant tenant = user.getTenant();
-		project.setTenant( tenant );
+		project.setTenant( user.getTenant() );
 		Validation validation = new Validation( project );
 		if (validation.isValid())
 			return projectRepository.save( project );
@@ -48,10 +47,11 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
-	public Project findById(@PathVariable String id) {
-		return projectRepository.findOne( id );
+	public Project findById(@RequestAttribute("tenant_id") String tenantId, @PathVariable String id) {
+		return projectRepository.findById( tenantId, id );
 	}
 
+	// TODO check user here
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Project update(@PathVariable String id, @RequestBody Project project) throws ValidationException {
 		project.setId( id );
@@ -63,7 +63,7 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable String id) {
-		projectRepository.delete( id );
+	public void delete(@RequestAttribute("tenant_id") String tenantId, @PathVariable String id) {
+		projectRepository.delete( tenantId, id );
 	}
 }

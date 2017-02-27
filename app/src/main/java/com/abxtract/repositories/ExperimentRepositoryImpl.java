@@ -21,7 +21,7 @@ public class ExperimentRepositoryImpl implements ExperimentsQueries {
 	private EntityManager entityManager;
 
 	@Override
-	public List<ExperimentListingProjection> findByProjectId(String projectId) {
+	public List<ExperimentListingProjection> findByProjectId(String tenantId, String projectId) {
 		QExperimentListingProjection projection = new QExperimentListingProjection(
 				EXPERIMENT.id,
 				EXPERIMENT.name,
@@ -36,8 +36,10 @@ public class ExperimentRepositoryImpl implements ExperimentsQueries {
 				.from( EXPERIMENT_RESULT )
 				.rightJoin( EXPERIMENT_RESULT.experiment, EXPERIMENT )
 				.leftJoin( EXPERIMENT_RESULT.scenario )
-				.where( EXPERIMENT.project.id.eq( projectId )
-						.and( EXPERIMENT.deletedAt.isNull() ) )
-				.fetch();
+				.where(
+						EXPERIMENT.project.tenant.id.eq( tenantId ),
+						EXPERIMENT.project.id.eq( projectId ),
+						EXPERIMENT.deletedAt.isNull()
+				).fetch();
 	}
 }

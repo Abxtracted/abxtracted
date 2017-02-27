@@ -24,9 +24,10 @@ public class ExperimentConclusion {
 	@Autowired
 	private ExperimentRepository experimentRepository;
 
-	public ExperimentResult conclude(String experimentId, ScenarioDTO scenarioDto) {
+	public ExperimentResult conclude(String tenantId, String experimentId, ScenarioDTO scenarioDto) {
 		Experiment experiment = experimentRepository.findOne( experimentId );
-		if (experiment == null)
+		// TODO validacao porca
+		if (experiment == null || !experiment.getProject().getTenant().getId().equals( tenantId ))
 			throw new NotFoundException( "Experiment not found!" );
 		Scenario scenario = scenarioRepository.findOne( scenarioDto.getId() );
 		if (scenario == null)

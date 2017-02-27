@@ -37,7 +37,8 @@ public class GoogleAuthFilter implements Filter {
 			"*.css",
 			"*.html",
 			"/images/*",
-			"/fonts/*"
+			"/fonts/*",
+			"/#!/login"
 	);
 
 	@Override
@@ -97,11 +98,14 @@ public class GoogleAuthFilter implements Filter {
 		if (user == null) {
 			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Invalid authentication token." );
 		}
+		// TODO remover user da req
 		req.setAttribute( "user", user );
+		req.setAttribute( "user_id", user.getId() );
+		req.setAttribute( "tenant_id", user.getTenant().getId() );
 	}
 
 	private boolean isWhitelisted(final String uri) {
-		return WHITELIST.stream()
+		return uri.equals( "/" ) || WHITELIST.stream()
 				.filter( pattern -> uri.startsWith( pattern ) )
 				.findAny()
 				.isPresent();
