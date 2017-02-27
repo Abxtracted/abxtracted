@@ -82,7 +82,7 @@ public class ExperimentDataCalculation {
 		return ExperimentStatus.TESTING;
 	}
 
-	public List<ExperimentViewDTO.ScenarioResult> retrieveVersions(String experimentId) {
+	private List<ExperimentViewDTO.ScenarioResult> retrieveVersions(String experimentId) {
 		List<Scenario> scenarios = scenarioRepository.findByExperimentId( experimentId );
 
 		return scenarios.stream().map( this::buildVersionResult ).collect( Collectors.toList() );
