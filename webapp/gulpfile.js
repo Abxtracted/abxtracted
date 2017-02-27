@@ -14,7 +14,8 @@ gulp.task('js:lib', function() {
       'node_modules/angular/angular.min.js',
       'node_modules/angular-resource/angular-resource.min.js',
       'node_modules/angular-cookies/angular-cookies.min.js',
-      'node_modules/angular-ui-router/release/angular-ui-router.min.js'
+      'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+      'node_modules/ng-focus-if/focusIf.js'
     ])
     .pipe(concat('lib.min.js'))
     .pipe(gulp.dest('www'));
@@ -105,8 +106,14 @@ gulp.task('serve', function(){
       host: '0.0.0.0'
     }));
 });
+
+gulp.task('spring', function() {
+  return gulp.src('www/**')
+    .pipe(gulp.dest('../app/src/main/resources/public/'));
+});
+
 gulp.task('js', ['js:lib', 'js:app']);
 gulp.task('css', ['css:lib', 'css:app']);
 gulp.task('build', ['js', 'css', 'templates', 'images', 'fonts', 'index']);
-
 gulp.task('default', ['build', 'serve', 'watch']);
+gulp.task('prod', ['build', 'spring'])

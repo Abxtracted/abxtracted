@@ -1,0 +1,41 @@
+{
+  "name": "abxtracted-website",
+  "version": "0.1.0",
+  "description": "Abxtracted Website",
+  "author": "Rafael Camargo <contato@rafaelcamargo.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/merencia/abxtracted/website"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-babel": "^6.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-stylus": "^1.2.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-copy": "^0.1.0",
+    "grunt-http-server": "^1.2.0",
+    "grunt-karma": "^0.11.0",
+    "grunt-newer": "^1.2.0",
+    "grunt-replace": "^1.0.1",
+    "jasmine-core": "~2.3.0",
+    "jasmine-jquery": "^2.1.1",
+    "karma": "^0.12.36",
+    "karma-babel-preprocessor": "^6.0.1",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "~0.3.5",
+    "karma-jasmine-jquery": "^0.1.1",
+    "karma-phantomjs-launcher": "~0.1.4",
+    "karma-requirejs": "^1.1.0",
+    "load-grunt-tasks": "^3.5.2",
+    "phantomjs": "^1.9.17"
+  },
+  "dependencies": {
+    "ggrid": "^1.0.0",
+    "jquery": "^3.1.1",
+    "requirejs": "^2.3.2"
+  }
+}

@@ -10,7 +10,8 @@
   <div class="gg-row form-row-small">
     <div class="gg-col-12">
       <input type="text" name="experimentName" ng-model="$ctrl.experiment.name"
-        ng-change="$ctrl.onProjectNameChange($ctrl.experiment.name)" required/>
+        ng-change="$ctrl.onProjectNameChange($ctrl.experiment.name)" required
+        autofocus focus-if />
     </div>
   </div>
   <div class="gg-row form-row">

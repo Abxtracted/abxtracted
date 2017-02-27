@@ -1,0 +1,18 @@
+@require '_variables'
+@require '_mixins'
+
+.topbar
+  position fixed
+  top 0
+  left 0
+  right 0
+  background-color darken($color-blue-dark, 20%)
+  padding 20px
+  z-index $layer-middle
+  box-sizing(border-box)
+  .logo
+    float left
+    width 100px
+    height 15px
+  .user-menu-container
+    float right

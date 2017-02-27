@@ -1,0 +1,25 @@
+@require '_variables'
+@require '_mixins'
+
+.menu-primary-item
+  float left
+  color $color-white
+  text-transform uppercase
+  text-decoration none
+  &:not(:first-child)
+    margin-left 50px
+
+.menu-primary
+  margin 0
+  padding 0
+  list-style-type none
+  color $color-white
+  font-size $font-size-xxs
+  clearfix()
+  a
+    @extend .menu-primary-item
+
++breakpoint('xs')
+  .menu-primary-item
+    &:not(:first-child)
+      margin-left 25px
