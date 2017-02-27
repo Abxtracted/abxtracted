@@ -66,7 +66,7 @@ public class ExperimentDataCalculation {
 				.chiSquare( chiSquare )
 				.pValue( pValue )
 				.scenarios( scenarios )
-				.winner( winnerScenario )
+				.result( winnerScenario )
 				.build();
 	}
 

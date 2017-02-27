@@ -17,7 +17,7 @@ public class ExperimentViewDTO {
 	private final List<ScenarioResult> scenarios;
 	private final Double chiSquare;
 	private final Double pValue;
-	private final ScenarioDTO winner;
+	private final ScenarioDTO result;
 
 	@Getter
 	@AllArgsConstructor
