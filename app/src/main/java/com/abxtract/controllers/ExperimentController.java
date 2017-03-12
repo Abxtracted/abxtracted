@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.abxtract.dtos.ExperimentListingDTO;
 import com.abxtract.dtos.ExperimentViewDTO;
 import com.abxtract.dtos.ScenarioDTO;
+import com.abxtract.exceptions.NotFoundException;
 import com.abxtract.exceptions.ProjectNotFoundException;
 import com.abxtract.exceptions.ValidationException;
 import com.abxtract.models.Experiment;
@@ -71,8 +72,14 @@ public class ExperimentController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-	public void delete(@RequestAttribute("tenant_id") String tenantId, @PathVariable String id) {
-		experimentRepository.delete( tenantId, id );
+	public void delete(
+			@RequestAttribute("tenant_id") String tenantId,
+			@PathVariable String projectId,
+			@PathVariable String id
+	) {
+		if (projectRepository.findById( tenantId, projectId ) == null)
+			throw new ProjectNotFoundException( projectId );
+		experimentRepository.delete( projectId, id );
 	}
 
 	@RequestMapping(value = "{id}/conclude", method = RequestMethod.POST)
