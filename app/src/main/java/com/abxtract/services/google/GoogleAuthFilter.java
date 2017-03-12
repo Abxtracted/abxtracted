@@ -1,5 +1,7 @@
 package com.abxtract.services.google;
 
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -25,21 +27,13 @@ import com.google.api.client.repackaged.com.google.common.base.Strings;
 
 @Component
 public class GoogleAuthFilter implements Filter {
+
+	private static final List<String> PRIVATE_APIS = Arrays.asList(
+			"/projects"
+	);
+
 	@Autowired
 	private UserService users;
-
-	private static final List<String> WHITELIST = Arrays.asList(
-			"/auth/login",
-			"/auth/callback",
-			"/monitoring",
-			"/public/",
-			"*.js",
-			"*.css",
-			"*.html",
-			"/images/*",
-			"/fonts/*",
-			"/"
-	);
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -54,35 +48,36 @@ public class GoogleAuthFilter implements Filter {
 	) throws IOException, ServletException {
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse resp = (HttpServletResponse) response;
-		if (!isWhitelisted( req.getRequestURI() ) && !isOptionsRequest( req.getMethod() )) {
-			final String token = getToken( req );
-			if (Strings.isNullOrEmpty( token )) {
-				resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Missing authentication token or header." );
-			} else {
-				checkToken( req, resp, token );
-			}
-		}
-		if (resp.isCommitted()) {
-			return;
-		}
-		chain.doFilter( request, response );
+		if (isBlacklisted( req.getRequestURI() ) && !isOptions( req ))
+			authorize( req, resp );
+		if (!resp.isCommitted())
+			chain.doFilter( request, response );
 	}
 
-	private boolean isOptionsRequest(String method) {
-		return method.equalsIgnoreCase( "options" );
+	private void authorize(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		final String token = getToken( req );
+		if (Strings.isNullOrEmpty( token ))
+			resp.sendError( SC_UNAUTHORIZED, "Missing authentication token or header." );
+		else
+			checkToken( req, resp, token );
+	}
+
+	private boolean isOptions(HttpServletRequest req) {
+		return req.getMethod().equals( "OPTIONS" );
 	}
 
 	private String getToken(HttpServletRequest req) {
-		return Optional.ofNullable( req.getHeader( "X-Auth-Token" ) )
+		return Optional
+				.ofNullable( req.getHeader( "X-Auth-Token" ) )
 				.orElse( getTokenFromCookie( req ) );
 	}
 
 	private String getTokenFromCookie(HttpServletRequest req) {
-		return Stream.of( Optional.ofNullable( req.getCookies() ).orElse( new Cookie[] {} ) )
-				.filter( cookie -> {
-					System.out.println( cookie.getName() + "=" + cookie.getValue() );
-					return cookie.getName().equals( "auth-token" );
-				} )
+		final Cookie[] cookies = Optional
+				.ofNullable( req.getCookies() )
+				.orElse( new Cookie[] {} );
+		return Stream.of( cookies )
+				.filter( cookie -> cookie.getName().equals( "auth-token" ) )
 				.map( cookie -> cookie.getValue() )
 				.findFirst()
 				.orElse( "" );
@@ -96,16 +91,19 @@ public class GoogleAuthFilter implements Filter {
 	private void checkToken(HttpServletRequest req, HttpServletResponse resp, String token) throws IOException {
 		final User user = users.byAuthToken( token );
 		if (user == null) {
-			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Invalid authentication token." );
+			resp.sendError( SC_UNAUTHORIZED, "Invalid authentication token." );
+			return;
 		}
+		// TODO remover user da req
 		req.setAttribute( "user", user );
+		req.setAttribute( "user_id", user.getId() );
+		req.setAttribute( "tenant_id", user.getTenant().getId() );
 	}
 
-	private boolean isWhitelisted(final String uri) {
-		return WHITELIST.stream()
+	private boolean isBlacklisted(final String uri) {
+		return PRIVATE_APIS.stream()
 				.filter( pattern -> uri.startsWith( pattern ) )
 				.findAny()
 				.isPresent();
 	}
-
 }
