@@ -1,5 +1,7 @@
 package com.abxtract.services.google;
 
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -55,10 +57,7 @@ public class GoogleAuthFilter implements Filter {
 	private void authorize(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		final String token = getToken( req );
 		if (Strings.isNullOrEmpty( token ))
-			resp.sendError(
-					HttpServletResponse.SC_UNAUTHORIZED,
-					"Missing authentication token or header."
-			);
+			resp.sendError( SC_UNAUTHORIZED, "Missing authentication token or header." );
 		else
 			checkToken( req, resp, token );
 	}
@@ -92,7 +91,7 @@ public class GoogleAuthFilter implements Filter {
 	private void checkToken(HttpServletRequest req, HttpServletResponse resp, String token) throws IOException {
 		final User user = users.byAuthToken( token );
 		if (user == null) {
-			resp.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Invalid authentication token." );
+			resp.sendError( SC_UNAUTHORIZED, "Invalid authentication token." );
 			return;
 		}
 		// TODO remover user da req
