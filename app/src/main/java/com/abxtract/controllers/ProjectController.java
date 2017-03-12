@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abxtract.exceptions.NotFoundException;
 import com.abxtract.exceptions.ValidationException;
 import com.abxtract.models.Project;
-import com.abxtract.models.Tenant;
 import com.abxtract.models.User;
 import com.abxtract.models.validations.Validation;
 import com.abxtract.repositories.ProjectRepository;
-import com.abxtract.services.UserService;
 
 @RestController
 @RequestMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,13 +25,9 @@ public class ProjectController {
 	@Autowired
 	private ProjectRepository projectRepository;
 
-	@Autowired
-	private UserService userService;
-
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Project> list(@RequestAttribute("user") User user) {
-		Tenant tenant = user.getTenant();
-		return projectRepository.findByTenantId( tenant.getId() );
+	public List<Project> list(@RequestAttribute("tenant_id") String tenantId) {
+		return projectRepository.findByTenantId( tenantId );
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,9 +46,14 @@ public class ProjectController {
 		return projectRepository.findById( tenantId, id );
 	}
 
-	// TODO check user here
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Project update(@PathVariable String id, @RequestBody Project project) throws ValidationException {
+	public Project update(
+			@RequestAttribute("tenant_id") String tenantId,
+			@PathVariable String id,
+			@RequestBody Project project
+	) throws ValidationException {
+		if (!project.getTenant().getId().equals( tenantId ))
+			throw new NotFoundException( "Project not found!" );
 		project.setId( id );
 		Validation validation = new Validation( project );
 		if (validation.isValid())

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.abxtract.dtos.ExperimentListingDTO;
 import com.abxtract.dtos.ExperimentViewDTO;
 import com.abxtract.dtos.ScenarioDTO;
+import com.abxtract.exceptions.NotFoundException;
 import com.abxtract.exceptions.ValidationException;
 import com.abxtract.models.Experiment;
 import com.abxtract.models.Project;
@@ -57,6 +58,8 @@ public class ExperimentController {
 			@RequestBody Experiment experiment)
 			throws ValidationException {
 		Project project = projectRepository.findById( tenantId, projectId );
+		if (project == null)
+			throw new NotFoundException( "Project not found!" );
 		experiment.setProject( project );
 
 		return experimentCreation.create( experiment );
