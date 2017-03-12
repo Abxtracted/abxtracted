@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abxtract.exceptions.NotFoundException;
+import com.abxtract.exceptions.ProjectNotFoundException;
 import com.abxtract.exceptions.ValidationException;
 import com.abxtract.models.Project;
 import com.abxtract.models.User;
@@ -43,7 +43,10 @@ public class ProjectController {
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public Project findById(@RequestAttribute("tenant_id") String tenantId, @PathVariable String id) {
-		return projectRepository.findById( tenantId, id );
+		final Project project = projectRepository.findById( tenantId, id );
+		if (project == null)
+			throw new ProjectNotFoundException( id );
+		return project;
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -53,7 +56,7 @@ public class ProjectController {
 			@RequestBody Project project
 	) throws ValidationException {
 		if (!project.getTenant().getId().equals( tenantId ))
-			throw new NotFoundException( "Project not found!" );
+			throw new ProjectNotFoundException( id );
 		project.setId( id );
 		Validation validation = new Validation( project );
 		if (validation.isValid())

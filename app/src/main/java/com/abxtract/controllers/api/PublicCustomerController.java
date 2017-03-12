@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abxtract.dtos.CustomerScenarioDTO;
-import com.abxtract.exceptions.NotFoundException;
+import com.abxtract.exceptions.ExperimentNotFoundException;
+import com.abxtract.exceptions.ProjectNotFoundException;
 import com.abxtract.models.Checkpoint;
 import com.abxtract.models.Customer;
 import com.abxtract.models.CustomerCheckpoint;
@@ -106,10 +107,10 @@ public class PublicCustomerController {
 	private Experiment retrieveExperiment(@PathVariable String projectId, @PathVariable String experimentKey) {
 		Project project = projectRepository.findOne( projectId );
 		if (project == null)
-			throw new NotFoundException( "Project not found: " + projectId );
+			throw new ProjectNotFoundException( projectId );
 		Experiment experiment = experimentRepository.findByProjectAndKey( projectId, experimentKey );
 		if (experiment == null)
-			throw new NotFoundException( "Experiment not found: " + experimentKey );
+			throw new ExperimentNotFoundException( experimentKey );
 		return experiment;
 	}
 
