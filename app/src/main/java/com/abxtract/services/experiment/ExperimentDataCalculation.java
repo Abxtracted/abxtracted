@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.abxtract.dtos.ExperimentStatus;
 import com.abxtract.dtos.ExperimentViewDTO;
 import com.abxtract.dtos.ScenarioDTO;
+import com.abxtract.exceptions.ExperimentNotFoundException;
 import com.abxtract.models.Experiment;
 import com.abxtract.models.ExperimentResult;
 import com.abxtract.models.Scenario;
@@ -36,8 +37,10 @@ public class ExperimentDataCalculation {
 	@Autowired
 	private ExperimentResultRepository experimentResultRepository;
 
-	public ExperimentViewDTO sumarize(String experimentId) {
-		Experiment experiment = experimentRepository.findOne( experimentId );
+	public ExperimentViewDTO sumarize(String tenantId, String experimentId) {
+		Experiment experiment = experimentRepository.findByIds( tenantId, experimentId );
+		if (experiment == null)
+			throw new ExperimentNotFoundException( experimentId );
 		Long sampleSize = customerScenarioRepository.countByExperimentId( experimentId );
 		ExperimentResult result = experimentResultRepository.findByExperimentId( experimentId );
 		ScenarioDTO winnerScenario = result != null ? new ScenarioDTO( result.getScenario() ) : null;

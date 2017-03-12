@@ -6,5 +6,5 @@ import com.abxtract.repositories.projections.ExperimentListingProjection;
 
 public interface ExperimentsQueries {
 
-	List<ExperimentListingProjection> findByProjectId(String id);
+	List<ExperimentListingProjection> findByProjectId(String tenantId, String id);
 }
