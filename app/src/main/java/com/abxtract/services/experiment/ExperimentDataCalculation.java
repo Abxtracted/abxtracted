@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.abxtract.dtos.ExperimentStatus;
 import com.abxtract.dtos.ExperimentViewDTO;
 import com.abxtract.dtos.ScenarioDTO;
+import com.abxtract.exceptions.NotFoundException;
 import com.abxtract.models.Experiment;
 import com.abxtract.models.ExperimentResult;
 import com.abxtract.models.Scenario;
@@ -37,11 +38,9 @@ public class ExperimentDataCalculation {
 	private ExperimentResultRepository experimentResultRepository;
 
 	public ExperimentViewDTO sumarize(String tenantId, String experimentId) {
-		Experiment experiment = experimentRepository.findOne( experimentId );
-		// TODO mal e porcamente validado
-		if (!experiment.getProject().getTenant().getId().equals( tenantId )) {
-			throw new RuntimeException( "nope" );
-		}
+		Experiment experiment = experimentRepository.findByIds( tenantId, experimentId );
+		if (experiment == null)
+			throw new NotFoundException( "Experiment not found!" );
 		Long sampleSize = customerScenarioRepository.countByExperimentId( experimentId );
 		ExperimentResult result = experimentResultRepository.findByExperimentId( experimentId );
 		ScenarioDTO winnerScenario = result != null ? new ScenarioDTO( result.getScenario() ) : null;

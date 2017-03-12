@@ -25,18 +25,13 @@ public class ExperimentConclusion {
 	private ExperimentRepository experimentRepository;
 
 	public ExperimentResult conclude(String tenantId, String experimentId, ScenarioDTO scenarioDto) {
-		Experiment experiment = experimentRepository.findOne( experimentId );
-		// TODO validacao porca
-		if (experiment == null || !experiment.getProject().getTenant().getId().equals( tenantId ))
+		Experiment experiment = experimentRepository.findByIds( tenantId, experimentId );
+		if (experiment == null)
 			throw new NotFoundException( "Experiment not found!" );
 		Scenario scenario = scenarioRepository.findOne( scenarioDto.getId() );
 		if (scenario == null)
 			throw new NotFoundException( "Scenario not found!" );
 
-		ExperimentResult result = ExperimentResult.builder()
-				.experiment( experiment )
-				.scenario( scenario )
-				.build();
-		return experimentResultRepository.save( result );
+		return experimentResultRepository.save( new ExperimentResult( experiment, scenario ) );
 	}
 }

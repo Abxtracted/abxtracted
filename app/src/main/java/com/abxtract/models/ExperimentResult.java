@@ -33,4 +33,8 @@ public class ExperimentResult extends Model {
 
 	@OneToOne
 	private Scenario scenario;
+
+	public ExperimentResult(Experiment experiment, Scenario scenario) {
+		this(null, experiment, scenario);
+	}
 }

@@ -14,4 +14,7 @@ public interface ExperimentRepository extends CrudRepository<Experiment, String>
 
 	@Query("select e from Experiment e where project_id = ?1 and key = ?2")
 	Experiment findByProjectAndKey(String projectId, String key);
+
+	@Query("select e from Experiment e where e.id = ?2 and e.project.tenant.id = ?1")
+	Experiment findByIds(String tenantId, String experimentId);
 }
