@@ -1,0 +1,19 @@
+@require '_variables'
+@require '_mixins'
+
+.page-header
+  padding 220px 0
+  text-align center
+  bg-gradient-vertical($color-purple, $color-blue-semi-dark)
+  h1
+    margin 0 auto
+    max-width 690px
+  .button
+    margin 30px 25px 0
+    min-width 200px
+
++breakpoint('xs')
+  .page-header
+    padding 165px 0 220px
+    h1
+      padding 0 25px

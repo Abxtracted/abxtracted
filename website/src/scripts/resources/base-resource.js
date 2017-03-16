@@ -1,4 +1,4 @@
-define('resources/base-resource', ['jquery'], function($){
+define('resources/baseResource', ['jquery'], function($){
 
   var _public = {};
 

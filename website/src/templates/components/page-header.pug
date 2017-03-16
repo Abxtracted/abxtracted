@@ -1,0 +1,7 @@
+include buttons.pug
+
+mixin page-header(title, secondaryButtonText, primaryButtonText)
+  section.page-header(data-js="page-header")
+    h1= title
+    +button-primary('button', 'page-header-primary-button')= primaryButtonText || 'Try it for free'
+    +button-secondary('button', 'page-header-secondary-button')= secondaryButtonText

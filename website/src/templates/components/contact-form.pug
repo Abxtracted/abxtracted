@@ -1,0 +1,19 @@
+include buttons.pug
+
+mixin contact-form
+  .contact-form-container
+    .contact-form(data-js="contact-form")
+      .alert.alert-hidden(data-js="contact-form-alert")
+      .form-container
+        form(data-js="contact-form")
+          .form-item
+            label Name
+            input(type="text" data-js="contact-name" required)
+          .form-item
+            label Email
+            input(type="email" data-js="contact-email" required)
+          .form-item
+            label Any question? Write here:
+            textarea(data-js="contact-message" required)
+          .form-item
+            +button-primary('submit') Submit

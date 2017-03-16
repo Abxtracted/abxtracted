@@ -1,5 +1,5 @@
-define('services/contact-service', [
-    'resources/sheetsu-resource'
+define('services/contactService', [
+    'resources/sheetsuResource'
   ], function(sheetsuResource){
 
   var _public = {};
