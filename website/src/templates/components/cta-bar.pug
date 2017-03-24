@@ -1,0 +1,10 @@
+include buttons.pug
+
+mixin cta-bar(title)
+  section.section-primary
+    .cta-bar-container
+      .cta-bar
+        .cta-bar-title-container
+          h1.cta-bar-title= title
+        .cta-bar-button-container
+          +button-primary('button', 'cta-bar-button') Start now

@@ -1,22 +1,32 @@
 define('routes', [
-    'providers',
-    'views/home'
-  ], function(providers, home){
+    'services/locationService',
+    'views/home',
+    'views/pricing',
+    'views/docs',
+    'views/contact'
+  ], function(locationService, home, pricing, docs, contact){
 
     var _public = {};
 
     var routes = {
       '/': {
         viewModule: home
+      },
+      '/pricing': {
+        viewModule: pricing
+      },
+      '/docs': {
+        viewModule: docs
+      },
+      '/contact': {
+        viewModule: contact
       }
     };
 
     _public.initViewModule = function(){
-      var module = routes[providers.$location.pathname].viewModule;
-      if(module)
-        module.init();
-      else
-        providers.$location.pathname = '/';
+      var route = routes[locationService.path()];
+      if(route)
+        route.viewModule.init();
     };
 
     return _public;

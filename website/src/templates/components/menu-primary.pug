@@ -1,0 +1,6 @@
+mixin menu-primary
+  .menu-primary-container
+    ul.menu-primary(data-js="menu-primary")
+      each item in ['pricing', 'docs', 'contact', 'login']
+        li.menu-primary-item
+          a(href="javascript:void(0)" data-menu-primary-item=item) #{item}

@@ -1,6 +1,6 @@
 (function(){
 
-  var VENDORS_PATH = '/dist/vendor/scripts/';
+  var VENDORS_PATH = 'vendor/scripts/';
 
   require.config({
     paths: {
