@@ -1,17 +1,28 @@
 (function(){
   'use strict';
 
-  function projectsMenuController($scope, $location, projectsResource){
+  function projectsMenuController(BROADCAST, $scope, routeService, projectsResource){
     var _public = this;
 
-    _public.projects;
+    _public.$onInit = function(){
+      getAllProjects();
+      setListeners();
+    }
 
     _public.onMenuItemClick = function(projectId){
-      $location.path('/projects/' + projectId);
+      routeService.go('app.projects', {
+        projectId: projectId
+      });
     }
 
     function getAllProjects(){
-      projectsResource.query({}, onGetAllProjectsSuccess, onGetAllProjectsError);
+      projectsResource.query({})
+        .$promise.then(onGetAllProjectsSuccess, onGetAllProjectsError);
+    }
+
+    function setListeners(){
+      $scope.$on(BROADCAST.PROJECT.CREATED, getAllProjects);
+      $scope.$on(BROADCAST.PROJECT.DESTROYED, onProjectDestroyed);
     }
 
     function onGetAllProjectsSuccess(projects) {
@@ -22,16 +33,19 @@
       console.warn(error);
     }
 
-    _public.$onInit = function(){
-      getAllProjects();
+    function onProjectDestroyed(evt, destroyedProject){
+      _public.projects = _public.projects.filter(function(project){
+        return destroyedProject.id !== project.id
+      });
     }
   }
 
   app.component('projectsMenu', {
     templateUrl: '/components/projects-menu/projects-menu-template.html',
     controller: [
+      'BROADCAST',
       '$scope',
-      '$location',
+      'routeService',
       'projectsResource',
       projectsMenuController
     ]

@@ -14,7 +14,7 @@
 
     function onGetExperimentsSuccess(experiments){
       _public.experiments = experiments;
-      broadcastService.broadcast(BROADCAST.EXPERIMENT.LIST_LOADED, experiments);
+      broadcastService.publish(BROADCAST.EXPERIMENT.LIST_LOADED, experiments);
     }
 
     function onGetExperimentsError(error){

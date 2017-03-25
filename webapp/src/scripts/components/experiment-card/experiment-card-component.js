@@ -17,7 +17,7 @@
     }
 
     function onDestroyExperimentSuccess(experiment){
-      broadcastService.broadcast(BROADCAST.EXPERIMENT.DESTROYED, experiment);
+      broadcastService.publish(BROADCAST.EXPERIMENT.DESTROYED, experiment);
     }
 
     function onDestroyExperimentError(error){
