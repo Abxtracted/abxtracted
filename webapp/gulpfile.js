@@ -1,67 +1,70 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var stylus = require('gulp-stylus');
-var cleanCSS = require('gulp-clean-css');
-var sourcemaps = require('gulp-sourcemaps');
-var webserver = require('gulp-webserver');
-var templateCache = require('gulp-angular-templatecache');
-var htmlmin = require('gulp-htmlmin');
+var fs = require('fs'),
+  argv = require('yargs').argv,
+  gulp = require('gulp'),
+  gutil = require('gulp-util'),
+  concat = require('gulp-concat'),
+  uglify = require('gulp-uglify'),
+  stylus = require('gulp-stylus'),
+  cleanCSS = require('gulp-clean-css'),
+  sourcemaps = require('gulp-sourcemaps'),
+  webserver = require('gulp-webserver'),
+  templateCache = require('gulp-angular-templatecache'),
+  htmlmin = require('gulp-htmlmin'),
+  rename = require('gulp-rename'),
+  project = JSON.parse(fs.readFileSync('./project.json', 'utf8'));
 
-// Concants and minify all required js libs
+gulp.task('js:env', function() {
+  var env = argv.env || 'dev';
+  var file = project.environments.source.root + '/' + env + '.js';
+  return gulp.src(file)
+    .pipe(uglify({mangle: false}).on('error', gutil.log))
+    .pipe(rename(project.environments.dist.filename))
+    .pipe(gulp.dest(project.environments.dist.root));
+});
+
 gulp.task('js:lib', function() {
-  return gulp.src([
-      'node_modules/angular/angular.min.js',
-      'node_modules/angular-resource/angular-resource.min.js',
-      'node_modules/angular-cookies/angular-cookies.min.js',
-      'node_modules/angular-ui-router/release/angular-ui-router.min.js',
-      'node_modules/ng-focus-if/focusIf.js'
-    ])
-    .pipe(concat('lib.min.js'))
-    .pipe(gulp.dest('www'));
+  return gulp.src(project.scripts.vendor.files)
+    .pipe(concat(project.scripts.dist.vendor.filename))
+    .pipe(gulp.dest(project.scripts.dist.root));
 });
 
-// Concants and minify all app js
 gulp.task('js:app', function() {
-  return gulp.src([
-      'src/**/*.js',
-      '!src/**/*-test.js'
-    ])
+  return gulp.src(project.scripts.source.files)
     .pipe(sourcemaps.init())
-    .pipe(concat('app.min.js'))
-    .pipe(uglify({mangle: false}))
+    .pipe(concat(project.scripts.dist.source.filename))
+    .pipe(uglify({mangle: false}).on('error', gutil.log))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('www'));
+    .pipe(gulp.dest(project.scripts.dist.root));
 });
 
-//  Concants and minify all required css libs
 gulp.task('css:lib', function(){
-  return gulp.src([
-      'node_modules/ggrid/dist/ggrid.min.css',
-      'node_modules/ionicons/css/ionicons.min.css'
-    ])
-    .pipe(concat('lib.min.css'))
-    .pipe(cleanCSS({compatibility: 'ie8', keepSpecialComments: 0}))
-    .pipe(gulp.dest('www'))
+  return gulp.src(project.styles.vendor.files)
+    .pipe(concat(project.styles.dist.vendor.filename))
+    .pipe(cleanCSS({
+      compatibility: 'ie8',
+      keepSpecialComments: 0
+    }))
+    .pipe(gulp.dest(project.styles.dist.root))
 });
 
-// Builds stylus to css
 gulp.task('css:app', function(){
-  return gulp.src('src/styles/**/*.styl')
+  return gulp.src(project.styles.source.files)
     .pipe(stylus())
-    .pipe(concat('app.min.css'))
-    .pipe(cleanCSS({compatibility: 'ie8', keepSpecialComments: 0}))
-    .pipe(gulp.dest('www'))
+    .pipe(concat(project.styles.dist.source.filename))
+    .pipe(cleanCSS({
+      compatibility: 'ie8',
+      keepSpecialComments: 0
+    }))
+    .pipe(gulp.dest(project.styles.dist.root))
 });
 
-// Builds templates.min.js
 gulp.task('templates', function () {
-  return gulp.src('src/**/*.html')
+  return gulp.src(project.templates.source.files)
     .pipe(htmlmin({
         collapseWhitespace: true,
         removeComments: true
       }))
-    .pipe(templateCache('templates.min.js', {
+    .pipe(templateCache(project.templates.dist.filename, {
           standalone: true,
           root: '/',
           transformUrl: function(url){
@@ -69,37 +72,34 @@ gulp.task('templates', function () {
           }
         }))
     .pipe(uglify())
-    .pipe(gulp.dest('www'));
+    .pipe(gulp.dest(project.templates.dist.root));
 });
 
-// Copy images to www/images
 gulp.task('images', function() {
-  return gulp.src('src/images/*.*')
-    .pipe(gulp.dest('www/images/'));
+  return gulp.src(project.images.source.files)
+    .pipe(gulp.dest(project.images.dist.root));
 });
 
-// Copy fonticons to www/fonts
 gulp.task('fonts', function() {
-  return gulp.src('node_modules/ionicons/fonts/**.*')
-    .pipe(gulp.dest('www/fonts/'));
+  return gulp.src(project.fonts.source.files)
+    .pipe(gulp.dest(project.fonts.dist.root));
 });
 
-// Copy source index to www
 gulp.task('index', function() {
-  return gulp.src('src/index.html')
-    .pipe(gulp.dest('www/'));
+  return gulp.src(project.index.source.file)
+    .pipe(gulp.dest(project.index.dist.root));
 });
 
 gulp.task('watch', function() {
-    gulp.watch('src/**/*.js', ['js']);
-    gulp.watch('src/styles/**/*.styl', ['css:app']);
-    gulp.watch('src/**/*.html', ['templates']);
-    gulp.watch('src/images/**/*.*', ['images']);
-    gulp.watch('src/index.html', ['index']);
+    gulp.watch(project.scripts.source.files, ['js']);
+    gulp.watch(project.styles.source.files, ['css:app']);
+    gulp.watch(project.templates.source.files, ['templates']);
+    gulp.watch(project.images.source.files, ['images']);
+    gulp.watch(project.index.source.file, ['index']);
 });
 
 gulp.task('serve', function(){
-  gulp.src('www')
+  gulp.src(project.index.dist.root)
     .pipe(webserver({
       livereload: false,
       port: 3000,
@@ -108,11 +108,11 @@ gulp.task('serve', function(){
 });
 
 gulp.task('spring', function() {
-  return gulp.src('www/**')
-    .pipe(gulp.dest('../app/src/main/resources/public/'));
+  return gulp.src(project.spring.source.files)
+    .pipe(gulp.dest(project.spring.dist.root));
 });
 
-gulp.task('js', ['js:lib', 'js:app']);
+gulp.task('js', ['js:env', 'js:lib', 'js:app']);
 gulp.task('css', ['css:lib', 'css:app']);
 gulp.task('build', ['js', 'css', 'templates', 'images', 'fonts', 'index']);
 gulp.task('default', ['build', 'serve', 'watch']);
