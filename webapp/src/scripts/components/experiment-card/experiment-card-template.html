@@ -20,12 +20,6 @@
     </div>
     <div class="experiment-card-details" ng-if="$ctrl.experiment.details">
       <div class="experiment-card-detail-label">
-        Minimum Sample Size
-      </div>
-      <div class="experiment-card-detail-value"
-        ng-bind="$ctrl.experiment.details.minSampleSize">
-      </div>
-      <div class="experiment-card-detail-label">
         Current Sample Size
       </div>
       <div class="experiment-card-detail-value"
@@ -35,7 +29,7 @@
         Margin of Error
       </div>
       <div class="experiment-card-detail-value"
-        ng-bind="$ctrl.experiment.details.marginOfError">
+        ng-bind="$ctrl.experiment.details.marginOfError | marginOfError">
       </div>
     </div>
     <div class="experiment-card-details-button"
