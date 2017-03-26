@@ -23,6 +23,14 @@
           params: {
             experimentId: '@experimentId'
           }
+        },
+        conclude: {
+          url: BASE_URL + '/:experimentId/conclude',
+          method: 'POST',
+          params: {
+            experimentId: '@experimentId',
+            result: '@result'
+          }
         }
       });
 
