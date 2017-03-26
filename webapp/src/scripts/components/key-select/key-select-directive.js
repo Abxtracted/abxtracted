@@ -13,7 +13,7 @@
         selection.addRange(range);
         document.execCommand('copy');
         selection.removeAllRanges();
-      }
+      };
     }
 
     return {

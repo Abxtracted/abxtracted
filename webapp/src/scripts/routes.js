@@ -3,28 +3,34 @@
 
   function configRoutes ($stateProvider, $urlRouterProvider) {
 
-    function getViewTemplate(view){
-      return '/views/' + view + '/' + view + '-template.html';
+    function getViewTemplate(view, layout){
+      var layoutPath = '/';
+      if(layout)
+        layoutPath += layout + '/';
+      return '/views' + layoutPath + view + '/' + view + '-template.html';
     }
 
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider.state('login', {
       url: '/login',
-      isPublic: true,
-      templateUrl: getViewTemplate('login')
-    }).state('dashboard', {
+      templateUrl: getViewTemplate('login'),
+      isPublic: true
+    }).state('app', {
+      url: '/app',
+      templateUrl: getViewTemplate('app', 'app')
+    }).state('app.dashboard', {
       url: '/dashboard',
-      templateUrl: getViewTemplate('dashboard')
-    }).state('projects-new', {
+      templateUrl: getViewTemplate('dashboard', 'app')
+    }).state('app.projects', {
+      url: '/projects/view/:projectId',
+      templateUrl: getViewTemplate('project', 'app')
+    }).state('app.projects-new', {
       url: '/projects/new',
-      templateUrl: getViewTemplate('new-project')
-    }).state('projects', {
-      url: '/projects/:projectId',
-      templateUrl: getViewTemplate('project')
-    }).state('experiments-new', {
-      url: '/projects/:projectId/experiments/new',
-      templateUrl: getViewTemplate('new-experiment')
+      templateUrl: getViewTemplate('project-new', 'app')
+    }).state('app.experiments-new', {
+      url: '/projects/view/:projectId/experiments/new',
+      templateUrl: getViewTemplate('experiment-new', 'app')
     });
   }
 

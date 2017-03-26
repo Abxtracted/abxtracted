@@ -1,9 +1,13 @@
 (function(){
 
   app.constant('BROADCAST', {
+    PROJECT: {
+      CREATED: 'projectCreated',
+      DESTROYED: 'projectDestroyed'
+    },
     EXPERIMENT: {
-      DESTROYED: 'experimentDestroyed',
-      LIST_LOADED: 'experimentListLoaded'
+      LIST_LOADED: 'experimentListLoaded',
+      DESTROYED: 'experimentDestroyed'
     }
   });
 

@@ -1,24 +1,41 @@
 (function(){
   'use strict';
 
-  function projectSummaryController(BROADCAST, $scope, $location, projectsResource){
+  function projectSummaryController(BROADCAST, $scope, broadcastService,
+    routeService, projectsResource){
+
+    var REMOTION_CONFIRMATION_MESSAGE = 'Are you sure you want to remove ' +
+                                        '"{projectName}"?';
+
     var _public = this;
 
     _public.numOfExperiments = 0;
 
+    _public.$onInit = function(){
+      setListeners();
+    };
+
     _public.createExperiment = function(projectId){
-      $location.path('/projects/' + projectId + '/experiments/new');
-    }
+      routeService.go('app.experiments-new', {
+        projectId: projectId
+      });
+    };
 
     _public.removeProject = function(project){
-      if(confirm('Are you sure you want to remove "' + project.name + '"?'))
+      var message = REMOTION_CONFIRMATION_MESSAGE
+        .replace(/\{projectName\}/g, project.name);
+
+      if(confirm(message))
         projectsResource.destroy({
           projectId: project.id
-        }, onRemoveProjectsSuccess, onRemoveProjectsError);
-    }
+        }).$promise.then(function(){
+          onRemoveProjectsSuccess(project);
+        }, onRemoveProjectsError);
+    };
 
-    function onRemoveProjectsSuccess(){
-      $location.path('');
+    function onRemoveProjectsSuccess(project){
+      broadcastService.publish(BROADCAST.PROJECT.DESTROYED, project);
+      routeService.go('app.dashboard');
     }
 
     function onRemoveProjectsError(error){
@@ -37,10 +54,6 @@
     function onExperimentDestroyed(){
       _public.numOfExperiments -= 1;
     }
-
-    _public.$onInit = function(){
-      setListeners();
-    }
   }
 
   app.component('projectSummary', {
@@ -48,7 +61,8 @@
     controller: [
       'BROADCAST',
       '$scope',
-      '$location',
+      'broadcastService',
+      'routeService',
       'projectsResource',
       projectSummaryController
     ],

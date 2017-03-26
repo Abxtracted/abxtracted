@@ -1,0 +1,11 @@
+mixin button(cssClass, type, selector)
+  button(class="button "+cssClass type=type data-js=selector)
+    block
+
+mixin button-primary(type, selector)
+  +button('button-primary', type, selector)
+    block
+
+mixin button-secondary(type, selector)
+  +button('button-secondary', type, selector)
+    block

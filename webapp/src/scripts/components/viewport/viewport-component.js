@@ -3,10 +3,7 @@
 
   app.component('viewport', {
     templateUrl: '/components/viewport/viewport-template.html',
-    transclude: true,
-    bindings: {
-      title: '='
-    }
+    transclude: true
   });
 
 }());

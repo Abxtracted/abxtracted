@@ -1,7 +1,9 @@
-var fs = require('fs');
-var project = JSON.parse(fs.readFileSync('./project.json', 'utf8'));
+var fs = require('fs'),
+  project = JSON.parse(fs.readFileSync('./project.json', 'utf8'));
 
 module.exports = function(grunt) {
+
+  var env = grunt.option('env') || 'dev';
 
   require('load-grunt-tasks')(grunt);
 
@@ -13,8 +15,13 @@ module.exports = function(grunt) {
       },
       vendor: {
         files: {
-          [project.paths.scripts.dist.vendor.requirejs]: project.paths.scripts.vendor.requirejs,
-          [project.paths.scripts.dist.vendor.jquery]: project.paths.scripts.vendor.jquery
+          [project.scripts.dist.vendor.requirejs]: project.scripts.vendor.requirejs,
+          [project.scripts.dist.vendor.jquery]: project.scripts.vendor.jquery
+        }
+      },
+      environment: {
+        files: {
+          [project.environments.dist.file]: `${project.environments.source.root}/${env}.js`
         }
       }
     },
@@ -25,43 +32,24 @@ module.exports = function(grunt) {
       },
       scripts: {
         src: [
-          project.paths.scripts.source.main,
-          project.paths.scripts.source.files,
-          project.paths.scripts.source.boot
+          project.scripts.source.main,
+          project.scripts.source.files,
+          project.scripts.source.boot
         ],
-        dest: project.paths.scripts.dist.bundle
+        dest: project.scripts.dist.bundle
       }
     },
 
     'stylus': {
       source: {
         files: {
-          [project.paths.styles.dist.bundle]: project.paths.styles.source.files
+          [project.styles.dist.bundle]: project.styles.source.files
         }
       },
       vendor: {
         files: {
-          [project.paths.styles.dist.vendor.bundle]: project.paths.styles.vendor.files
+          [project.styles.dist.vendor.bundle]: project.styles.vendor.files
         }
-      }
-    },
-
-    'copy': {
-      index: {
-        files: [{
-          expand: true,
-          cwd: project.paths.index.source.root,
-          src: ['index.html'],
-          dest: project.paths.index.dist.root
-        }]
-      },
-      fonticons: {
-        files: [{
-          expand: true,
-          cwd: project.paths.fonts.icons.root,
-          src: ['**/*.*'],
-          dest: project.paths.fonts.dist.vendor.root
-        }]
       }
     },
 
@@ -69,41 +57,55 @@ module.exports = function(grunt) {
       source: {
         files: [{
           expand: true,
-          cwd: project.paths.images.source.root,
+          cwd: project.images.source.root,
           src: ['**/*.*'],
-          dest: project.paths.images.dist.root
+          dest: project.images.dist.root
+        }]
+      }
+    },
+
+    'pug': {
+      source: {
+        files: [{
+          expand: true,
+          cwd: project.templates.source.root.pages,
+          src: [project.templates.source.files],
+          dest: project.templates.dist.root,
+          ext: '.html'
         }]
       }
     },
 
     'karma': {
       unit: {
-        configFile: project.paths.scripts.spec.config
+        configFile: project.scripts.spec.config
       }
     },
 
     'watch': {
-      index: {
-        files: [
-          project.paths.index.source.file
-        ],
-        tasks: ['copy:index']
+      templates: {
+        files: `${project.templates.source.root.all}/${project.templates.source.files}`,
+        tasks: ['pug']
       },
       scripts: {
         files: [
-          project.paths.scripts.source.main,
-          project.paths.scripts.source.files,
-          project.paths.scripts.source.boot
+          project.scripts.source.main,
+          project.scripts.source.files,
+          project.scripts.source.boot
         ],
         tasks: ['concat']
       },
+      styles: {
+        files: project.styles.source.files,
+        tasks: ['stylus']
+      },
       images: {
-        files: project.paths.images.source.files,
+        files: project.images.source.files,
         tasks: ['newer:imagemin']
       },
-      styles: {
-        files: project.paths.styles.source.files,
-        tasks: ['stylus']
+      environments: {
+        files: `${project.environments.source.root}/${project.environments.source.files}`,
+        tasks: ['uglify:environment']
       }
     },
 
@@ -118,14 +120,15 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: project.paths.index.dist.file,
-          dest: project.paths.index.dist.root
+          src: project.index.dist.file,
+          dest: project.index.dist.root
         }]
       }
     },
 
     'http-server': {
       dev: {
+        root: 'dist',
         port: 8000,
         host: '0.0.0.0',
         showDir : true,
@@ -140,9 +143,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'uglify',
     'concat',
-    'stylus:source',
-    'copy:index',
-    'imagemin'
+    'stylus',
+    'imagemin',
+    'pug'
   ]);
 
   grunt.registerTask('start', [

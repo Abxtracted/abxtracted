@@ -18,9 +18,21 @@
         ng-bind="$ctrl.experiment.key">
       </div>
     </div>
+    <div class="experiment-card-details-button"
+      ng-bind="$ctrl.detailsButtonLabel"
+      ng-click="$ctrl.toggleDetails($ctrl.experiment)">
+    </div>
     <div class="experiment-card-details" ng-if="$ctrl.experiment.details">
       <div class="experiment-card-detail-label">
-        Sample Size
+        Status
+      </div>
+      <div class="experiment-card-detail-value">
+        <experiment-status
+          data-status="{{ $ctrl.experiment.details.status }}">
+        </experiment-status>
+      </div>
+      <div class="experiment-card-detail-label">
+        Current Sample Size
       </div>
       <div class="experiment-card-detail-value"
         ng-bind="$ctrl.experiment.details.sampleSize">
@@ -29,30 +41,25 @@
         Margin of Error
       </div>
       <div class="experiment-card-detail-value"
-        ng-bind="$ctrl.experiment.details.marginOfError">
+        ng-bind="$ctrl.experiment.details.marginOfError | experimentMarginOfError">
       </div>
-      <div class="experiment-card-results-container">
-        <div class="experiment-card-result"
+      <div class="experiment-card-scenarios-container">
+        <div class="experiment-card-scenario experiment-card-scenario-{{ scenario.name }}"
           ng-repeat="scenario in $ctrl.experiment.details.scenarios">
-          <div class="experiment-card-result-label"
+          <div class="experiment-card-scenario-label"
             ng-bind="scenario.name">
           </div>
-          <div class="experiment-card-result-value">
+          <div class="experiment-card-scenario-value">
             {{ $ctrl.getConversionRate(scenario.sampleSize, scenario.converted) }}
           </div>
-          <div class="experiment-card-result-action">
-            <a href="javascript:void(0)" class="button button-primary"
+          <div class="experiment-card-scenario-action">
+            <a href="javascript:void(0)" class="button"
               ng-click="$ctrl.selectAsWinner(scenario)">
               Select as winner
             </a>
           </div>
         </div>
       </div>
-    </div>
-    <div class="experiment-card-details-button"
-      ng-bind="$ctrl.detailsButtonLabel"
-      ng-if="!$ctrl.experiment.details"
-      ng-click="$ctrl.getDetails($ctrl.experiment)">
     </div>
   </div>
 </div>

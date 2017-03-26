@@ -2,15 +2,12 @@
 @require '_mixins'
 @require 'native'
 
-$card-border = 1px solid alpha($color-white, 0.25)
-
 .experiment-card-container
   position relative
 
 .experiment-card
   padding 20px 0 0
   background-color alpha($color-white, 0.1)
-  border-bottom $card-border
   box-sizing(border-box)
 
 .experiment-card-title-container
@@ -61,14 +58,15 @@ $card-border = 1px solid alpha($color-white, 0.25)
       transform('rotate(45deg)')
 
 .experiment-card-details
-  margin-top 30px
   padding 30px 20px 29px
-  border-top 1px solid alpha($color-blue-dark, 0.75)
 
 .experiment-card-detail-label
   @extend label
   &:not(:first-child)
     margin-top 10px
+
+.experiment-card-detail-value
+  margin-top 5px
 
 .experiment-card-details-button
   margin-top 21px
@@ -76,7 +74,7 @@ $card-border = 1px solid alpha($color-white, 0.25)
   font-size $font-size-xs
   text-transform uppercase
   text-align center
-  border-top $card-border
+  border-top 1px solid alpha($color-white, 0.25)
   cursor pointer
   &:hover
     background-color alpha($color-white, 0.2)

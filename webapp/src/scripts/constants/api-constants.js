@@ -3,7 +3,7 @@
   'use strict';
 
   app.constant('API', {
-    BASE_URL: 'http://localhost:8080/'
+    BASE_URL: environment.apiBaseUrl
   });
 
 }());

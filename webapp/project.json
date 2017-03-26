@@ -1,0 +1,97 @@
+{
+  "index": {
+    "source": {
+      "file": "src/index.html"
+    },
+    "dist": {
+      "root": "dist/"
+    }
+  },
+  "templates": {
+    "source": {
+      "files": "src/scripts/**/*-template.html"
+    },
+    "dist": {
+      "root": "dist/scripts",
+      "filename": "templates.min.js"
+    }
+  },
+  "scripts": {
+    "source": {
+      "files": "src/scripts/**/*.js"
+    },
+    "vendor": {
+      "files": [
+        "node_modules/angular/angular.min.js",
+        "node_modules/angular-resource/angular-resource.min.js",
+        "node_modules/angular-cookies/angular-cookies.min.js",
+        "node_modules/angular-ui-router/release/angular-ui-router.min.js",
+        "node_modules/ng-focus-if/focusIf.js"
+      ]
+    },
+    "dist": {
+      "root": "dist/scripts",
+      "source": {
+        "filename": "app.min.js"
+      },
+      "vendor": {
+        "filename": "vendor.min.js"
+      }
+    }
+  },
+  "styles": {
+    "source": {
+      "files": "src/styles/**/*.styl"
+    },
+    "vendor": {
+      "files": [
+        "node_modules/ggrid/dist/ggrid.min.css",
+        "node_modules/ionicons/css/ionicons.min.css"
+      ]
+    },
+    "dist": {
+      "root": "dist/styles",
+      "source": {
+        "filename": "app.min.css"
+      },
+      "vendor": {
+        "filename": "vendor.min.css"
+      }
+    }
+  },
+  "images": {
+    "source": {
+      "files": "src/images/**/*.*"
+    },
+    "dist": {
+      "root": "dist/images/"
+    }
+  },
+  "fonts": {
+    "source": {
+      "files": [
+        "node_modules/ionicons/fonts/**/*.*"
+      ]
+    },
+    "dist": {
+      "root": "dist/fonts"
+    }
+  },
+  "spring": {
+    "source": {
+      "files": "dist/**/*.*"
+    },
+    "dist": {
+      "root": "../app/src/main/resources/public/"
+    }
+  },
+  "environments": {
+    "source": {
+      "root": "environments"
+    },
+    "dist": {
+      "root": "dist/scripts",
+      "filename": "environment.min.js"
+    }
+  }
+}
