@@ -6,6 +6,20 @@
     },
     MARGIN_OF_ERROR: {
       INFINITY: 'Not enough data'
+    },
+    STATUS: {
+      VALID: {
+        TEXT: 'Significant',
+        CSS_CLASS: 'experiment-status-valid'
+      },
+      INVALID: {
+        TEXT: 'Not significant',
+        CSS_CLASS: 'experiment-status-invalid'
+      },
+      TESTING: {
+        TEXT: 'Collecting data',
+        CSS_CLASS: 'experiment-status-testing'
+      }
     }
   });
 
