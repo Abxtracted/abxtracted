@@ -6,7 +6,7 @@
 
     _public.login = function(){
       authService.login();
-    }
+    };
 
     if(authService.isAuthenticated())
       routeService.go('app.dashboard');

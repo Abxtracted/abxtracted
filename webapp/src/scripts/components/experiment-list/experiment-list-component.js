@@ -4,12 +4,15 @@
   function experimentListController(BROADCAST, $scope, $stateParams, experimentsResource, broadcastService){
     var _public = this;
 
-    _public.experiments;
+    _public.$onInit = function(){
+      getExperiments();
+      setListeners();
+    };
 
     function getExperiments(){
       experimentsResource.query({
         projectId: $stateParams.projectId
-      }, onGetExperimentsSuccess, onGetExperimentsError)
+      }).$promise.then(onGetExperimentsSuccess, onGetExperimentsError);
     }
 
     function onGetExperimentsSuccess(experiments){
@@ -34,11 +37,6 @@
       for (var i = 0; i < _public.experiments.length; i++)
         if(_public.experiments[i].id === experiment.id)
           return i;
-    }
-
-    _public.$onInit = function(){
-      getExperiments();
-      setListeners();
     }
   }
 

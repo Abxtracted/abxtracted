@@ -5,7 +5,7 @@
     routeService, projectsResource){
 
     var REMOTION_CONFIRMATION_MESSAGE = 'Are you sure you want to remove ' +
-                                        '"{projectName}"?'
+                                        '"{projectName}"?';
 
     var _public = this;
 
@@ -13,13 +13,13 @@
 
     _public.$onInit = function(){
       setListeners();
-    }
+    };
 
     _public.createExperiment = function(projectId){
       routeService.go('app.experiments-new', {
         projectId: projectId
       });
-    }
+    };
 
     _public.removeProject = function(project){
       var message = REMOTION_CONFIRMATION_MESSAGE
@@ -31,7 +31,7 @@
         }).$promise.then(function(){
           onRemoveProjectsSuccess(project);
         }, onRemoveProjectsError);
-    }
+    };
 
     function onRemoveProjectsSuccess(project){
       broadcastService.publish(BROADCAST.PROJECT.DESTROYED, project);

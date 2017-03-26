@@ -7,13 +7,13 @@
     _public.$onInit = function(){
       getAllProjects();
       setListeners();
-    }
+    };
 
     _public.onMenuItemClick = function(projectId){
       routeService.go('app.projects', {
         projectId: projectId
       });
-    }
+    };
 
     function getAllProjects(){
       projectsResource.query({})
@@ -35,7 +35,7 @@
 
     function onProjectDestroyed(evt, destroyedProject){
       _public.projects = _public.projects.filter(function(project){
-        return destroyedProject.id !== project.id
+        return destroyedProject.id !== project.id;
       });
     }
   }

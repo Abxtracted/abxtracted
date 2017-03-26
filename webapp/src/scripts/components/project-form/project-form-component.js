@@ -12,7 +12,7 @@
       projectsResource.save({
         name: _public.project.name
       }).$promise.then(onSaveSuccess, onSaveError);
-    }
+    };
 
     function onSaveSuccess(project){
       broadcastService.publish(BROADCAST.PROJECT.CREATED);
@@ -22,10 +22,10 @@
     }
 
     function onSaveError(error){
-      var error = textService.toSnakeCase(error.data.key.toUpperCase());
+      var errorKey = textService.toSnakeCase(error.data.key.toUpperCase());
       _public.alert = {
         type: 'error',
-        message: PROJECT.ERRORS[error]
+        message: PROJECT.ERRORS[errorKey]
       };
     }
   }

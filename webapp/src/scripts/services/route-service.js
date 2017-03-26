@@ -14,11 +14,11 @@
         location.href = url;
       else
         return location.href;
-    }
+    };
 
     _public.go = function(state, params){
       $state.go(state, params);
-    }
+    };
 
     _public.getParams = function(param){
       if(param)

@@ -14,7 +14,7 @@
       _public.login = function(){
         var url = [AUTH_URL, AUTH_REDIRECT_PARAM].join('?');
         routeService.url(url);
-      }
+      };
 
       _public.isAuthenticated = function(){
         return $cookies.get(COOKIES.AUTH.TOKEN);

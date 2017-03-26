@@ -27,11 +27,11 @@
     }
 
     function onSaveError(error){
-      var error = textService.toSnakeCase(error.data.key.toUpperCase());
+      var errorKey = textService.toSnakeCase(error.data.key.toUpperCase());
       _public.alert = {
         type: 'error',
-        message: EXPERIMENT.ERRORS[error]
-      }
+        message: EXPERIMENT.ERRORS[errorKey]
+      };
     }
 
     function parseProjectName(projectName){

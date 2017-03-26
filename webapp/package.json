@@ -19,6 +19,7 @@
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.0",
     "gulp-htmlmin": "^3.0.0",
+    "gulp-jshint": "^2.0.4",
     "gulp-rename": "^1.2.2",
     "gulp-serve": "^1.4.0",
     "gulp-sourcemaps": "^2.2.0",
@@ -26,6 +27,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
     "gulp-webserver": "^0.9.1",
+    "jshint": "^2.9.4",
     "yargs": "^7.0.2"
   }
 }

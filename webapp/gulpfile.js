@@ -3,6 +3,7 @@ var fs = require('fs'),
   gulp = require('gulp'),
   gutil = require('gulp-util'),
   concat = require('gulp-concat'),
+  jshint = require('gulp-jshint'),
   uglify = require('gulp-uglify'),
   stylus = require('gulp-stylus'),
   cleanCSS = require('gulp-clean-css'),
@@ -28,13 +29,20 @@ gulp.task('js:lib', function() {
     .pipe(gulp.dest(project.scripts.dist.root));
 });
 
-gulp.task('js:app', function() {
+gulp.task('js:app', ['js:hint'], function() {
   return gulp.src(project.scripts.source.files)
     .pipe(sourcemaps.init())
     .pipe(concat(project.scripts.dist.source.filename))
     .pipe(uglify({mangle: false}).on('error', gutil.log))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(project.scripts.dist.root));
+});
+
+gulp.task('js:hint', function(){
+  return gulp.src(project.scripts.source.files)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('css:lib', function(){
