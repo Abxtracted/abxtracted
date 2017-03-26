@@ -18,7 +18,19 @@
         ng-bind="$ctrl.experiment.key">
       </div>
     </div>
+    <div class="experiment-card-details-button"
+      ng-bind="$ctrl.detailsButtonLabel"
+      ng-click="$ctrl.toggleDetails($ctrl.experiment)">
+    </div>
     <div class="experiment-card-details" ng-if="$ctrl.experiment.details">
+      <div class="experiment-card-detail-label">
+        Status
+      </div>
+      <div class="experiment-card-detail-value">
+        <experiment-status
+          data-status="{{ $ctrl.experiment.details.status }}">
+        </experiment-status>
+      </div>
       <div class="experiment-card-detail-label">
         Current Sample Size
       </div>
@@ -29,13 +41,8 @@
         Margin of Error
       </div>
       <div class="experiment-card-detail-value"
-        ng-bind="$ctrl.experiment.details.marginOfError | marginOfError">
+        ng-bind="$ctrl.experiment.details.marginOfError | experimentMarginOfError">
       </div>
-    </div>
-    <div class="experiment-card-details-button"
-      ng-bind="$ctrl.detailsButtonLabel"
-      ng-if="!$ctrl.experiment.details"
-      ng-click="$ctrl.getDetails($ctrl.experiment)">
     </div>
   </div>
 </div>

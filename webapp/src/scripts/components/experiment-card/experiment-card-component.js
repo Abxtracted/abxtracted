@@ -4,7 +4,45 @@
   function experimentCardController(BROADCAST, experimentsResource, broadcastService){
     var _public = this;
 
-    _public.detailsButtonLabel = 'See details';
+    _public.$onInit = function(){
+      setDetailsButtonLabel();
+    };
+
+    _public.toggleDetails = function(experiment){
+      if(_public.experiment.details)
+        destroyDetails();
+      else
+        getDetails(experiment);
+    };
+
+    function getDetails(experiment){
+      setDetailsButtonLabel('Loading...');
+
+      experimentsResource.getDetails({
+        projectId: experiment.project.id,
+        experimentId: experiment.id
+      }).$promise.then(onGetDetailsSuccess, onGetDetailsError);
+    }
+
+    function onGetDetailsSuccess(details){
+      _public.experiment.details = details;
+      setDetailsButtonLabel('Hide details');
+    }
+
+    function onGetDetailsError(error){
+      console.log(error);
+      setDetailsButtonLabel('Ops, try again.');
+    }
+
+    function setDetailsButtonLabel(label){
+      label = label || 'See details';
+      _public.detailsButtonLabel = label;
+    }
+
+    function destroyDetails(){
+      delete _public.experiment.details;
+      setDetailsButtonLabel();
+    }
 
     _public.removeExperiment = function(experiment){
       if(confirm('Are you sure you want to delete "' + experiment.name + '"?'))
@@ -12,9 +50,9 @@
           projectId: experiment.project.id,
           experimentId: experiment.id
         }, function(){
-          onDestroyExperimentSuccess(experiment)
+          onDestroyExperimentSuccess(experiment);
         }, onDestroyExperimentError);
-    }
+    };
 
     function onDestroyExperimentSuccess(experiment){
       broadcastService.publish(BROADCAST.EXPERIMENT.DESTROYED, experiment);
@@ -24,27 +62,6 @@
       console.log(error);
     }
 
-    _public.getDetails = function(experiment){
-      setDetailsButtonLabel('Loading...');
-
-      experimentsResource.getDetails({
-        projectId: experiment.project.id,
-        experimentId: experiment.id
-      }, onGetDetailsSuccess, onGetDetailsError);
-    };
-
-    function onGetDetailsSuccess(details){
-      _public.experiment.details = details;
-    }
-
-    function onGetDetailsError(error){
-      console.log(error);
-      setDetailsButtonLabel('Ops, try again.');
-    }
-
-    function setDetailsButtonLabel(label){
-      _public.detailsButtonLabel = label;
-    }
   }
 
   app.component('experimentCard', {
