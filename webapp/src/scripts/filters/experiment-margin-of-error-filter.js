@@ -1,6 +1,6 @@
 (function(){
 
-  app.filter('marginOfError', [
+  app.filter('experimentMarginOfError', [
     'EXPERIMENT',
     function(EXPERIMENT){
 
@@ -9,7 +9,7 @@
           var KEY = marginOfError.toUpperCase();
           return EXPERIMENT.MARGIN_OF_ERROR[KEY];
         }
-        return marginOfError;
+        return (marginOfError * 100).toFixed(2) + '%';
       }
 
       return filter;
