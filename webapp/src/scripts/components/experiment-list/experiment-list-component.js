@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  function experimentListController(BROADCAST, $scope, $stateParams, experimentsResource, broadcastService){
+  function experimentListController(BROADCAST, $scope, experimentsResource, broadcastService){
     var _public = this;
 
     _public.$onInit = function(){
@@ -11,7 +11,7 @@
 
     function getExperiments(){
       experimentsResource.query({
-        projectId: $stateParams.projectId
+        projectId: _public.project.id
       }).$promise.then(onGetExperimentsSuccess, onGetExperimentsError);
     }
 
@@ -28,15 +28,10 @@
       $scope.$on(BROADCAST.EXPERIMENT.DESTROYED, onExperimentDestroyed);
     }
 
-    function onExperimentDestroyed(evt, experiment){
-      var experimentIndex = findExperimentIndex(experiment);
-      _public.experiments.splice(experimentIndex, 1);
-    }
-
-    function findExperimentIndex(experiment){
-      for (var i = 0; i < _public.experiments.length; i++)
-        if(_public.experiments[i].id === experiment.id)
-          return i;
+    function onExperimentDestroyed(evt, destroyedExperiment){
+      _public.experiments = _public.experiments.filter(function(experiment){
+        return destroyedExperiment.id !== experiment.id;
+      });
     }
   }
 
@@ -45,11 +40,13 @@
     controller: [
       'BROADCAST',
       '$scope',
-      '$stateParams',
       'experimentsResource',
       'broadcastService',
       experimentListController
-    ]
+    ],
+    bindings: {
+      project: '<'
+    }
   });
 
 }());
