@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  function newExperimentFormController(ERROR, $stateParams, $location, experimentsResource){
+  function experimentFormController(EXPERIMENT, routeService, experimentsResource, textService){
     var _public = this;
 
     _public.onProjectNameChange = function(projectName){
@@ -14,21 +14,24 @@
       delete _public.alert;
 
       experimentsResource.save({
-        projectId: $stateParams.projectId,
+        projectId: getProjectId(),
         name: _public.experiment.name,
         key: _public.experiment.key
-      }, onSaveSuccess, onSaveError);
+      }).$promise.then(onSaveSuccess, onSaveError);
     };
 
     function onSaveSuccess(){
-      $location.path('projects/' + $stateParams.projectId);
+      routeService.go('app.projects', {
+        projectId: getProjectId()
+      });
     }
 
     function onSaveError(error){
+      var errorKey = textService.toSnakeCase(error.data.key.toUpperCase());
       _public.alert = {
         type: 'error',
-        message: ERROR.EXPERIMENT[error.data.key]
-      }
+        message: EXPERIMENT.ERRORS[errorKey]
+      };
     }
 
     function parseProjectName(projectName){
@@ -37,18 +40,22 @@
     }
 
     function buildProjectKey(projectName){
-      return projectName.toLowerCase().replace(/ /g,'_');
+      return textService.toSnakeCase(projectName.toLowerCase());
+    }
+
+    function getProjectId(){
+      return routeService.getParams('projectId');
     }
   }
 
-  app.component('newExperimentForm', {
-    templateUrl: '/components/new-experiment-form/new-experiment-form-template.html',
+  app.component('experimentForm', {
+    templateUrl: '/components/experiment-form/experiment-form-template.html',
     controller: [
-      'ERROR',
-      '$stateParams',
-      '$location',
+      'EXPERIMENT',
+      'routeService',
       'experimentsResource',
-      newExperimentFormController
+      'textService',
+      experimentFormController
     ]
   });
 

@@ -6,7 +6,7 @@
 
       var _public = {};
 
-      _public.broadcast = function(eventName, eventData){
+      _public.publish = function(eventName, eventData){
         $rootScope.$broadcast(eventName, eventData);
       };
 

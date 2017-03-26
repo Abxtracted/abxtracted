@@ -1,23 +1,25 @@
 (function(){
   'use strict';
 
-  function loginFormController($window, $state, authService){
+  function loginFormController($window, routeService, authService){
     var _public = this;
-    var AUTH_URL = 'http://localhost:8080/auth/login';
-    var AUTH_REDIRECT_PARAM = 'redirect_to='+$window.location.origin+'/#';
 
     _public.login = function(){
-      var url = [AUTH_URL, AUTH_REDIRECT_PARAM].join('?');
-      $window.location.href = url;
-    }
+      authService.login();
+    };
 
     if(authService.isAuthenticated())
-      $state.go('dashboard');
+      routeService.go('app.dashboard');
   }
 
   app.component('loginForm', {
     templateUrl: '/components/login-form/login-form-template.html',
-    controller: ['$window', '$state', 'authService', loginFormController]
+    controller: [
+      '$window',
+      'routeService',
+      'authService',
+      loginFormController
+    ]
   });
 
 }());
