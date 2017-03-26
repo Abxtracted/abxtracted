@@ -4,6 +4,8 @@
 
 .experiment-card-container
   position relative
+  overflow hidden
+  border-radius(3px)
 
 .experiment-card
   padding 20px 0 0
@@ -79,23 +81,23 @@
   &:hover
     background-color alpha($color-white, 0.2)
 
-.experiment-card-results-container
+.experiment-card-scenarios-container
   margin 20px -20px -30px
   padding 20px 0 0
   border-top 1px solid alpha($color-blue-dark, 0.75)
   box-sizing(border-box)
   clearfix()
 
-.experiment-card-result
+.experiment-card-scenario
   float left
   width 50%
   text-align center
   box-sizing(border-box)
 
-.experiment-card-result-label
+.experiment-card-scenario-label
   @extend label
 
-.experiment-card-result-value
+.experiment-card-scenario-value
   display inline-block
   margin-top 5px
   position relative
@@ -108,9 +110,15 @@
     font-size 0.5em
     transform('translate(0,-50%)')
 
-.experiment-card-result-action
-  margin 20px 1px 0
+.experiment-card-scenario-action
+  margin 20px 0.5px 0
   font-size $font-size-xxs
   text-transform uppercase
   .button
     padding 0
+    border-radius(0 0 0 3px)
+
+.experiment-card-scenario-Variation
+  float right
+  .button
+    border-radius(0 0 3px 0)
