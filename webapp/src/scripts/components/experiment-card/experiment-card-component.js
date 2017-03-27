@@ -47,9 +47,8 @@
       if(confirm(SELECT_AS_WINNER_CONFIRM_MESSAGE))
         experimentsResource.conclude({
           projectId: _public.experiment.project.id,
-          experimentId: _public.experiment.id,
-          result: scenario
-        }).$promise.then(onSelectAsWinnerSuccess, onSelectAsWinnerError);
+          experimentId: _public.experiment.id
+        }, scenario ).$promise.then(onSelectAsWinnerSuccess, onSelectAsWinnerError);
     };
 
     function onSelectAsWinnerSuccess(response){
