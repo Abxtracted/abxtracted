@@ -6,8 +6,10 @@
 
       var _public = {};
 
-      _public.getStatus = function(status){
-        status = status.toUpperCase();
+      _public.getStatus = function(experimentDetails){
+        var status = experimentDetails.status.toUpperCase();
+        if(!experimentDetails.sampleSize)
+          return EXPERIMENT.STATUS.AWAITING;
         return EXPERIMENT.STATUS[status];
       };
 

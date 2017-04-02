@@ -13,12 +13,12 @@
     height 10px
     border-radius(10px)
     transform('translate(0,-50%)')
-  &.experiment-status-valid
+  &.experiment-status-completed
     &:before
       background-color $color-green
-  &.experiment-status-invalid
-    &:before
-      background-color $color-red
   &.experiment-status-testing
+    &:before
+      background-color $color-orange
+  &.experiment-status-awaiting
     &:before
       background-color $color-grey-dark

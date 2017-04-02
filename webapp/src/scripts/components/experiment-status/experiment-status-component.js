@@ -5,12 +5,15 @@
     var _public = this;
 
     _public.$onInit = function(){
-      setStatusCssClass();
+      setStatus(_public.experimentDetails);
     };
 
-    function setStatusCssClass(){
-      var status = _public.status;
-      _public.statusCssClass = experimentService.getStatus(status).CSS_CLASS;
+    function setStatus(details){
+      var status = experimentService.getStatus(details);
+      _public.status = {
+        text: status.TEXT,
+        cssClass: status.CSS_CLASS
+      };
     }
   }
 
@@ -21,7 +24,7 @@
       experimentStatusController
     ],
     bindings: {
-      status: '@'
+      experimentDetails: '<'
     }
   });
 
