@@ -43,23 +43,9 @@
       <div class="experiment-card-detail-value"
         ng-bind="$ctrl.experiment.details.marginOfError | experimentMarginOfError">
       </div>
-      <div class="experiment-card-scenarios-container">
-        <div class="experiment-card-scenario experiment-card-scenario-{{ scenario.name }}"
-          ng-repeat="scenario in $ctrl.experiment.details.scenarios">
-          <div class="experiment-card-scenario-label"
-            ng-bind="scenario.name">
-          </div>
-          <div class="experiment-card-scenario-value">
-            {{ $ctrl.getConversionRate(scenario.sampleSize, scenario.converted) }}
-          </div>
-          <div class="experiment-card-scenario-action">
-            <a href="javascript:void(0)" class="button"
-              ng-click="$ctrl.selectAsWinner(scenario)">
-              Select as winner
-            </a>
-          </div>
-        </div>
-      </div>
+      <experiment-scenario-list
+        data-experiment="$ctrl.experiment">
+      </experiment-scenario-list>
     </div>
   </div>
 </div>
