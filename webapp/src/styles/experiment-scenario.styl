@@ -1,0 +1,57 @@
+@require '_variables'
+@require '_mixins'
+@require 'native'
+
+.experiment-scenario
+  float left
+  width 50%
+  text-align center
+  box-sizing(border-box)
+
+.experiment-scenario-label
+  @extend label
+
+.experiment-scenario-value
+  display inline-block
+  margin-top 5px
+  position relative
+  font-size $font-size-xl
+  &:after
+    position absolute
+    content '%'
+    top 50%
+    right -15px
+    font-size 0.5em
+    transform('translate(0,-50%)')
+
+.experiment-scenario-action
+  margin 0 0.5px
+  font-size $font-size-xxs
+  text-transform uppercase
+  .button
+    padding 0
+    border-radius(0 0 0 3px)
+
+.experiment-scenario-variation
+  float right
+  .button
+    border-radius(0 0 3px 0)
+
+.experiment-scenario-winner
+  .experiment-scenario-label,
+  .experiment-scenario-value
+    color $color-green
+  .experiment-scenario-action
+    .button
+      background-color $color-green-dark
+      color $color-lightest
+      text-shadow 0 -1px 0 $color-green-dark
+      border-color $color-green-dark
+      &:hover
+        background-color $color-green
+        border-color $color-green
+
+.experiment-scenario-loser
+  .experiment-scenario-label,
+  .experiment-scenario-value
+    color $color-grey-semi-dark
