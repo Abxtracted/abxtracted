@@ -1,0 +1,16 @@
+@require '_variables'
+@require '_mixins'
+@require 'alert'
+
+.experiment-scenario-list
+  margin 20px -20px -30px
+  padding 20px 0
+  border-top 1px solid alpha($color-blue-dark, 0.75)
+  box-sizing(border-box)
+  clearfix()
+
+.experiment-scenario-list-failed-test-message
+  @extend .alert
+  @extend .alert.alert-error
+  margin -20px 0 20px
+  padding 10px
