@@ -59,7 +59,8 @@ public class ExperimentDataCalculation {
 
 		Double pValue = new SimplePValue().fromChiSquare( chiSquare );
 
-		ExperimentStatus status = calcStatus( pValue, marginOfError, scenarios.get( 0 ).getRate() );
+		ExperimentStatus status = calcStatus( pValue, marginOfError, scenarios.get( 0 ).getRate(),
+				scenarios.get( 1 ).getRate() );
 
 		return ExperimentViewDTO.builder()
 				.name( experiment.getName() )
@@ -74,9 +75,8 @@ public class ExperimentDataCalculation {
 				.build();
 	}
 
-	private ExperimentStatus calcStatus(Double pValue, Double marginOfError, Double rate) {
-		Double alternativeRate = 1D - rate;
-		boolean isValidRate = !(rate < (marginOfError + alternativeRate) || alternativeRate < (marginOfError + rate));
+	private ExperimentStatus calcStatus(Double pValue, Double marginOfError, Double firstRate, Double secondRate) {
+		boolean isValidRate = firstRate > (marginOfError + secondRate) || secondRate > (marginOfError + firstRate);
 		if (pValue <= 0.05 && marginOfError < 0.025)
 			if (isValidRate)
 				return ExperimentStatus.VALID;
