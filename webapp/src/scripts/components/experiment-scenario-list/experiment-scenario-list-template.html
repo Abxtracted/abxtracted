@@ -1,0 +1,14 @@
+<div class="experiment-scenario-list">
+  <div class="experiment-scenario-list-failed-test-message"
+    ng-if="$ctrl.isFailingExperiment">
+    Variation version makes no difference. Its efficiency is too similar to the
+    Control version.
+  </div>
+  <div class="experiment-scenario-list-item"
+    ng-repeat="scenario in $ctrl.experiment.details.scenarios">
+    <experiment-scenario
+      data-scenario="scenario"
+      data-experiment="$ctrl.experiment">
+    </experiment-scenario>
+  </div>
+</div>

@@ -7,12 +7,6 @@
     var REMOTION_CONFIRMATION_MESSAGE = 'Are you sure you want to remove ' +
                                         '"{experimentName}"?';
 
-    var SELECT_AS_WINNER_CONFIRM_MESSAGE =  'Are you sure you want select this ' +
-                                            'scenario as winner? Clicking OK, ' +
-                                            'only this scenario will be shown ' +
-                                            'from now on. This action cannot ' +
-                                            'be undone.';
-
     _public.$onInit = function(){
       setDetailsButtonLabel();
     };
@@ -36,28 +30,6 @@
       else
         getDetails(experiment);
     };
-
-    _public.getConversionRate = function(sampleSize, converted){
-      if(sampleSize)
-        return ((converted / sampleSize) * 100).toFixed(2);
-      return 0;
-    };
-
-    _public.selectAsWinner = function(scenario){
-      if(confirm(SELECT_AS_WINNER_CONFIRM_MESSAGE))
-        experimentsResource.conclude({
-          projectId: _public.experiment.project.id,
-          experimentId: _public.experiment.id
-        }, scenario ).$promise.then(onSelectAsWinnerSuccess, onSelectAsWinnerError);
-    };
-
-    function onSelectAsWinnerSuccess(response){
-      console.log(response);
-    }
-
-    function onSelectAsWinnerError(error){
-      console.log(error);
-    }
 
     function onDestroyExperimentSuccess(experiment){
       broadcastService.publish(BROADCAST.EXPERIMENT.DESTROYED, experiment);

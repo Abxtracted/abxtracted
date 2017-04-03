@@ -1,0 +1,15 @@
+<div class="experiment-scenario {{ $ctrl.cssClasses }}">
+  <div class="experiment-scenario-label"
+    ng-bind="$ctrl.scenario.name">
+  </div>
+  <div class="experiment-scenario-value"
+    ng-bind="$ctrl.scenario.rate | percentage">
+  </div>
+  <div class="experiment-scenario-action"
+    ng-if="$ctrl.isSuccessfulExperiment">
+    <a href="javascript:void(0)" class="button"
+      ng-click="$ctrl.selectAsWinner($ctrl.scenario)">
+      Select as winner
+    </a>
+  </div>
+</div>
