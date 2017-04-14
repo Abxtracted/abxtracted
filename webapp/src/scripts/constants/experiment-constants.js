@@ -9,16 +9,20 @@
     },
     STATUS: {
       VALID: {
-        TEXT: 'Significant',
-        CSS_CLASS: 'experiment-status-valid'
+        TEXT: 'Completed',
+        CSS_CLASS: 'experiment-status-completed'
       },
       INVALID: {
-        TEXT: 'Not significant',
-        CSS_CLASS: 'experiment-status-invalid'
+        TEXT: 'Completed',
+        CSS_CLASS: 'experiment-status-completed'
       },
       TESTING: {
         TEXT: 'Collecting data',
         CSS_CLASS: 'experiment-status-testing'
+      },
+      AWAITING: {
+        TEXT: 'Awaiting data',
+        CSS_CLASS: 'experiment-status-awaiting'
       }
     }
   });

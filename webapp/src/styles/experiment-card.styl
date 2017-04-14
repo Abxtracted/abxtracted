@@ -1,13 +1,16 @@
 @require '_variables'
 @require '_mixins'
 @require 'native'
+@require 'alert'
 
 .experiment-card-container
   position relative
+  overflow hidden
+  border-radius(3px)
 
 .experiment-card
   padding 20px 0 0
-  background-color alpha($color-white, 0.1)
+  background-color alpha($color-lightest, 0.1)
   box-sizing(border-box)
 
 .experiment-card-title-container
@@ -40,11 +43,11 @@
   position absolute
   top -24px
   right -8px
-  color alpha($color-white, 0.5)
+  color alpha($color-lightest, 0.5)
   font-size $font-size-xs
   cursor pointer
   &:hover
-    color $color-white
+    color $color-lightest
     .experiment-card-delete
       background-color $color-red
 
@@ -62,7 +65,8 @@
 
 .experiment-card-detail-label
   @extend label
-  margin-top 10px
+  &:not(:first-child)
+    margin-top 10px
 
 .experiment-card-detail-value
   margin-top 5px
@@ -73,7 +77,28 @@
   font-size $font-size-xs
   text-transform uppercase
   text-align center
-  border-top 1px solid alpha($color-white, 0.25)
+  border-top 1px solid alpha($color-lightest, 0.25)
   cursor pointer
   &:hover
-    background-color alpha($color-white, 0.2)
+    background-color alpha($color-lightest, 0.2)
+
+.experiment-card-fail-result-message,
+.experiment-card-success-result-message,
+.experiment-card-winner-message
+  @extend .alert
+  margin 20px 0 0
+  & + experiment-scenario-list
+    & > .experiment-scenario-list
+      margin 0 -20px 0
+      border-top 0
+
+.experiment-card-fail-result-message
+  @extend .alert.alert-error
+
+.experiment-card-success-result-message
+  @extend .alert.alert-success
+
+.experiment-card-winner-message
+  @extend .alert
+  margin 20px 0 0
+  text-align center

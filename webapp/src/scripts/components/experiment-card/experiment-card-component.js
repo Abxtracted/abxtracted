@@ -1,11 +1,29 @@
 (function(){
   'use strict';
 
-  function experimentCardController(BROADCAST, experimentsResource, broadcastService){
+  function experimentCardController(BROADCAST, experimentService,
+    experimentsResource, broadcastService){
+
     var _public = this;
+
+    var REMOTION_CONFIRMATION_MESSAGE = 'Are you sure you want to remove ' +
+                                        '"{experimentName}"?';
 
     _public.$onInit = function(){
       setDetailsButtonLabel();
+    };
+
+    _public.removeExperiment = function(experiment){
+      var message = REMOTION_CONFIRMATION_MESSAGE
+        .replace(/\{experimentName\}/g, experiment.name);
+
+      if(confirm(message))
+        experimentsResource.destroy({
+          projectId: experiment.project.id,
+          experimentId: experiment.id
+        }).$promise.then(function(){
+          onDestroyExperimentSuccess(experiment);
+        }, onDestroyExperimentError);
     };
 
     _public.toggleDetails = function(experiment){
@@ -14,6 +32,14 @@
       else
         getDetails(experiment);
     };
+
+    function onDestroyExperimentSuccess(experiment){
+      broadcastService.publish(BROADCAST.EXPERIMENT.DESTROYED, experiment);
+    }
+
+    function onDestroyExperimentError(error){
+      console.log(error);
+    }
 
     function getDetails(experiment){
       setDetailsButtonLabel('Loading...');
@@ -27,6 +53,7 @@
     function onGetDetailsSuccess(details){
       _public.experiment.details = details;
       setDetailsButtonLabel('Hide details');
+      setExperimentResult(details);
     }
 
     function onGetDetailsError(error){
@@ -44,30 +71,25 @@
       setDetailsButtonLabel();
     }
 
-    _public.removeExperiment = function(experiment){
-      if(confirm('Are you sure you want to delete "' + experiment.name + '"?'))
-        experimentsResource.destroy({
-          projectId: experiment.project.id,
-          experimentId: experiment.id
-        }, function(){
-          onDestroyExperimentSuccess(experiment);
-        }, onDestroyExperimentError);
-    };
-
-    function onDestroyExperimentSuccess(experiment){
-      broadcastService.publish(BROADCAST.EXPERIMENT.DESTROYED, experiment);
+    function setExperimentResult(details){
+      _public.shouldShowSuccessfulResultMessage = shouldShownResultMessage('successful', details);
+      _public.shouldShowFailingResultMessage = shouldShownResultMessage('failing', details);
     }
 
-    function onDestroyExperimentError(error){
-      console.log(error);
+    function shouldShownResultMessage(resultType, details){
+      if(_public.experiment.result)
+        return false;
+      if(resultType == 'successful')
+        return experimentService.isSuccessfulExperiment(details);
+      return experimentService.isFailingExperiment(details);
     }
-
   }
 
   app.component('experimentCard', {
     templateUrl: '/components/experiment-card/experiment-card-template.html',
     controller: [
       'BROADCAST',
+      'experimentService',
       'experimentsResource',
       'broadcastService',
       experimentCardController
