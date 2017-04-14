@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  function experimentScenarioController(experimentService){
+  function experimentScenarioController(experimentService, experimentsResource){
     var _public = this;
 
     var SELECT_AS_WINNER_CONFIRM_MESSAGE =  'Are you sure you want select this ' +
@@ -12,7 +12,6 @@
 
     _public.$onInit = function(){
       setScenarioCssClasses();
-      checkSuccessfulExperiment();
     };
 
     _public.selectAsWinner = function(scenario){
@@ -22,10 +21,6 @@
           experimentId: _public.experiment.id
         }, scenario ).$promise.then(onSelectAsWinnerSuccess, onSelectAsWinnerError);
     };
-
-    function checkSuccessfulExperiment(){
-      _public.isSuccessfulExperiment = experimentService.isSuccessfulExperiment(_public.experiment.details);
-    }
 
     function onSelectAsWinnerSuccess(response){
       console.log(response);
@@ -61,6 +56,7 @@
     templateUrl: '/components/experiment-scenario/experiment-scenario-template.html',
     controller: [
       'experimentService',
+      'experimentsResource',
       experimentScenarioController
     ],
     bindings: {

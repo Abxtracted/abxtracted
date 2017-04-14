@@ -6,7 +6,7 @@
     ng-bind="$ctrl.scenario.rate | percentage">
   </div>
   <div class="experiment-scenario-action"
-    ng-if="$ctrl.isSuccessfulExperiment">
+    ng-if="!$ctrl.experiment.result">
     <a href="javascript:void(0)" class="button"
       ng-click="$ctrl.selectAsWinner($ctrl.scenario)">
       Select as winner

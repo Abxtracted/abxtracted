@@ -43,6 +43,19 @@
       <div class="experiment-card-detail-value"
         ng-bind="$ctrl.experiment.details.marginOfError | experimentMarginOfError">
       </div>
+      <div class="experiment-card-success-result-message"
+        ng-if="$ctrl.shouldShowSuccessfulResultMessage">
+        You've got a winner.
+      </div>
+      <div class="experiment-card-fail-result-message"
+        ng-if="$ctrl.shouldShowFailingResultMessage">
+        Variation haven't produced significant difference.
+        Its efficiency is too similar to the Control version.
+      </div>
+      <div class="experiment-card-winner-message"
+        ng-if="$ctrl.experiment.result">
+        <span ng-bind="$ctrl.experiment.result.name"></span> was selected as winner.
+      </div>
       <experiment-scenario-list
         data-experiment="$ctrl.experiment">
       </experiment-scenario-list>

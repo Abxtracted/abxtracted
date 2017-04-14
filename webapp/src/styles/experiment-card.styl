@@ -1,6 +1,7 @@
 @require '_variables'
 @require '_mixins'
 @require 'native'
+@require 'alert'
 
 .experiment-card-container
   position relative
@@ -80,3 +81,24 @@
   cursor pointer
   &:hover
     background-color alpha($color-lightest, 0.2)
+
+.experiment-card-fail-result-message,
+.experiment-card-success-result-message,
+.experiment-card-winner-message
+  @extend .alert
+  margin 20px 0 0
+  & + experiment-scenario-list
+    & > .experiment-scenario-list
+      margin 0 -20px 0
+      border-top 0
+
+.experiment-card-fail-result-message
+  @extend .alert.alert-error
+
+.experiment-card-success-result-message
+  @extend .alert.alert-success
+
+.experiment-card-winner-message
+  @extend .alert
+  margin 20px 0 0
+  text-align center

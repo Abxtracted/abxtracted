@@ -3,8 +3,6 @@
 @require 'native'
 
 .experiment-scenario
-  float left
-  width 50%
   text-align center
   box-sizing(border-box)
 
@@ -25,17 +23,16 @@
     transform('translate(0,-50%)')
 
 .experiment-scenario-action
-  margin 0 0.5px
+  margin 20px 0.5px -30px
   font-size $font-size-xxs
   text-transform uppercase
   .button
     padding 0
-    border-radius(0 0 0 3px)
+    border-radius(0 0 3px 0)
 
 .experiment-scenario-variation
-  float right
   .button
-    border-radius(0 0 3px 0)
+    border-radius(0 0 0 3px)
 
 .experiment-scenario-winner
   .experiment-scenario-label,
