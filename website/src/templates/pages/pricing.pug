@@ -1,5 +1,6 @@
 extends ../layouts/standard.pug
 include ../components/page-header.pug
+include ../components/price-bang.pug
 include ../components/cta-bar.pug
 
 block config
@@ -8,19 +9,17 @@ block config
   - var keywords = 'ab, test, web experiment, one simple plan, payment'
 
 block content
-  +page-header('Data first. Payment after.', 'One simple plan only')
-  section.section-pricing
+  +page-header-small('Start for free. Then, pay as you go.', 'One simple plan only')
+  section.section-pricing.section-secondary.section-angled
     .gg-box
       .gg-row
         .gg-col-12
           h1.section-title Pricing
       .gg-row
         .gg-col-12
-          .price-bang-container
-            .price-bang-value 39
-            .price-bang-caption a month*
+          +price-bang(0)
       .gg-row
         .gg-col-12
             .caption
-              != 'One simple plan only. 30 days free trial. No credit card required.<br />*200,000 data tracks plus $0.15 for each 1k adittional dat tracks.'
+              != '*200,000 data tracks for free.<br />Then, $0.15 for each 1k adittional data tracks.'
   +cta-bar('Take your AB tests serious.')
