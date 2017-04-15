@@ -1,0 +1,15 @@
+@require '_variables'
+@require '_mixins'
+
+.code-panels-menu
+  ul
+    border-bottom 1px solid $color-grey
+    clearfix()
+    li
+      position relative
+      float left
+      bottom -2px
+      padding 10px 20px 13px
+      cursor pointer
+      &.code-panels-menu-item-selected
+        border-bottom 3px solid $color-blue

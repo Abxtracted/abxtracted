@@ -1,0 +1,57 @@
+include code.pug
+include code-panel.pug
+include code-panel-section.pug
+include code-panels.pug
+
+mixin usage-code-panels
+  - var panels = [{selector: 'javascript', text: 'Javascript'}, {selector: 'curl', text: 'Curl'}];
+  .usage-code-panels
+    +code-panels(panels)
+      +code-panel('javascript')
+        +code-panel-section('Installation')
+          p 1. Install abxtracted via NPM
+          +code('bash')
+            != '$ npm install abxtracted --save'
+          p 2. Insert the abxtracted dist file in your index
+          +code('xml')
+            != '&ltscript src="/node_modules/abxtracted/dist/abxtracted.min.js"&gt&lt/script&gt'
+        +code-panel-section('Usage')
+          p 1. Obtain the user scenario:
+          +code('javascript').
+            /*
+            ** Abx.Experiment(projectId, experimentKey)
+            ** @projectId: String
+            ** @experimentKey: String
+            */
+            var experiment = new Abx.Experiment('project-id', 'experiment_key');
+
+            /*
+            ** experiment.getScenario(userIdentity, successCallback)
+            ** @userIdentity: String
+            ** @successCallback: Function
+            */
+            experiment.getScenario('user-identity', function(response){
+              var scenario = response.scenario;
+              // The scenario will be 'control' or 'variation'
+            });
+          p
+            != '<strong>Note:</strong> The user identity may be an e-mail, an unique id or any unique information that identifies the user in your application.'
+          p 2. Inform when the user completes the experiment:
+          +code('javascript').
+            /*
+            ** experiment.complete(userIdentity)
+            ** @userIdentity: String
+            */
+            myExperiment.complete('user-identity');
+          p 3. That's all.
+      +code-panel('curl')
+        +code-panel-section('Usage')
+        p 1. Obtain the user scenario:
+        +code('bash').
+          curl -XGET 'https://api.abxtracted.com/public/project/{projectId}/customer/{customerId}/experiment/{experimentKey}'
+        p 2. Inform when the user completes the experiment:
+        +code('bash').
+          curl -XGET 'https://api.abxtracted.com/public/project/{projectId}/customer/{customerId}/experiment/{experimentKey}/check/complete'
+        p 3. That's all.
+        p
+          != '<strong>Note:</strong> The user identity may be an e-mail, an unique id or any unique information that identifies the user in your application.'

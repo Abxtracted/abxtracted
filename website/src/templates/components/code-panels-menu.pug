@@ -1,0 +1,5 @@
+mixin code-panels-menu(panels)
+  .code-panels-menu
+    ul
+      each panel in panels
+        li(data-code-panels-menu-item=panel.selector)=panel.text

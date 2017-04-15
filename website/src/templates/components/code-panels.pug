@@ -1,0 +1,6 @@
+include code-panels-menu.pug
+
+mixin code-panels(panels)
+  .code-panels(data-js="code-panels")
+    +code-panels-menu(panels)
+    block
