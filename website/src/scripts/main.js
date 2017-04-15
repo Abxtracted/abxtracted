@@ -4,7 +4,8 @@
 
   require.config({
     paths: {
-      'jquery': VENDORS_PATH + 'jquery.min'
+      'jquery': VENDORS_PATH + 'jquery.min',
+      'highlightjs': VENDORS_PATH + 'highlightjs.min'
     }
   });
 

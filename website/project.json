@@ -37,14 +37,16 @@
     },
     "vendor": {
       "requirejs": "node_modules/requirejs/require.js",
-      "jquery": "node_modules/jquery/dist/jquery.min.js"
+      "jquery": "node_modules/jquery/dist/jquery.min.js",
+      "highlightjs": "node_modules/highlightjs/highlight.pack.min.js"
     },
     "dist": {
       "bundle": "dist/scripts/bundle.min.js",
       "vendor": {
         "root": "dist/vendor/scripts/",
         "requirejs": "dist/vendor/scripts/require.min.js",
-        "jquery": "dist/vendor/scripts/jquery.min.js"
+        "jquery": "dist/vendor/scripts/jquery.min.js",
+        "highlightjs": "dist/vendor/scripts/highlightjs.min.js"
       }
     }
   },
@@ -55,7 +57,8 @@
     "vendor": {
       "files": [
         "node_modules/ggrid/dist/ggrid.min.css",
-        "node_modules/ionicons/css/ionicons.min.css"
+        "node_modules/ionicons/css/ionicons.min.css",
+        "node_modules/highlightjs/styles/tomorrow.css"
       ]
     },
     "dist": {
