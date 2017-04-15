@@ -1,0 +1,14 @@
+@require '_variables'
+@require '_mixins'
+
+.code
+  display none
+  padding 20px
+  background-color $color-grey-light
+  font-family $font-family-code
+  font-size $font-size-xxs
+  border 1px solid $color-grey-semi-light
+  box-sizing(border-box)
+  border-radius(3px)
+  &.hljs
+    display block
