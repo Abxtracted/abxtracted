@@ -1,7 +1,8 @@
 define('views/docs', [
     'components/ctaBar',
-    'components/pageHeader'
-  ], function(ctaBar, pageHeader){
+    'components/pageHeader',
+    'components/codePanels'
+  ], function(ctaBar, pageHeader, codePanels){
 
     var _public = {};
 
@@ -9,6 +10,7 @@ define('views/docs', [
     _public.init = function(){
       ctaBar.init();
       pageHeader.init();
+      codePanels.init();
     };
 
     return _public;

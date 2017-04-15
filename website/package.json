@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "ggrid": "^1.0.0",
+    "highlightjs": "^9.10.0",
     "jquery": "^3.1.1",
     "requirejs": "^2.3.2"
   }
