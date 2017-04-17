@@ -1,7 +1,7 @@
 (function(){
 
   window.environment = {
-    appBaseUrl: 'http://0.0.0.0:3000',
+    appBaseUrl: 'http://localhost:3000',
     sheetsu: {
       url: 'https://sheetsu.com/apis/v1.0/f343f211c06b',
       key: 'mfNDqbyXCmqc1zANtrWX',
