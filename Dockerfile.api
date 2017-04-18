@@ -1,0 +1,3 @@
+FROM openjdk:8
+ADD ./app/target/api-1.0-SNAPSHOT.jar /api.jar
+ENTRYPOINT java -jar api.jar
