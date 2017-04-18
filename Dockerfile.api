@@ -1,3 +1,6 @@
 FROM openjdk:8
 ADD ./app/target/api-1.0-SNAPSHOT.jar /api.jar
-ENTRYPOINT java -jar api.jar
+ENTRYPOINT java -jar api.jar \
+  --spring.datasource.url="$DATABASE_URL" \
+  --spring.datasource.username="$DATABASE_USER" \
+  --spring.datasource.password="$DATABASE_PASSWORD"
