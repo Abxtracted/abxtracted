@@ -1,20 +1,6 @@
 package com.abxtract.controllers;
 
-import java.io.IOException;
-import java.util.stream.Stream;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.abxtract.config.AppConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.abxtract.dtos.UserDTO;
 import com.abxtract.models.AuthToken;
 import com.abxtract.models.User;
@@ -24,6 +10,18 @@ import com.abxtract.services.google.GoogleCredentialService;
 import com.abxtract.services.google.GoogleRedirectService;
 import com.abxtract.services.google.GoogleUserDTO;
 import com.abxtract.services.google.GoogleUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/auth")
