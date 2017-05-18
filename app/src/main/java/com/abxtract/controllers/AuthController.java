@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.abxtract.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -42,6 +43,9 @@ public class AuthController {
 	@Autowired
 	private GoogleUserService googleService;
 
+	@Autowired
+	private AppConfig config;
+
 	@RequestMapping("/login")
 	public void login(@RequestParam("redirect_to") String redirectTo, HttpServletResponse response) throws IOException {
 		response.addCookie( new Cookie( "redirect-to", redirectTo ) );
@@ -67,6 +71,7 @@ public class AuthController {
 	private Cookie cookieFor(AuthToken token) {
 		final Cookie cookie = new Cookie( "auth-token", token.getId() );
 		cookie.setPath( "/" );
+		cookie.setDomain( config.getDomain() );
 		return cookie;
 	}
 

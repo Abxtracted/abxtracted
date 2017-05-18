@@ -43,6 +43,8 @@ spec:
           value: HausdjE937lasdj83Sd3
         - name: DATABASE_URL
           value: jdbc:postgresql://localhost:5432/abxtracted
+        - name: DOMAIN
+          value: abxtracted.com
         - name: GOOGLE_AUTH_CLIENT
           value: 46724653377-44dtmtacjbv9otd8lv5fgtmmk4peq442.apps.googleusercontent.com
         - name: GOOGLE_AUTH_SECRET
