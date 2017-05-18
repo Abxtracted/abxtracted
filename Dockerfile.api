@@ -4,6 +4,7 @@ ENTRYPOINT java -jar api.jar \
   --spring.datasource.url="$DATABASE_URL" \
   --spring.datasource.username="$DATABASE_USER" \
   --spring.datasource.password="$DATABASE_PASSWORD" \
+  --spring.application.domain="$DOMAIN" \
   --google.oauth2.id="$GOOGLE_AUTH_CLIENT" \
   --google.oauth2.secret="$GOOGLE_AUTH_SECRET" \
   --google.oauth2.callback="$GOOGLE_AUTH_CALLBACK"
