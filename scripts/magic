@@ -21,6 +21,6 @@ for img in api web; do
   images="$img=$tag $images"
 done
 
- # shellcheck disable=SC2086
+# shellcheck disable=SC2086
 kubectl set image deployments app $images --record
 kubectl rollout status deployments app
