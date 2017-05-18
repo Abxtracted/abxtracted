@@ -26,3 +26,13 @@ $ gulp --cwd ./webapp
 $ (cd app; mvn spring-boot:run)
 $ open http://localhost:3000
 ```
+
+
+##### Deploy em produção
+
+```console
+$ ./magic
+```
+
+PS: Requer o context certo na config do kubernetes e o app certo na config do
+gcloud.
