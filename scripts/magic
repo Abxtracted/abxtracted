@@ -1,0 +1,26 @@
+#!/bin/sh
+set -xeo pipefail
+build=$(date "+%Y%m%d%H%M")
+base="gcr.io/abxtracted-167923"
+
+mvn clean install -f ./app/pom.xml
+(cd webapp && npm install && gulp build --env prod)
+
+images=""
+
+for img in api web; do
+  latest="$base/$img:latest"
+  tag="$base/$img:$build"
+
+  docker build -f "Dockerfile.$img" -t "$tag" .
+  docker tag "$tag" "$latest"
+
+  gcloud docker -- push "$tag"
+  gcloud docker -- push "$latest"
+
+  images="$img=$tag $images"
+done
+
+ # shellcheck disable=SC2086
+kubectl set image deployments app $images --record
+kubectl rollout status deployments app
