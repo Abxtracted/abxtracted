@@ -1,0 +1,99 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: app
+  name: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: app
+      name: app
+    spec:
+      containers:
+      - name: web
+        image: gcr.io/abxtracted-167923/web:latest
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 5
+      - env:
+        - name: DATABASE_USER
+          value: abxtracted
+        - name: DATABASE_PASSWORD
+          value: HausdjE937lasdj83Sd3
+        - name: DATABASE_URL
+          value: jdbc:postgresql://localhost:5432/abxtracted
+        - name: GOOGLE_AUTH_CLIENT
+          value: 46724653377-44dtmtacjbv9otd8lv5fgtmmk4peq442.apps.googleusercontent.com
+        - name: GOOGLE_AUTH_SECRET
+          value: 1RhrXQ2a7bqyw0OQaKAmcyWS
+        - name: GOOGLE_AUTH_CALLBACK
+          value: http://api.abxtracted.com/auth/callback
+        image: gcr.io/abxtracted-167923/api:latest
+        name: api
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 400Mi
+      - command:
+        - /cloud_sql_proxy
+        - --dir=/cloudsql
+        - -instances=abxtracted-167923:us-central1:abxtracted=tcp:5432
+        - -credential_file=/secrets/cloudsql/credentials.json
+        image: gcr.io/cloudsql-docker/gce-proxy:1.09
+        name: cloudsql-proxy
+        volumeMounts:
+        - mountPath: /secrets/cloudsql
+          name: cloudsql-instance-credentials
+          readOnly: true
+        - mountPath: /etc/ssl/certs
+          name: ssl-certs
+        - mountPath: /cloudsql
+          name: cloudsql
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: cloudsql-instance-credentials
+        secret:
+          defaultMode: 420
+          secretName: cloudsql-instance-credentials
+      - hostPath:
+          path: /etc/ssl/certs
+        name: ssl-certs
+      - emptyDir: {}
+        name: cloudsql
