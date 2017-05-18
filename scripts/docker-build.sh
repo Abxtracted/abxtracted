@@ -8,6 +8,8 @@ mvn clean install -f ./app/pom.xml
 for img in api web; do
   tag="gcr.io/abxtracted-167923/$img:$build"
   docker build -f "Dockerfile.$img" -t "$tag" .
+  docker tag "$tag" "gcr.io/abxtracted-167923/$img:latest"
 
   gcloud docker -- push "$tag"
+  gcloud docker -- push "gcr.io/abxtracted-167923/$img:latest"
 done
