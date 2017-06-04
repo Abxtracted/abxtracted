@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: web
-  name: web
+  name: web-2
 spec:
   ports:
   - name: http
@@ -24,7 +24,7 @@ kind: Service
 metadata:
   labels:
     app: api
-  name: api
+  name: api-2
 spec:
   ports:
   - name: http
