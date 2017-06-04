@@ -6,12 +6,17 @@ metadata:
   name: web
 spec:
   ports:
-  - port: 80
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: https
+    port: 443
     protocol: TCP
     targetPort: 80
   selector:
     app: app
-  sessionAffinity: ClientIP
+  sessionAffinity: None
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -22,10 +27,15 @@ metadata:
   name: api
 spec:
   ports:
-  - port: 80
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    port: 443
     protocol: TCP
     targetPort: 8080
   selector:
     app: app
-  sessionAffinity: ClientIP
+  sessionAffinity: None
   type: LoadBalancer
