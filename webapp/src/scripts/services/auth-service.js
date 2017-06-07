@@ -21,7 +21,9 @@
       };
 
       _public.logout = function(){
-        $cookies.remove(COOKIES.AUTH.TOKEN);
+        $cookies.remove(COOKIES.AUTH.TOKEN, {
+          domain: environment.domain
+        });
         routeService.go('login');
       };
 
