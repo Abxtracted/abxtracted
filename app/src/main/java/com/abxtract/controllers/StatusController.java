@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/status")
+// the `/` is required by kubernetes ingress status checks
+@RequestMapping({"", "/", "/status"})
 public class StatusController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<String> getStatus() {
