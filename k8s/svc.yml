@@ -3,29 +3,31 @@ kind: Service
 metadata:
   labels:
     app: web
-  name: web
+  name: web2
 spec:
   ports:
-  - port: 80
+  - name: http
+    port: 80
     protocol: TCP
     targetPort: 80
   selector:
     app: app
-  sessionAffinity: ClientIP
-  type: LoadBalancer
+  sessionAffinity: None
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: api
-  name: api
+  name: api2
 spec:
   ports:
-  - port: 80
+  - name: http
+    port: 80
     protocol: TCP
     targetPort: 8080
   selector:
     app: app
-  sessionAffinity: ClientIP
-  type: LoadBalancer
+  sessionAffinity: None
+  type: NodePort

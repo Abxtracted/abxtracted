@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app
+spec:
+  tls:
+  - secretName: tls-secret
+  rules:
+  - host: app.abxtracted.com
+    http:
+      paths:
+      - backend:
+          serviceName: web2
+          servicePort: 80
+  - host: api.abxtracted.com
+    http:
+      paths:
+      - backend:
+          serviceName: api2
+          servicePort: 80

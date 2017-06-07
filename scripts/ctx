@@ -1,0 +1,9 @@
+#!/bin/bash
+set -xeo pipefail
+
+gcloud config set project abxtracted-167923
+kubectl config get-contexts |
+  grep abxtracted |
+  cut -f2 -d'*' |
+  awk '{print $1}' |
+  xargs kubectl config use-context
