@@ -50,7 +50,7 @@ spec:
         - name: GOOGLE_AUTH_SECRET
           value: 1RhrXQ2a7bqyw0OQaKAmcyWS
         - name: GOOGLE_AUTH_CALLBACK
-          value: http://api.abxtracted.com/auth/callback
+          value: https://api.abxtracted.com/auth/callback
         image: gcr.io/abxtracted-167923/api:latest
         name: api
         readinessProbe:
