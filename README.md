@@ -10,15 +10,6 @@ Para rodar o projeto em ambiente de desenvolvimento é necessário:
 
 #### Executando a aplicação
 
-##### Cria um jar com tudo:
-
-```console
-$ gulp --cwd ./webapp prod
-$ mvn clean install -f ./app/pom.xml
-$ java -jar ./app/target/api-1.0-SNAPSHOT.jar
-$ open http://localhost:8080
-```
-
 ##### Roda em "modo dev":
 
 ```sh
@@ -31,7 +22,7 @@ $ open http://localhost:3000
 ##### Deploy em produção
 
 ```console
-$ ./magic
+$ ./scripts/ctx && ./scripts/magic
 ```
 
 PS: Requer o context certo na config do kubernetes e o app certo na config do
