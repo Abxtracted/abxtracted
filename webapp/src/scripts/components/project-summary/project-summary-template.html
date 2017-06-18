@@ -1,25 +1,33 @@
 <div class="project-summary-container">
-  <div class="project-summary-title-container">
-    <div class="project-summary-title" ng-bind="$ctrl.project.name"></div>
-    <a href="javascript:void(0)" class="button button-small button-danger"
-      ng-click="$ctrl.removeProject($ctrl.project)">
-      <icon data-icon="ion-android-close"></icon>
-      Delete
-    </a>
+  <div class="project-summary-content-row">
+    <div class="project-summary-title-container">
+      <div class="project-summary-title" ng-bind="$ctrl.project.name"></div>
+      <a href="javascript:void(0)" class="button button-small button-danger"
+        ng-click="$ctrl.removeProject($ctrl.project)">
+        <icon data-icon="ion-android-close"></icon>
+        Delete
+      </a>
+    </div>
+    <div class="project-summary-action-container">
+      <a href="javascript:void(0)" class="button button-primary"
+        ng-click="$ctrl.createExperiment($ctrl.project.id)">
+        <icon data-icon="ion-star"></icon>
+        New Experiment
+      </a>
+    </div>
   </div>
-  <div class="project-summary-label">
-    Token
-  </div>
-  <div class="project-summary-value" ng-bind="$ctrl.project.id"></div>
-  <div class="project-summary-label">
-    Experiments
-  </div>
-  <div class="project-summary-value" ng-bind="$ctrl.numOfExperiments"></div>
-  <div class="project-summary-action-container">
-    <a href="javascript:void(0)" class="button button-primary"
-      ng-click="$ctrl.createExperiment($ctrl.project.id)">
-      <icon data-icon="ion-star"></icon>
-      New Experiment
-    </a>
+  <div class="project-summary-content-row">
+    <div class="project-summary-project-id-container">
+      <div class="project-summary-label">
+        Project Id
+      </div>
+      <div class="project-summary-value" ng-bind="$ctrl.project.id"></div>
+    </div>
+    <div class="project-summary-experiments-container">
+      <div class="project-summary-label">
+        Experiments
+      </div>
+      <div class="project-summary-value" ng-bind="$ctrl.numOfExperiments"></div>
+    </div>
   </div>
 </div>
