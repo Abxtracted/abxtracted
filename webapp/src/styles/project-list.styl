@@ -1,0 +1,23 @@
+@require '_mixins'
+
+.project-list
+  project-card
+    display block
+    &:not(:first-child)
+      margin-top 10px
+
+.project-list-header
+  margin-bottom 30px
+  clearfix()
+  h1
+    line-height 42px
+  .button
+    display inline-block
+
+.project-list-header-title-container,
+.project-list-header-action-container
+  float left
+  width 50%
+
+.project-list-header-action-container
+  text-align right
