@@ -1,0 +1,14 @@
+<div class="project-card" ng-click="$ctrl.goToProjectDetails(project.id)">
+  <div class="project-card-title-container">
+    <div class="project-card-label">
+      Name
+    </div>
+    <div ng-bind="$ctrl.project.name"></div>
+  </div>
+  <div class="project-card-date-container">
+    <div class="project-card-label">
+      Created on
+    </div>
+    <div ng-bind="$ctrl.project.createdAt | date"></div>
+  </div>
+</div>
