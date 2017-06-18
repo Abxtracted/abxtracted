@@ -8,9 +8,11 @@
 
     var _public = {};
 
-    _public.url = function(url){
+    _public.url = function(url, shouldOpenInNewTab){
       var location = $window.location;
-      if(url)
+      if(url && shouldOpenInNewTab)
+        $window.open(url);
+      else if(url)
         location.href = url;
       else
         return location.href;
