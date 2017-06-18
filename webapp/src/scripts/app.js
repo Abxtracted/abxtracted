@@ -6,6 +6,8 @@
     'ngResource',
     'ngCookies',
     'ui.router',
+    'angulartics',
+    'angulartics.google.analytics',
     'templates'
   ]);
 
