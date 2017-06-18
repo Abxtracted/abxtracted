@@ -9,7 +9,7 @@
     };
 
     if(authService.isAuthenticated())
-      routeService.go('app.dashboard');
+      routeService.go('app.projects');
   }
 
   app.component('loginForm', {
