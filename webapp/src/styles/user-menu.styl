@@ -14,11 +14,19 @@
 
 .user-menu-item-link
   position relative
-  padding-left 20px
+  padding-left 25px
   color $color-lightest
   text-decoration none
   .icon
     position absolute
     top 50%
     left 0
+    font-size 20px
     transform('translate(0,-50%)')
+
++breakpoint('xs')
+  .user-menu-item-link-text
+    display none
+  .user-menu-item
+    & + .user-menu-item
+      margin-left 20px

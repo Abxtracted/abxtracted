@@ -4,14 +4,32 @@
   function userMenuController(authService, routeService){
     var _public = this;
 
-    _public.logout = function(){
-      authService.logout();
-    };
+    _public.items = [{
+      text:'Projects',
+      icon: 'ion-ios-briefcase',
+      action: goToProjectList
+    }, {
+      text:'Docs',
+      icon: 'ion-ios-book',
+      action: goToDocumention
+    }, {
+      text:'Logout',
+      icon: 'ion-log-out',
+      action: logout
+    }];
 
-    _public.goToDocumention = function(){
+    function goToProjectList(){
+      routeService.go('app.projects');
+    }
+
+    function goToDocumention(){
       var url = environment.siteBaseUrl + 'docs';
-      routeService.url(url);
-    };
+      routeService.url(url, true);
+    }
+
+    function logout(){
+      authService.logout();
+    }
   }
 
   app.component('userMenu', {
