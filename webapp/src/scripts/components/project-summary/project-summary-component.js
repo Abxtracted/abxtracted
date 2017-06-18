@@ -1,8 +1,8 @@
 (function(){
   'use strict';
 
-  function projectSummaryController(BROADCAST, $scope, broadcastService,
-    routeService, projectsResource){
+  function projectSummaryController(BROADCAST, $scope, routeService,
+    projectsResource){
 
     var REMOTION_CONFIRMATION_MESSAGE = 'Are you sure you want to remove ' +
                                         '"{projectName}"?';
@@ -34,8 +34,7 @@
     };
 
     function onRemoveProjectsSuccess(project){
-      broadcastService.publish(BROADCAST.PROJECT.DESTROYED, project);
-      routeService.go('app.dashboard');
+      routeService.go('app.projects');
     }
 
     function onRemoveProjectsError(error){
@@ -61,7 +60,6 @@
     controller: [
       'BROADCAST',
       '$scope',
-      'broadcastService',
       'routeService',
       'projectsResource',
       projectSummaryController

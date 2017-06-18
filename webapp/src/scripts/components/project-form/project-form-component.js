@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  function newProjectFormController(BROADCAST, PROJECT, routeService,
+  function newProjectFormController(PROJECT, routeService,
     projectsResource, textService, broadcastService){
 
     var _public = this;
@@ -15,8 +15,7 @@
     };
 
     function onSaveSuccess(project){
-      broadcastService.publish(BROADCAST.PROJECT.CREATED);
-      routeService.go('app.projects', {
+      routeService.go('app.projects-view', {
         projectId: project.id
       });
     }
@@ -33,7 +32,6 @@
   app.component('projectForm', {
     templateUrl: '/components/project-form/project-form-template.html',
     controller: [
-      'BROADCAST',
       'PROJECT',
       'routeService',
       'projectsResource',

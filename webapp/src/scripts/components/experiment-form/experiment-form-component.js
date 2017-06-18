@@ -21,7 +21,7 @@
     };
 
     function onSaveSuccess(){
-      routeService.go('app.projects', {
+      routeService.go('app.projects-view', {
         projectId: getProjectId()
       });
     }
