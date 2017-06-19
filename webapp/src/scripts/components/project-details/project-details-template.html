@@ -1,4 +1,6 @@
 <div class="project-details-container">
+  <alert data-alert="$ctrl.alert"></alert>
+  <loader ng-if="!$ctrl.project && !$ctrl.alert"></loader>
   <div class="project-details-content" ng-if="$ctrl.project">
     <project-summary data-project="$ctrl.project"></project-summary>
     <experiment-list data-project="$ctrl.project"></experiment-list>

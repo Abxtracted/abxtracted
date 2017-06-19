@@ -1,0 +1,11 @@
+<div class="blankslate-container" ng-if="$ctrl.shouldShowBlankslate">
+  <div class="blankslate">
+    <div class="blankslate-image {{ $ctrl.options.imageCssClass }}"></div>
+    <div class="blankslate-text">
+      <div ng-bind="$ctrl.options.caption"></div>
+      <a href="javascript:void(0)" ng-click="$ctrl.onLinkClicked()">
+        Create one
+      </a>
+    </div>
+  </div>
+</div>

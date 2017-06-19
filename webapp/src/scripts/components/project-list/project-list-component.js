@@ -1,14 +1,36 @@
 (function(){
   'use strict';
 
-  function projectListController(projectsResource){
+  function projectListController(TRACK, trackService, routeService,
+    projectsResource){
+
     var _public = this;
 
     var GET_PROJECTS_ERROR_MESSAGE = 'Unable to get projects. Please, try again';
 
+    _public.blankslateOptions = {
+      imageCssClass: 'project-list-blankslate-image',
+      caption: 'No projects.',
+      action: onBlankslateLinkClick
+    };
+
     _public.$onInit = function(){
       getProjects();
     };
+
+    _public.onProjectNewBtnClick = function(){
+      trackNewProjectBtnClicked();
+      goToProjectsNew();
+    };
+
+    function onBlankslateLinkClick(){
+      trackBlankslateLinkClicked();
+      goToProjectsNew();
+    }
+
+    function goToProjectsNew(){
+      routeService.go('app.projects-new');
+    }
 
     function getProjects(){
       setLoaderVisibility(true);
@@ -17,8 +39,16 @@
     }
 
     function onGetProjectsSuccess(projects){
+      trackProjectListLoaded(projects);
       onGetProjectsComplete();
       setProjects(projects);
+    }
+
+    function trackProjectListLoaded(projects){
+      if(projects && projects.length)
+        trackService.track(TRACK.PROJECTS.LOADED_LIST, {
+          numOfProjects: projects.length
+        });
     }
 
     function setProjects(projects){
@@ -26,7 +56,8 @@
     }
 
     function onGetProjectsError(){
-      setAlert('error', GET_PROJECTS_ERROR_MESSAGE, getProjects);
+      onGetProjectsComplete();
+      setAlert('error', GET_PROJECTS_ERROR_MESSAGE);
     }
 
     function onGetProjectsComplete(){
@@ -37,19 +68,28 @@
       _public.shouldShowLoader = isVisible;
     }
 
-    function setAlert(type, message, retryAction){
+    function setAlert(type, message){
       _public.alert = {
         type: type,
-        message: message,
-        retryAction: retryAction
+        message: message
       };
     }
 
+    function trackBlankslateLinkClicked(){
+      trackService.track(TRACK.PROJECTS.BLANKSLATE_LINK_CLICKED);
+    }
+
+    function trackNewProjectBtnClicked(){
+      trackService.track(TRACK.PROJECTS.NEW_PROJECT_BTN_CLICKED);
+    }
   }
 
   app.component('projectList', {
     templateUrl: '/components/project-list/project-list-template.html',
     controller: [
+      'TRACK',
+      'trackService',
+      'routeService',
       'projectsResource',
       projectListController
     ]

@@ -4,17 +4,19 @@
       <h1>Projects</h1>
     </div>
     <div class="project-list-header-action-container">
-      <a ui-sref="app.projects-new"
+      <a ng-click="$ctrl.onProjectNewBtnClick()"
+        href="javascript:void(0)"
         class="button button-primary">
         <icon data-icon="ion-star"></icon>
         New Project
       </a>
     </div>
   </div>
+  <alert data-alert="$ctrl.alert"></alert>
   <loader ng-if="$ctrl.shouldShowLoader"></loader>
   <blankslate
     data-collection="$ctrl.projects"
-    data-image="blankslate-projects.svg">
+    data-options="$ctrl.blankslateOptions">
   </blankslate>
   <project-card
     ng-if="$ctrl.projects.length"
