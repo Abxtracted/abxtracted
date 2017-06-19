@@ -26,6 +26,8 @@
         "node_modules/angular-resource/angular-resource.min.js",
         "node_modules/angular-cookies/angular-cookies.min.js",
         "node_modules/angular-ui-router/release/angular-ui-router.min.js",
+        "node_modules/angulartics/dist/angulartics.min.js",
+        "node_modules/angulartics-google-analytics/dist/angulartics-ga.min.js",
         "node_modules/ng-focus-if/focusIf.js"
       ]
     },

@@ -1,8 +1,14 @@
 (function(){
   'use strict';
 
-  function experimentFormController(EXPERIMENT, routeService, experimentsResource, textService){
+  function experimentFormController(TRACK, EXPERIMENT, trackService,
+    routeService, experimentsResource, textService){
+
     var _public = this;
+
+    _public.$onInit = function(){
+      trackExperimentFormLoaded();
+    };
 
     _public.onProjectNameChange = function(projectName){
       projectName = parseProjectName(projectName);
@@ -20,18 +26,27 @@
       }).$promise.then(onSaveSuccess, onSaveError);
     };
 
-    function onSaveSuccess(){
-      routeService.go('app.projects', {
+    function onSaveSuccess(experiment){
+      trackExperimentCreated(experiment);
+      routeService.go('app.projects-view', {
         projectId: getProjectId()
       });
     }
 
     function onSaveError(error){
-      var errorKey = textService.toSnakeCase(error.data.key.toUpperCase());
+      var errorKey = getErrorKey();
+
+      trackExperimentFailedToCreate();
       _public.alert = {
         type: 'error',
         message: EXPERIMENT.ERRORS[errorKey]
       };
+    }
+
+    function getErrorKey(error){
+      if(error && error.data && error.data.key)
+        return textService.toSnakeCase(error.data.key.toUpperCase());
+      return 'UNKNOWN';
     }
 
     function parseProjectName(projectName){
@@ -46,12 +61,32 @@
     function getProjectId(){
       return routeService.getParams('projectId');
     }
+
+    function trackExperimentFormLoaded(){
+      trackService.track(TRACK.EXPERIMENTS.LOADED_FORM);
+    }
+
+    function trackExperimentCreated(experiment){
+      trackService.track(TRACK.EXPERIMENTS.CREATED, getExperimentData());
+    }
+
+    function trackExperimentFailedToCreate(){
+      trackService.track(TRACK.EXPERIMENTS.FAILED_TO_CREATE, getExperimentData());
+    }
+
+    function getExperimentData(){
+      return {
+        key: _public.experiment.key
+      };
+    }
   }
 
   app.component('experimentForm', {
     templateUrl: '/components/experiment-form/experiment-form-template.html',
     controller: [
+      'TRACK',
       'EXPERIMENT',
+      'trackService',
       'routeService',
       'experimentsResource',
       'textService',

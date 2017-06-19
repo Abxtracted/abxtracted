@@ -1,17 +1,10 @@
 <div class="user-menu-container">
   <ul class="user-menu">
-    <li class="user-menu-item">
+    <li class="user-menu-item" ng-repeat="item in $ctrl.items">
       <a class="user-menu-item-link" href="javascript:void(0)"
-        ng-click="$ctrl.goToDocumention()">
-        <icon data-icon="ion-document"></icon>
-        Documentation
-      </a>
-    </li>
-    <li class="user-menu-item">
-      <a class="user-menu-item-link" href="javascript:void(0)"
-        ng-click="$ctrl.logout()">
-        <icon data-icon="ion-log-out"></icon>
-        Logout
+        ng-click="item.action()">
+        <icon data-icon="{{ item.icon }}"></icon>
+        <span ng-bind="item.text" class="user-menu-item-link-text"></span>
       </a>
     </li>
   </ul>

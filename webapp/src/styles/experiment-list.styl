@@ -1,15 +1,12 @@
 @require '_mixins'
 
-.experiment-list-container
-  padding 20px
-  box-sizing(border-box)
-
 .experiment-list
   position relative
   top -30px
   left -30px
   margin 0
   padding 0
+  width 990px
   list-style-type none
   clearfix()
 
@@ -18,3 +15,17 @@
   width 100%
   max-width 300px
   margin 30px 0 0 30px
+
+.experiment-list-blankslate-image
+  background-image('blankslate-experiments.svg')
+
++breakpoint('xs')
+  .experiment-list
+    top 0
+    left 0
+    width 100%
+  .experiment-list-item
+    margin 0
+    max-width none
+    &:not(:first-child)
+      margin 30px 0 0

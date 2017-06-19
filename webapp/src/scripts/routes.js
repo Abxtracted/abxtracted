@@ -19,18 +19,18 @@
     }).state('app', {
       url: '/app',
       templateUrl: getViewTemplate('app', 'app')
-    }).state('app.dashboard', {
-      url: '/dashboard',
-      templateUrl: getViewTemplate('dashboard', 'app')
     }).state('app.projects', {
+      url: '/projects',
+      templateUrl: getViewTemplate('projects', 'app')
+    }).state('app.projects-view', {
       url: '/projects/view/:projectId',
-      templateUrl: getViewTemplate('project', 'app')
+      templateUrl: getViewTemplate('projects-view', 'app')
     }).state('app.projects-new', {
       url: '/projects/new',
-      templateUrl: getViewTemplate('project-new', 'app')
+      templateUrl: getViewTemplate('projects-new', 'app')
     }).state('app.experiments-new', {
       url: '/projects/view/:projectId/experiments/new',
-      templateUrl: getViewTemplate('experiment-new', 'app')
+      templateUrl: getViewTemplate('experiments-new', 'app')
     });
   }
 

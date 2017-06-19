@@ -1,0 +1,25 @@
+@require '_variables'
+@require '_mixins'
+@require 'native'
+
+.project-card
+  padding 20px
+  background-color alpha($color-lightest, 0.1)
+  cursor pointer
+  border-radius(3px)
+  box-sizing(border-box)
+  clearfix()
+  &:hover
+    background-color alpha($color-lightest, 0.15)
+
+.project-card-title-container,
+.project-card-date-container
+  float left
+  width 50%
+
+.project-card-date-container
+  text-align right
+
+.project-card-label
+  @extend label
+  margin-bottom 5px

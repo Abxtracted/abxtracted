@@ -1,5 +1,11 @@
 <div class="experiment-list-container">
-  <ul class="experiment-list">
+  <alert data-alert="$ctrl.alert"></alert>
+  <loader ng-if="$ctrl.shouldShowLoader"></loader>
+  <blankslate
+    data-collection="$ctrl.experiments"
+    data-options="$ctrl.blankslateOptions">
+  </blankslate>
+  <ul class="experiment-list" ng-if="$ctrl.experiments.length">
     <li class="experiment-list-item"
       ng-repeat="experiment in $ctrl.experiments">
       <experiment-card

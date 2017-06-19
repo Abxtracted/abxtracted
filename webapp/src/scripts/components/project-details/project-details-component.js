@@ -4,7 +4,11 @@
   function projectDetailsController($stateParams, projectsResource){
     var _public = this;
 
-    _public.project = null;
+    var GET_PROJECT_ERROR_MESSAGE = 'Unable to get the project. Please, try again.';
+
+    _public.$onInit = function(){
+      getProject();
+    };
 
     function getProject(){
       var projectId = $stateParams.projectId;
@@ -23,12 +27,15 @@
     }
 
     function onGetProjectError(error){
-      console.log(error);
+      setAlert('error', GET_PROJECT_ERROR_MESSAGE);
     }
 
-    _public.$onInit = function(){
-      getProject();
-    };
+    function setAlert(type, message){
+      _public.alert = {
+        type: type,
+        message: message
+      };
+    }
   }
 
   app.component('projectDetails', {

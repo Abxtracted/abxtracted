@@ -1,0 +1,26 @@
+<div class="project-list">
+  <div class="project-list-header">
+    <div class="project-list-header-title-container">
+      <h1>Projects</h1>
+    </div>
+    <div class="project-list-header-action-container">
+      <a ng-click="$ctrl.onProjectNewBtnClick()"
+        href="javascript:void(0)"
+        class="button button-primary">
+        <icon data-icon="ion-star"></icon>
+        New Project
+      </a>
+    </div>
+  </div>
+  <alert data-alert="$ctrl.alert"></alert>
+  <loader ng-if="$ctrl.shouldShowLoader"></loader>
+  <blankslate
+    data-collection="$ctrl.projects"
+    data-options="$ctrl.blankslateOptions">
+  </blankslate>
+  <project-card
+    ng-if="$ctrl.projects.length"
+    ng-repeat="project in $ctrl.projects"
+    data-project="project">
+  </project-card>
+</div>

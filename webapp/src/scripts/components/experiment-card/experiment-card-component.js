@@ -1,8 +1,8 @@
 (function(){
   'use strict';
 
-  function experimentCardController(BROADCAST, experimentService,
-    experimentsResource, broadcastService){
+  function experimentCardController(TRACK, BROADCAST, trackService,
+    experimentService, experimentsResource, broadcastService){
 
     var _public = this;
 
@@ -17,6 +17,7 @@
       var message = REMOTION_CONFIRMATION_MESSAGE
         .replace(/\{experimentName\}/g, experiment.name);
 
+      trackExperimentRemoveBtnClicked(experiment);
       if(confirm(message))
         experimentsResource.destroy({
           projectId: experiment.project.id,
@@ -34,11 +35,12 @@
     };
 
     function onDestroyExperimentSuccess(experiment){
+      trackExperimentRemoved();
       broadcastService.publish(BROADCAST.EXPERIMENT.DESTROYED, experiment);
     }
 
     function onDestroyExperimentError(error){
-      console.log(error);
+      trackExperimentFailedToRemove(error);
     }
 
     function getDetails(experiment){
@@ -51,13 +53,17 @@
     }
 
     function onGetDetailsSuccess(details){
-      _public.experiment.details = details;
+      trackExperimentDetailsLoaded(details);
+      setExperimentDetails(details);
       setDetailsButtonLabel('Hide details');
       setExperimentResult(details);
     }
 
+    function setExperimentDetails(details){
+      _public.experiment.details = details;
+    }
+
     function onGetDetailsError(error){
-      console.log(error);
       setDetailsButtonLabel('Ops, try again.');
     }
 
@@ -67,7 +73,8 @@
     }
 
     function destroyDetails(){
-      delete _public.experiment.details;
+      trackExperimentDetailsUnloaded();
+      setExperimentDetails(null);
       setDetailsButtonLabel();
     }
 
@@ -83,12 +90,49 @@
         return experimentService.isSuccessfulExperiment(details);
       return experimentService.isFailingExperiment(details);
     }
+
+    function trackExperimentRemoveBtnClicked(experiment){
+      trackService.track(TRACK.EXPERIMENTS.REMOVE_BTN_CLICKED, getExperimentData());
+    }
+
+    function trackExperimentFailedToRemove(){
+      trackService.track(TRACK.EXPERIMENTS.FAILED_TO_REMOVE, getExperimentData());
+    }
+
+    function trackExperimentRemoved(){
+      trackService.track(TRACK.EXPERIMENTS.REMOVED, getExperimentData());
+    }
+
+    function trackExperimentDetailsLoaded(details){
+      trackService.track(TRACK.EXPERIMENTS.LOADED_DETAILS, {
+        experimentKey: getExperimentData().key,
+        sampleSize: details.sampleSize,
+        variationConversionRate: details.scenarios[0].rate,
+        variationConverted: details.scenarios[0].converted,
+        controlConversionRate: details.scenarios[1].rate,
+        controlConverted: details.scenarios[1].converted,
+        marginOfError: details.marginOfError,
+        status: details.status
+      });
+    }
+
+    function trackExperimentDetailsUnloaded(){
+      trackService.track(TRACK.EXPERIMENTS.UNLOADED_DETAILS, getExperimentData());
+    }
+
+    function getExperimentData(){
+      return {
+        key: _public.experiment.key
+      };
+    }
   }
 
   app.component('experimentCard', {
     templateUrl: '/components/experiment-card/experiment-card-template.html',
     controller: [
+      'TRACK',
       'BROADCAST',
+      'trackService',
       'experimentService',
       'experimentsResource',
       'broadcastService',
