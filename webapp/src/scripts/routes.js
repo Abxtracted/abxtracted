@@ -13,7 +13,7 @@
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider.state('login', {
-      url: '/login',
+      url: '/login?emailAddress',
       templateUrl: getViewTemplate('login'),
       isPublic: true
     }).state('app', {
