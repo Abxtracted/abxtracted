@@ -1,0 +1,30 @@
+management:
+  context-path: /management
+spring:
+  application:
+    name: abxtract
+    domain: localhost
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      show_sql: true
+      format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/abxtract
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+google:
+  oauth2:
+    id: ${GOOGLE_AUTH_CLIENT}
+    secret: ${GOOGLE_AUTH_SECRET}
+    callback: ${GOOGLE_AUTH_CALLBACK}
+    scopes: email profile openid
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
