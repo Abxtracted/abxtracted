@@ -8,6 +8,18 @@ Para rodar o projeto em ambiente de desenvolvimento é necessário:
  - Maven
  - Postgres
 
+
+### Variáveis de ambiente
+ - Obrigatórias
+    - GOOGLE_AUTH_CLIENT
+    - GOOGLE_AUTH_SECRET
+    - GOOGLE_AUTH_CALLBACK
+- Opcionais
+    - DATABASE_URL: default *jdbc:postgresql://localhost:5432/abxtract*
+    - DATABASE_USER: default *postgres*
+    - DATABASE_PASSWORD: default *postgres*
+    - DOMAIN: default *localhost*
+
 #### Executando a aplicação
 
 ##### Roda em "modo dev":
